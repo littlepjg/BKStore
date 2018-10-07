@@ -55,6 +55,11 @@ class ForgotPassword extends Component {
                                     <input type="email" name="email" className="form-control" placeholder="Email" value={email} onChange={this.handleChange.bind(this)} />
                                 </div>
                                 <p>Remembered your password? <NavLink to="/user/signin">Login</NavLink></p>
+                                {error && (
+                                    <div className="alert alert-danger">
+                                        <p>{error}</p>
+                                    </div>
+                                )}
                                 <button type="submit" className="btn btn-primary" disabled={this.validateForm()}>
                                     Reset</button>
                             </form>

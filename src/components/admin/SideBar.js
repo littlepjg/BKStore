@@ -2,44 +2,43 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 class SideBar extends Component {
-
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <nav className="navbar-default navbar-static-side" role="navigation">
+            <nav className="navbar-default navbar-static-side">
                 <div className="slimScrollDiv" style={{ position: "relative", overflow: "hidden", width: "auto", height: "100%" }}><div className="sidebar-collapse" style={{ overflow: "hidden", width: "auto", height: "100%" }}>
                     <ul className="nav metismenu" id="side-menu" style={{ display: "block" }}>
                         <li className="nav-header">
                             <div className="dropdown profile-element"> <span>
-                                <img alt="image" className="img-circle" src="https://graph.facebook.com/2281503488740589/picture?type=large&amp;redirect=true&amp;width=50&amp;height=50" />
+                                <img alt="img-info" className="img-circle" src="https://graph.facebook.com/2281503488740589/picture?type=large&amp;redirect=true&amp;width=50&amp;height=50" />
                             </span>
-                                <a data-toggle="dropdown" className="dropdown-toggle" href="#">
+                                <a data-toggle="dropdown" className="dropdown-toggle">
                                     <span className="clear"> <span className="block m-t-xs"> Chào <strong className="font-bold">Nguyễn Tài Tiêu</strong>
                                     </span> </span></a>
                             </div>
                         </li>
                         <li>
-                            <a href="/admin/post"><i className="fa fa-newspaper-o"></i> <span className="nav-label">Đăng bài</span></a>
+                            <NavLink to="/admin/posts"><i className="fa fa-newspaper-o"></i> <span className="nav-label">Đăng bài</span></NavLink>
                         </li>
-                        <li className="active">
-                            <a href="/admin/user"><i className="fa fa-user"></i> <span className="nav-label">Quản lý người dùng</span></a>
+                        <li>
+                            <NavLink to="/admin/users"><i className="fa fa-user"></i> <span className="nav-label">Quản lý người dùng</span></NavLink>
                         </li>
                         <li>
                             <a href="#product" data-toggle="collapse"><i className="fa fa-archive"></i> <span className="nav-label">Quản lý sản phẩm</span><span className="fa arrow"></span></a>
                             <ul id="product" className="nav nav-second-level collapse">
-                                <li><a href="bai-viet-theo-doi/">Quản lý thương hiệu</a></li>
-                                <li><a href="user-theo-doi/">Quản lý mặt hàng</a></li>
-                                <li><a href="user-theo-doi/">Quản lý sản phẩm</a></li>
+                                <li><NavLink to="bai-viet-theo-doi/">Quản lý thương hiệu</NavLink></li>
+                                <li><NavLink to="user-theo-doi/">Quản lý mặt hàng</NavLink></li>
+                                <li><NavLink to="user-theo-doi/">Quản lý sản phẩm</NavLink></li>
                             </ul>
                         </li>
                         <li>
                             <a href="#statistical" data-toggle="collapse"><i className="fa fa-bar-chart-o"></i> <span className="nav-label">Thống kê</span><span className="fa arrow"></span></a>
                             <ul id="statistical" className="nav nav-second-level collapse">
-                                <li><a href="bai-viet-theo-doi/">Thống kê doanh thu</a></li>
-                                <li><a href="user-theo-doi/">Thống kê sản phẩm</a></li>
+                                <li><NavLink to="bai-viet-theo-doi/">Thống kê doanh thu</NavLink></li>
+                                <li><NavLink to="user-theo-doi/">Thống kê sản phẩm</NavLink></li>
                             </ul>
                         </li>
                         <li>

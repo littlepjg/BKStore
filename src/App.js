@@ -10,6 +10,7 @@ import NotFound from './pages/404';
 import SignUp from './pages/auth/SignUp';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import AdminLayout from './layouts/AdminLayout';
+import User from './pages/admin/User';
 
 class App extends Component {
   render() {
@@ -18,13 +19,20 @@ class App extends Component {
         <div>
           {/* su dung switch de tim duong dan dau tien match */}
           <Switch>
+            {/* route admin */}
+            <Route exact path="/admin" render={props => (
+              <AdminLayout />
+            )} />
+            <Route exact path="/admin/users" render={props => (
+              <AdminLayout>
+                <User />
+              </AdminLayout>
+            )} />
+
             <Route exact path="/" render={props => (
               <GuestLayout>
                 <h1>Home Pages</h1>
               </GuestLayout>
-            )} />
-            <Route exact path="/admin" render={props => (
-              <AdminLayout />
             )} />
             <Route exact path="/user/signin" render={props => (
               <GuestLayout>
@@ -44,10 +52,6 @@ class App extends Component {
             <Route exact component={NotFound} />
           </Switch>
         </div>
-        {/* <SignIn /> */}
-        {/* <SignUp /> */}
-        {/* <NotFound /> */}
-        {/* <ForgotPassword /> */}
       </Router>
     );
   }

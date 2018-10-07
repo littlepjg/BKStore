@@ -12,6 +12,9 @@
 #test
 /vdemo
 
+#database
+/database/*.bak
+
 # misc
 .DS_Store
 .env.local

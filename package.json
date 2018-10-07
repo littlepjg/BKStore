@@ -6,6 +6,7 @@
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^3.3.7",
+    "concurrently": "^4.0.1",
     "config": "^2.0.1",
     "express": "^4.16.3",
     "jquery": "^3.3.1",
@@ -19,7 +20,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "nodemon server.js",
+    "dev": "concurrently \"npm run server\" \"npm start\""
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
 }
