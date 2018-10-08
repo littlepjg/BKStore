@@ -28,7 +28,7 @@ route.post("/register", (req, res) => {
                 user.updated_at = new Date();
                 user_md.addUser(user).then(
                     result => {
-                        console.log(result);
+                        // console.log(result);
                         res.json(message);
                     }
                 ).catch(

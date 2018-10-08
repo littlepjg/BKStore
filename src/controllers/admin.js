@@ -64,7 +64,6 @@ route.get('/user/delete/:id', (req, res) => {
 
     user_md.deleteUserById(id).then(
         result => {
-            console.log("result: ", result);
             if (result.affectedRows > 0) {
                 message.status = "Xóa thành công";
             } else {

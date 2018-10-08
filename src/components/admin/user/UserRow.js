@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class UserRow extends Component {
     handleDeleteUser(e, id) {
-        console.log("deleted user: ", id);
+        this.props.deleteUser(id);
     }
 
     render() {

@@ -3,6 +3,8 @@ import UserSearch from '../../components/admin/user/UserSearch';
 import UserInfoTable from '../../components/admin/user/UserInfoTable';
 import Pagination from '../../components/pagination/Pagination';
 import './user.css';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 class User extends Component {
     constructor(props) {
@@ -15,31 +17,62 @@ class User extends Component {
         };
         this.getPrevPage = this.getPrevPage.bind(this);
         this.getNextPage = this.getNextPage.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
     }
 
     getNextPage() {
         const { currentPage } = this.state;
-        fetch(`/admin/user/pages/${currentPage + 1}`).then(
-            res => res.json()
-        ).then(
-            json => {
-                const { success, error, totalUser, users } = json;
-                if (success && !error) {
-                    this.setState({ totalUser, currentPage: currentPage + 1, users });
-                }
-            }
-        );
+        this.getUserByPage(currentPage + 1);
     }
 
     getPrevPage() {
         const { currentPage } = this.state;
-        fetch(`/admin/user/pages/${currentPage - 1}`).then(
+        this.getUserByPage(currentPage - 1);
+    }
+
+    deleteUser(id) {
+        const { currentPage, noPerPage, totalUser } = this.state;
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure to delete this user.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        fetch(`/admin/user/delete/${id}`).then(
+                            res => res.json()
+                        ).then(
+                            json => {
+                                console.log(json);
+                                const { success, error } = json;
+                                if (success && !error) {
+                                    let maxCurrentPage = currentPage * noPerPage;
+                                    let totalAfterDel = totalUser - 1;
+                                    if (maxCurrentPage <= totalAfterDel || (maxCurrentPage > totalAfterDel && totalAfterDel - (currentPage - 1) * noPerPage > 0)) {
+                                        this.getUserByPage(currentPage);
+                                    } else {
+                                        this.getUserByPage(currentPage - 1);
+                                    }
+                                }
+                            }
+                        );
+                    }
+                },
+                {
+                    label: 'No'
+                }
+            ]
+        });
+    }
+
+    getUserByPage(page) {
+        fetch(`/admin/user/pages/${page}`).then(
             res => res.json()
         ).then(
             json => {
                 const { success, error, totalUser, users } = json;
                 if (success && !error) {
-                    this.setState({ totalUser, currentPage: currentPage - 1, users });
+                    this.setState({ totalUser, currentPage: page, users });
                 }
             }
         );
@@ -47,17 +80,7 @@ class User extends Component {
 
     componentDidMount() {
         const { currentPage } = this.state;
-        console.log("currentPage: ", currentPage);
-        fetch(`/admin/user/pages/${currentPage}`).then(
-            res => res.json()
-        ).then(
-            json => {
-                const { success, error, totalUser, users } = json;
-                if (success && !error) {
-                    this.setState({ totalUser, users });
-                }
-            }
-        );
+        this.getUserByPage(currentPage);
     }
 
     render() {
@@ -65,7 +88,7 @@ class User extends Component {
         return (
             <div>
                 <UserSearch totalUser={totalUser} />
-                <UserInfoTable users={users} currentPage={currentPage} noPerPage={noPerPage} />
+                <UserInfoTable users={users} currentPage={currentPage} noPerPage={noPerPage} deleteUser={this.deleteUser} />
                 <Pagination currentPage={currentPage} total={totalUser} noPerPage={noPerPage}
                     getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
             </div>
