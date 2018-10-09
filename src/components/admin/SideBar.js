@@ -37,8 +37,8 @@ class SideBar extends Component {
                         <li>
                             <a href="#statistical" data-toggle="collapse"><i className="fa fa-bar-chart-o"></i> <span className="nav-label">Thống kê</span><span className="fa arrow"></span></a>
                             <ul id="statistical" className="nav nav-second-level collapse">
-                                <li><NavLink to="bai-viet-theo-doi/">Thống kê doanh thu</NavLink></li>
-                                <li><NavLink to="user-theo-doi/">Thống kê sản phẩm</NavLink></li>
+                                <li><NavLink to="/admin/statistical/revenue">Thống kê doanh thu</NavLink></li>
+                                <li><NavLink to="/admin/statistical/product">Thống kê sản phẩm</NavLink></li>
                             </ul>
                         </li>
                         <li>

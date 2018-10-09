@@ -12,7 +12,16 @@ route.get('/', (req, res) => {
 });
 
 route.get('/user/pages/:page', (req, res) => {
+    getUserByPageWithSearch(req, res);
+})
+
+route.get('/user/pages/:page/:searchValue', (req, res) => {
+    getUserByPageWithSearch(req, res);
+});
+
+function getUserByPageWithSearch(req, res) {
     let page = parseInt(req.params.page);
+    let searchValue = req.params.searchValue;
     let limit = (page - 1) * noPerPage;
 
     let message = {
@@ -22,13 +31,13 @@ route.get('/user/pages/:page', (req, res) => {
         users: [],
     }
 
-    user_md.getTotalUser().then(
+    user_md.getTotalUser(searchValue).then(
         data => {
             let totalUser = data[0].totalUser;
             message.totalUser = totalUser;
             if (totalUser > 0) {
                 if (limit < totalUser) {
-                    user_md.getUserByPage(limit, noPerPage).then(
+                    user_md.getUserByPage(limit, noPerPage,searchValue).then(
                         users => {
                             message.users = [...users];
                             res.json(message);
@@ -44,6 +53,9 @@ route.get('/user/pages/:page', (req, res) => {
                     message.error = "404";
                     res.json(message);
                 }
+            }else {
+                message.error="Không tìm thấy người dùng"
+                res.json(message);
             }
         }
     ).catch(
@@ -53,7 +65,7 @@ route.get('/user/pages/:page', (req, res) => {
             res.json(message);
         }
     )
-})
+}
 
 route.get('/user/delete/:id', (req, res) => {
     const { id } = req.params;

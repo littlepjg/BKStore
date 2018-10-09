@@ -5,6 +5,7 @@ import Pagination from '../../components/pagination/Pagination';
 import './user.css';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import MessageDialog from '../../components/dialog/MessageDialog';
 
 class User extends Component {
     constructor(props) {
@@ -13,25 +14,30 @@ class User extends Component {
             totalUser: 0,
             currentPage: 1,
             noPerPage: 10,
-            users: []
+            users: [],
+            searchValue: '',
+            error: '',
         };
         this.getPrevPage = this.getPrevPage.bind(this);
         this.getNextPage = this.getNextPage.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
+        this.handleChangeSearch = this.handleChangeSearch.bind(this);
+        this.getUserByEmail = this.getUserByEmail.bind(this);
+        this.resetError = this.resetError.bind(this);
     }
 
     getNextPage() {
-        const { currentPage } = this.state;
-        this.getUserByPage(currentPage + 1);
+        const { currentPage, searchValue } = this.state;
+        this.getUserByPage(currentPage + 1, searchValue);
     }
 
     getPrevPage() {
-        const { currentPage } = this.state;
-        this.getUserByPage(currentPage - 1);
+        const { currentPage, searchValue } = this.state;
+        this.getUserByPage(currentPage - 1, searchValue);
     }
 
     deleteUser(id) {
-        const { currentPage, noPerPage, totalUser } = this.state;
+        const { currentPage, noPerPage, totalUser, searchValue } = this.state;
         confirmAlert({
             title: 'Confirm to delete',
             message: 'Are you sure to delete this user.',
@@ -49,9 +55,9 @@ class User extends Component {
                                     let maxCurrentPage = currentPage * noPerPage;
                                     let totalAfterDel = totalUser - 1;
                                     if (maxCurrentPage <= totalAfterDel || (maxCurrentPage > totalAfterDel && totalAfterDel - (currentPage - 1) * noPerPage > 0)) {
-                                        this.getUserByPage(currentPage);
+                                        this.getUserByPage(currentPage, searchValue);
                                     } else {
-                                        this.getUserByPage(currentPage - 1);
+                                        this.getUserByPage(currentPage - 1, searchValue);
                                     }
                                 }
                             }
@@ -65,32 +71,51 @@ class User extends Component {
         });
     }
 
-    getUserByPage(page) {
-        fetch(`/admin/user/pages/${page}`).then(
+    handleChangeSearch(searchValue) {
+        this.setState({ searchValue });
+    }
+
+    getUserByEmail() {
+        const { searchValue } = this.state;
+        this.getUserByPage(1, searchValue);
+    }
+
+    getUserByPage(page, searchValue) {
+        let api = searchValue ? `/admin/user/pages/${page}/${searchValue}` : `/admin/user/pages/${page}`;
+        fetch(api).then(
             res => res.json()
         ).then(
             json => {
                 const { success, error, totalUser, users } = json;
                 if (success && !error) {
                     this.setState({ totalUser, currentPage: page, users });
+                } else {
+                    console.log(error);
+                    this.setState({ error });
                 }
             }
         );
     }
 
+    resetError() {
+        this.setState({ error: '' });
+    }
+
     componentDidMount() {
-        const { currentPage } = this.state;
-        this.getUserByPage(currentPage);
+        const { currentPage, searchValue } = this.state;
+        this.getUserByPage(currentPage, searchValue);
     }
 
     render() {
-        const { totalUser, currentPage, noPerPage, users } = this.state;
+        const { totalUser, currentPage, noPerPage, users, searchValue, error } = this.state;
         return (
             <div>
-                <UserSearch totalUser={totalUser} />
+                <UserSearch totalUser={totalUser} searchValue={searchValue}
+                    handleChangeSearch={this.handleChangeSearch} getUserByEmail={this.getUserByEmail} />
                 <UserInfoTable users={users} currentPage={currentPage} noPerPage={noPerPage} deleteUser={this.deleteUser} />
                 <Pagination currentPage={currentPage} total={totalUser} noPerPage={noPerPage}
                     getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
+                {error && <MessageDialog title={"Message"} error={error} resetError={this.resetError} />}
             </div>
         );
     }

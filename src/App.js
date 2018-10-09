@@ -11,6 +11,10 @@ import SignUp from './pages/auth/SignUp';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import AdminLayout from './layouts/AdminLayout';
 import User from './pages/admin/User';
+import MessageDialog from './components/dialog/MessageDialog';
+import Post from './pages/admin/Post';
+import RevenueStatistic from './pages/admin/statistical/RevenueStatistic';
+import ProductStatistic from './pages/admin/statistical/ProductStatistic';
 
 class App extends Component {
   render() {
@@ -28,10 +32,24 @@ class App extends Component {
                 <User />
               </AdminLayout>
             )} />
-
+            <Route exact path="/admin/posts/new" render={props => (
+              <AdminLayout>
+                <Post />
+              </AdminLayout>
+            )} />
+            <Route exact path="/admin/statistical/revenue" render={props => (
+              <AdminLayout>
+                <RevenueStatistic />
+              </AdminLayout>
+            )} />
+            <Route exact path="/admin/statistical/product" render={props => (
+              <AdminLayout>
+                <ProductStatistic />
+              </AdminLayout>
+            )} />
             <Route exact path="/" render={props => (
               <GuestLayout>
-                <h1>Home Pages</h1>
+                <MessageDialog title={"error"} content={"new Content"} />
               </GuestLayout>
             )} />
             <Route exact path="/user/signin" render={props => (

@@ -20,18 +20,35 @@ const getUserByEmail = email => {
     });
 }
 
-const getUserByPage = (limit, noPerPage) => {
+const getUserByPage = (limit, noPerPage, searchValue) => {
     return new Promise((resolve, reject) => {
-        conn.query("SELECT * FROM users  WHERE level = ? limit ?, ?", [1, limit, noPerPage], (err, users) => {
+        let sql, params;
+        if (!searchValue) {
+            sql = "SELECT * FROM users  WHERE level = ? limit ?, ?";
+            params = [1, limit, noPerPage];
+        } else {
+            sql = "SELECT * FROM users  WHERE level = ? AND email LIKE ? limit ?, ?";
+            params = [1, `%${searchValue}%`, limit, noPerPage];
+        }
+        conn.query(sql, params, (err, users) => {
             if (err) reject(err);
             else resolve(users);
         });
     });
 }
 
-const getTotalUser = () => {
+const getTotalUser = (searchValue) => {
     return new Promise((resolve, reject) => {
-        conn.query("SELECT count(id) as totalUser FROM users WHERE level = ?", [1], (err, data) => {
+        let sql, params;
+        if (!searchValue) {
+            sql = "SELECT count(id) as totalUser FROM users WHERE level = ?";
+            params = [1];
+        } else {
+            sql = "SELECT count(id) as totalUser FROM users WHERE level = ? and email LIKE ?";
+            params = [1, `%${searchValue}%`];
+        }
+
+        conn.query(sql, params, (err, data) => {
             if (err) reject(err);
             else resolve(data);
         })
