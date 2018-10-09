@@ -12,9 +12,10 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import AdminLayout from './layouts/AdminLayout';
 import User from './pages/admin/User';
 import MessageDialog from './components/dialog/MessageDialog';
-import Post from './pages/admin/Post';
+import Post from './pages/admin/post/Post';
 import RevenueStatistic from './pages/admin/statistical/RevenueStatistic';
 import ProductStatistic from './pages/admin/statistical/ProductStatistic';
+import NewPost from './pages/admin/post/NewPost';
 
 class App extends Component {
   render() {
@@ -32,9 +33,19 @@ class App extends Component {
                 <User />
               </AdminLayout>
             )} />
-            <Route exact path="/admin/posts/new" render={props => (
+            <Route exact path="/admin/posts" render={props => (
               <AdminLayout>
                 <Post />
+              </AdminLayout>
+            )} />
+            <Route exact path="/admin/posts/new" render={props => (
+              <AdminLayout>
+                <NewPost />
+              </AdminLayout>
+            )} />
+            <Route exact path="/admin/posts/edit" render={props => (
+              <AdminLayout>
+                <NewPost />
               </AdminLayout>
             )} />
             <Route exact path="/admin/statistical/revenue" render={props => (

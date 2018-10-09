@@ -21,7 +21,7 @@ class SideBar extends Component {
                             </div>
                         </li>
                         <li>
-                            <NavLink to="/admin/posts"><i className="fa fa-newspaper-o"></i> <span className="nav-label">Đăng bài</span></NavLink>
+                            <NavLink to="/admin/posts"><i className="fa fa-newspaper-o"></i> <span className="nav-label">Bài viết</span></NavLink>
                         </li>
                         <li>
                             <NavLink to="/admin/users"><i className="fa fa-user"></i> <span className="nav-label">Quản lý người dùng</span></NavLink>
