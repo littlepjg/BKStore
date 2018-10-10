@@ -1,37 +1,9 @@
 import React, { Component } from 'react';
 import PostRow from './PostRow';
-const posts = [
-    {
-        pos: 1,
-        id: 1,
-        title: "post1",
-        content: "<p>Content</p>",
-        linkto: "https://github.com/simpletut/Universal-React-Apollo-Registration"
-    },
-    {
-        pos: 2,
-        id: 2,
-        title: "post2",
-        content: "<p>Content</p>",
-        linkto: "https://github.com/simpletut/Universal-React-Apollo-Registration"
-    },
-    {
-        pos: 3,
-        id: 3,
-        title: "post3",
-        content: "<p>Content</p>",
-        linkto: "https://github.com/simpletut/Universal-React-Apollo-Registration"
-    },
-    {
-        pos: 4,
-        id: 4,
-        title: "post4",
-        content: "<p>Content</p>",
-        linkto: "https://github.com/simpletut/Universal-React-Apollo-Registration"
-    }
-]
+
 class PostInfoTable extends Component {
     render() {
+        const { posts, currentPage, noPerPage, deletePost } = this.props;
         return (
             <div className="table-responsive">
                 <table className="table table-bordered table-hover table-striped">
@@ -45,7 +17,7 @@ class PostInfoTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {posts.map(post => <PostRow post={post} key={post.id} />)}
+                    {posts.map((post, index) => <PostRow key={post.id} pos={(currentPage - 1) * noPerPage + index + 1} post={post} deletePost={deletePost} />)}
                     </tbody>
                 </table>
             </div>

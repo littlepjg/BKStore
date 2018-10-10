@@ -4,7 +4,7 @@ import UserInfoTable from '../../components/admin/user/UserInfoTable';
 import Pagination from '../../components/pagination/Pagination';
 import './user.css';
 import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css'
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import MessageDialog from '../../components/dialog/MessageDialog';
 
 class User extends Component {
@@ -45,7 +45,13 @@ class User extends Component {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        fetch(`/admin/user/delete/${id}`).then(
+                        fetch(`/admin/user/delete/`, {
+                            method: 'POST',
+                            headers: {
+                                "Content-Type": "application/json; charset=utf-8"
+                            },
+                            body: JSON.stringify({ id }),
+                        }).then(
                             res => res.json()
                         ).then(
                             json => {

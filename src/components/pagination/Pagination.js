@@ -26,7 +26,7 @@ class Pagination extends Component {
         let maxPosUser = currentPage * noPerPage;
         return (
             <div className="div-pagination">
-                <div className="dataTables_info" id="example_info" role="status" aria-live="polite">Showing {maxPosUser - noPerPage + 1} to {maxPosUser <= total ? maxPosUser : total - maxPosUser + currentPage * noPerPage} of {total} entries</div>
+                <div className="dataTables_info" id="example_info" role="status" aria-live="polite">Showing {total > 0 ? maxPosUser - noPerPage + 1 : 0} to {maxPosUser <= total ? maxPosUser : total - maxPosUser + currentPage * noPerPage} of {total} entries</div>
                 <ul className="pagination">
                     <li className="paginate_button previous" id="example_previous"><button onClick={this.props.getPrevPage} disabled={!prevAbled}>Previous</button></li>
                     <li className="paginate_button active"><span>{currentPage}</span></li>

@@ -11,11 +11,10 @@ import SignUp from './pages/auth/SignUp';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import AdminLayout from './layouts/AdminLayout';
 import User from './pages/admin/User';
-import MessageDialog from './components/dialog/MessageDialog';
 import Post from './pages/admin/post/Post';
 import RevenueStatistic from './pages/admin/statistical/RevenueStatistic';
 import ProductStatistic from './pages/admin/statistical/ProductStatistic';
-import NewPost from './pages/admin/post/NewPost';
+import CUPost from './pages/admin/post/CUPost';
 
 class App extends Component {
   render() {
@@ -40,12 +39,12 @@ class App extends Component {
             )} />
             <Route exact path="/admin/posts/new" render={props => (
               <AdminLayout>
-                <NewPost />
+                <CUPost newPost={true} />
               </AdminLayout>
             )} />
-            <Route exact path="/admin/posts/edit" render={props => (
+            <Route exact path="/admin/posts/edit/:id" render={props => (
               <AdminLayout>
-                <NewPost />
+                <CUPost {...props} newPost={false} />
               </AdminLayout>
             )} />
             <Route exact path="/admin/statistical/revenue" render={props => (
@@ -60,7 +59,7 @@ class App extends Component {
             )} />
             <Route exact path="/" render={props => (
               <GuestLayout>
-                <MessageDialog title={"error"} content={"new Content"} />
+                <h1>HOME</h1>
               </GuestLayout>
             )} />
             <Route exact path="/user/signin" render={props => (

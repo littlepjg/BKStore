@@ -61,9 +61,9 @@ route.post("/login", (req, res) => {
                 message.error = "Tài khoản không tồn tại";
                 res.json(message);
             } else {
-                if(helper.comparePassword(user.passwd, user1.passwd)){
+                if (helper.comparePassword(user.passwd, user1.passwd)) {
                     res.json(message);
-                }else {
+                } else {
                     message.error = "Mật khẩu không đúng";
                     res.json(message);
                 }
