@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CKEditor from 'react-ckeditor-wrapper';
+import MessageDialog from '../../../../src/components/dialog/MessageDialog';
 
 class CUPost extends Component {
     constructor(props) {
@@ -8,11 +9,12 @@ class CUPost extends Component {
             id: 0,
             title: '',
             content: '',
-            error: '',
+            message: '',
             newPost: this.props.newPost
         }
         this.handleEditorChange = this.handleEditorChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.resetMessage = this.resetMessage.bind(this);
     }
 
     componentDidMount() {
@@ -45,14 +47,16 @@ class CUPost extends Component {
             title,
             content
         }
-
+        if (!title || !content) {
+            this.setState({ message: "Có trường dữ liệu trống" });
+            return;
+        }
         let api;
         if (newPost) {
             api = '/admin/post/new';
         } else {
             api = '/admin/post/update';
             post.id = id;
-            console.log("id: ", post.id);
         };
 
         this.changePost(api, post);
@@ -70,16 +74,34 @@ class CUPost extends Component {
         ).then(
             json => {
                 const { success, error } = json;
-                if (success) {
+                if (success && !error) {
                     console.log(json);
-                    this.setState({ error })
+                    this.setState(({ newPost }) => {
+                        if (newPost) {
+                            return {
+                                message: "Thêm thành công",
+                                title: "",
+                                content: ""
+                            }
+                        } else {
+                            return {
+                                message: "Cập nhật thành công"
+                            }
+                        }
+                    });
+                } else {
+                    this.setState({ message: error });
                 }
             }
         );
     }
 
+    resetMessage() {
+        this.setState({ message: "" });
+    }
+
     render() {
-        const { title, content, newPost } = this.state;
+        const { title, content, newPost, message } = this.state;
         console.log("prop: ", this.props);
         return (
             <div>
@@ -101,6 +123,7 @@ class CUPost extends Component {
 
                     <button type="submit" className="btn btn-success">{newPost ? "Add" : "Update"}</button>
                 </form>
+                {message && <MessageDialog title={"Message"} error={message} resetError={this.resetMessage} />}
             </div>
         );
     }
