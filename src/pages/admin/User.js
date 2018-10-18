@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import UserSearch from '../../components/admin/user/UserSearch';
 import UserInfoTable from '../../components/admin/user/UserInfoTable';
 import Pagination from '../../components/pagination/Pagination';
-import './user.css';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import MessageDialog from '../../components/dialog/MessageDialog';
