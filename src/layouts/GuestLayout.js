@@ -5,12 +5,10 @@ import Footer from '../components/guest/Footer';
 class GuestLayout extends Component {
     render() {
         return (
-            <div>
-                <section>
-                    <Header />
-                    {this.props.children}
-                    <Footer />
-                </section>
+            <div style={{backgroundColor: "#f4f4f4"}}>
+                <Header />
+                {this.props.children}
+                <Footer />
             </div>
         );
     }

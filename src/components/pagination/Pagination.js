@@ -42,7 +42,8 @@ const PaginateButton = ({ disabled, onClick, children }) => {
 
 const styles = {
     cursorDisabled: {
-        cursor: "not-allowed"
+        cursor: "not-allowed",
+        color: "grey"
     },
     cursorPointer: {
         cursor: "pointer"

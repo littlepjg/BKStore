@@ -15,6 +15,7 @@ import Post from './pages/admin/post/Post';
 import RevenueStatistic from './pages/admin/statistical/RevenueStatistic';
 import ProductStatistic from './pages/admin/statistical/ProductStatistic';
 import CUPost from './pages/admin/post/CUPost';
+import ProductDetail from './pages/product/ProductDetail';
 
 const Home = () => <h3>Home</h3>;
 
@@ -76,6 +77,11 @@ const routes = {
       path: "/user/forgotpassword",
       component: ForgotPassword,
       props: {}
+    },
+    {
+      path: "/product/detail",
+      component: ProductDetail,
+      props: {}
     }
   ]
 }
@@ -102,7 +108,6 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
           {/* su dung switch de tim duong dan dau tien match */}
           <Switch>
             {/* route admin */}
@@ -111,7 +116,6 @@ class App extends Component {
             {routes.guest.map((route) => routeGuest(route))}
             <Route exact component={NotFound} />
           </Switch>
-        </div>
       </Router>
     );
   }
