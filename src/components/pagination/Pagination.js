@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import media from '../../theme/media';
+
 const PagContainer = styled.div`
     display: flex;
-    width: max-content;
     align-items: center;
-    justify-content: space-between;
-    float: right;
-    padding-bottom: 35px;
+    justify-content: flex-end;
+
+    @media (max-width: 468px) {
+        align-items: flex-end;
+        flex-direction: column;
+        justify-content: center;
+    }
 
     ul {
         margin-left: 45px;

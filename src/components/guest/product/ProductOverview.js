@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Rating from 'react-rating';
-import { NavLink } from 'react-router-dom';
 
 const DivOverview = styled.div`
     h1 {

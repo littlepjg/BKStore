@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 //using boostrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './App.css';
+
 import GuestLayout from './layouts/GuestLayout';
 import SignIn from './pages/auth/SignIn';
-import NotFound from './pages/404';
 import SignUp from './pages/auth/SignUp';
 import ForgotPassword from './pages/auth/ForgotPassword';
+import ProductDetail from './pages/product/ProductDetail';
+
 import AdminLayout from './layouts/AdminLayout';
 import User from './pages/admin/User';
 import Post from './pages/admin/post/Post';
+import CUPost from './pages/admin/post/CUPost';
 import RevenueStatistic from './pages/admin/statistical/RevenueStatistic';
 import ProductStatistic from './pages/admin/statistical/ProductStatistic';
-import CUPost from './pages/admin/post/CUPost';
-import ProductDetail from './pages/product/ProductDetail';
+import NotFound from './pages/404';
 
 const Home = () => <h3>Home</h3>;
 

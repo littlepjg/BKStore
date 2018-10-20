@@ -123,7 +123,7 @@ class CUPost extends Component {
 
                     <button type="submit" className="btn btn-success">{newPost ? "Add" : "Update"}</button>
                 </form>
-                {message && <MessageDialog title={"Message"} error={message} resetError={this.resetMessage} />}
+                {message && <MessageDialog title={"Message"} message={message} resetMessage={this.resetMessage} />}
             </div>
         );
     }
