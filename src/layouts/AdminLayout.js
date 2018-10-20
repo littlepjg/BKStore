@@ -11,6 +11,7 @@ class AdminLayout extends Component {
             hideNav: false
         }
     }
+
     componentDidMount() {
         $('.navbar-minimalize.minimalize-styl-2').click((e) => {
             const { stateWeb, hideNav } = this.state;
@@ -28,7 +29,7 @@ class AdminLayout extends Component {
 
     render() {
         return (
-            <div id="wrapper">
+            <div id="wrapper" style={{backgroundColor: "#f4f4f4"}}>
                 <SideBar />
                 <div id="page-wrapper" className="gray-bg container-fluid" style={{ minHeight: "636px" }}>
                     <div className="row border-bottom">

@@ -1,38 +1,75 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
-import './pagination.css';
+import styled from 'styled-components';
 
-class Pagination extends Component {
-    componentDidMount() {
-        const { currentPage, total, noPerPage } = this.props;
-        let prevAbled = currentPage > 1;
-        let nextAbled = currentPage * noPerPage < total;
-        if (!prevAbled) {
-            $(".paginate_button.previous").addClass("disabled");
-        } else {
-            $(".paginate_button.previous").removeClass("disabled");
-            if (nextAbled) {
-                $(".paginate_button.next").removeClass("disabled");
-            } else {
-                $(".paginate_button.next").addClass("disabled");
-            }
-        }
+import media from '../../theme/media';
+
+const PagContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    @media (max-width: 468px) {
+        align-items: flex-end;
+        flex-direction: column;
+        justify-content: center;
     }
 
+    ul {
+        margin-left: 45px;
+    }
+
+    button {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #337ab7;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+
+    li:first-child>button {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+    li:last-child>button {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+`;
+
+const PaginateButton = ({ disabled, onClick, children }) => {
+    return <button onClick={onClick} disabled={disabled} style={disabled ? styles.cursorDisabled : styles.cursorPointer}>{children}</button>
+}
+
+const styles = {
+    cursorDisabled: {
+        cursor: "not-allowed",
+        color: "grey"
+    },
+    cursorPointer: {
+        cursor: "pointer"
+    }
+}
+
+class Pagination extends Component {
     render() {
         const { currentPage, total, noPerPage } = this.props;
         let prevAbled = currentPage > 1;
         let nextAbled = currentPage * noPerPage < total;
         let maxPosUser = currentPage * noPerPage;
         return (
-            <div className="div-pagination">
-                <div className="dataTables_info" id="example_info" role="status" aria-live="polite">Showing {total > 0 ? maxPosUser - noPerPage + 1 : 0} to {maxPosUser <= total ? maxPosUser : total - maxPosUser + currentPage * noPerPage} of {total} entries</div>
+            <PagContainer>
+                <div>Showing {total > 0 ? maxPosUser - noPerPage + 1 : 0} to {maxPosUser <= total ? maxPosUser : total - maxPosUser + currentPage * noPerPage} of {total} entries</div>
                 <ul className="pagination">
-                    <li className="paginate_button previous" id="example_previous"><button onClick={this.props.getPrevPage} disabled={!prevAbled}>Previous</button></li>
+                    <li><PaginateButton onClick={this.props.getPrevPage} disabled={!prevAbled}>Previous</PaginateButton></li>
                     <li className="paginate_button active"><span>{currentPage}</span></li>
-                    <li className="paginate_button next" id="example_next"><button onClick={this.props.getNextPage} disabled={!nextAbled}>Next</button></li>
+                    <li><PaginateButton onClick={this.props.getNextPage} disabled={!nextAbled}>Next</PaginateButton></li>
                 </ul>
-            </div>
+            </PagContainer>
         );
     }
 }
