@@ -6,6 +6,8 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// 
+// app.use(express.static('build'));
 
 // link detail: https://github.com/github/fetch/issues/323
 app.use(function (req, res, next) {
@@ -18,6 +20,7 @@ app.get('/', (req, res) => {
     res.writeHead(200, { "Content-type": "text/html" });
     res.write("<h1>Hi, my name is Tieu.</h1>");
     res.end();
+    // res.sendFile(__dirname + '/build/index.html');
 });
 
 const controllers = require(__dirname + "/src/controllers");

@@ -7,7 +7,7 @@ class Header extends Component {
             <nav className="navbar navbar-default header" role="navigation">
                 <div className="container">
                     <div className="navbar-header">
-                        <NavLink className="navbar-brand" to="/">WEBSITE-SALE</NavLink>
+                        <NavLink className="navbar-brand" to="/">BKStore</NavLink>
                     </div>
                     <ul className="nav navbar-nav navbar-right">
                         <li className="dropdown">

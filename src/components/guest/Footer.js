@@ -31,7 +31,7 @@ class Footer extends Component {
                             </div>
                         </div>
                     </div>
-                    <p>Copyright &copy; 2018 by WEBSITE-SALE</p>
+                    <p>Copyright &copy; 2018 by BKStore</p>
                 </div>
             </footer>
         );
