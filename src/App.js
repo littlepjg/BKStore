@@ -19,6 +19,7 @@ import CUPost from './pages/admin/post/CUPost';
 import RevenueStatistic from './pages/admin/statistical/RevenueStatistic';
 import ProductStatistic from './pages/admin/statistical/ProductStatistic';
 import NotFound from './pages/404';
+import AddProduct from './pages/admin/product/AddProduct';
 
 const Home = () => <h3>Home</h3>;
 
@@ -47,6 +48,16 @@ const routes = {
     {
       path: "/admin/posts/edit/:id",
       component: CUPost,
+      props: { newPost: false }
+    },
+    {
+      path: "/admin/products",
+      component: Home,
+      props: { newPost: false }
+    },
+    {
+      path: "/admin/product/add",
+      component: AddProduct,
       props: { newPost: false }
     },
     {
@@ -111,14 +122,14 @@ class App extends Component {
   render() {
     return (
       <Router>
-          {/* su dung switch de tim duong dan dau tien match */}
-          <Switch>
-            {/* route admin */}
-            {routes.admin.map((route) => routeAdmin(route))}
-            {/* route guest */}
-            {routes.guest.map((route) => routeGuest(route))}
-            <Route exact component={NotFound} />
-          </Switch>
+        {/* su dung switch de tim duong dan dau tien match */}
+        <Switch>
+          {/* route admin */}
+          {routes.admin.map((route) => routeAdmin(route))}
+          {/* route guest */}
+          {routes.guest.map((route) => routeGuest(route))}
+          <Route exact component={NotFound} />
+        </Switch>
       </Router>
     );
   }

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import {WhitePanel} from '../../../theme/Style';
+import { WhitePanel } from '../../../theme/Style';
 import PostInfoTable from '../../../components/admin/post/PostInfoTable';
 import Pagination from '../../../components/pagination/Pagination';
 import MessageDialog from '../../../components/dialog/MessageDialog';
@@ -104,7 +104,7 @@ class Post extends Component {
     render() {
         const { totalPost, currentPage, noPerPage, posts, error } = this.state;
         return (
-            <WhitePanel style={{margin: "10px 0px 30px"}}>
+            <WhitePanel>
                 <div className="row" style={{ marginBottom: "10px", marginTop: "35px" }}>
                     <div className="col-md-12">
                         <NavLink to="/admin/posts/new" className="btn btn-success pull-right">Add new post</NavLink>

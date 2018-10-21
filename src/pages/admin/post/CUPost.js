@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import CKEditor from 'react-ckeditor-wrapper';
+
+import { WhitePanel } from '../../../theme/Style';
 import MessageDialog from '../../../../src/components/dialog/MessageDialog';
 
 class CUPost extends Component {
@@ -104,7 +106,7 @@ class CUPost extends Component {
         const { title, content, newPost, message } = this.state;
         console.log("prop: ", this.props);
         return (
-            <div>
+            <WhitePanel>
                 <form onSubmit={this.handleSubmit}>
                     <legend>{newPost ? "Add new post" : "Update post"}</legend>
 
@@ -124,7 +126,7 @@ class CUPost extends Component {
                     <button type="submit" className="btn btn-success">{newPost ? "Add" : "Update"}</button>
                 </form>
                 {message && <MessageDialog title={"Message"} message={message} resetMessage={this.resetMessage} />}
-            </div>
+            </WhitePanel>
         );
     }
 }

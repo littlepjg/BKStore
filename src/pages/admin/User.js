@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { WhitePanel } from '../../theme/Style';
 import UserSearch from '../../components/admin/user/UserSearch';
 import UserInfoTable from '../../components/admin/user/UserInfoTable';
 import Pagination from '../../components/pagination/Pagination';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import MessageDialog from '../../components/dialog/MessageDialog';
 
 class User extends Component {
@@ -114,14 +115,14 @@ class User extends Component {
     render() {
         const { totalUser, currentPage, noPerPage, users, searchValue, error } = this.state;
         return (
-            <div>
+            <WhitePanel>
                 <UserSearch totalUser={totalUser} searchValue={searchValue}
                     handleChangeSearch={this.handleChangeSearch} getUserByEmail={this.getUserByEmail} />
                 <UserInfoTable users={users} currentPage={currentPage} noPerPage={noPerPage} deleteUser={this.deleteUser} />
                 <Pagination currentPage={currentPage} total={totalUser} noPerPage={noPerPage}
                     getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
                 {error && <MessageDialog title={"Message"} error={error} resetError={this.resetError} />}
-            </div>
+            </WhitePanel>
         );
     }
 }

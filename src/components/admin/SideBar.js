@@ -29,9 +29,8 @@ class SideBar extends Component {
                         <li>
                             <a href="#product" data-toggle="collapse"><i className="fa fa-archive"></i> <span className="nav-label">Quản lý sản phẩm</span><span className="fa arrow"></span></a>
                             <ul id="product" className="nav nav-second-level collapse">
-                                <li><NavLink to="bai-viet-theo-doi/">Quản lý thương hiệu</NavLink></li>
-                                <li><NavLink to="user-theo-doi/">Quản lý mặt hàng</NavLink></li>
-                                <li><NavLink to="user-theo-doi/">Quản lý sản phẩm</NavLink></li>
+                                <li><NavLink to="/admin/products">Sản phẩm hiện có</NavLink></li>
+                                <li><NavLink to="/admin/product/add">Thêm sản phẩm</NavLink></li>
                             </ul>
                         </li>
                         <li>
