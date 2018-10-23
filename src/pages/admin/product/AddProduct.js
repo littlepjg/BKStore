@@ -31,7 +31,7 @@ class AddProduct extends Component {
         return (
             <WhitePanel className="container-fluid">
                 <div className="row">
-                    <GenaralIfo className="col-md-7">
+                    <GenaralIfo className="col-md-6">
                         <form action="" method="POST" role="form">
                             <legend>General Information</legend>
 

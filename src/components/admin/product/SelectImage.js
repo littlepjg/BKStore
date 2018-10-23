@@ -39,7 +39,7 @@ class SelectImage extends Component {
             console.log("files: ", files[0].name);
         }
         return (
-            <Container className="col-md-5">
+            <Container className="col-md-6">
                 <legend>Images</legend>
                 <label htmlFor="upload-photo"><span className="fa fa-plus btn btn-primary"> Select files</span></label>
                 <input type="file" multiple accept="image/*" id="upload-photo" onChange={this.handleSelectImage} />

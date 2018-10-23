@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CKEditor from 'react-ckeditor-wrapper';
+import axios from 'axios';
 
 import { WhitePanel } from '../../../theme/Style';
 import MessageDialog from '../../../../src/components/dialog/MessageDialog';
@@ -21,18 +22,16 @@ class CUPost extends Component {
 
     componentDidMount() {
         if (!this.props.newPost) {
-            let id = parseInt(this.props.match.params.id.slice(1));
-            fetch(`/admin/post/getPost/${id}`).then(
-                res => res.json()
-            ).then(
-                json => {
-                    const { success, error } = json;
-                    if (success && !error) {
-                        console.log(json);
-                        this.setState({ id, title: json.post.title, content: json.post.content });
-                    }
+            let id = parseInt(this.props.match.params.id);
+            axios.get(`/admin/post/getPost/${id}`).then(response => {
+                const { success, error } = response.data;
+                if (success) {
+                    const { title, content } = response.data.post;
+                    this.setState({ id, title, content });
                 }
-            );
+            }).catch(err => {
+                console.log(err);
+            });
         }
     }
 
@@ -65,37 +64,28 @@ class CUPost extends Component {
     }
 
     changePost(api, post) {
-        fetch(api, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(post),
-        }).then(
-            res => res.json()
-        ).then(
-            json => {
-                const { success, error } = json;
-                if (success && !error) {
-                    console.log(json);
-                    this.setState(({ newPost }) => {
-                        if (newPost) {
-                            return {
-                                message: "Thêm thành công",
-                                title: "",
-                                content: ""
-                            }
-                        } else {
-                            return {
-                                message: "Cập nhật thành công"
-                            }
+        axios.post(api, post).then(response => {
+            const { success, error } = response.data;
+            if (success) {
+                this.setState(({ newPost }) => {
+                    if (newPost) {
+                        return {
+                            message: "Thêm thành công",
+                            title: "",
+                            content: ""
                         }
-                    });
-                } else {
-                    this.setState({ message: error });
-                }
+                    } else {
+                        return {
+                            message: "Cập nhật thành công"
+                        }
+                    }
+                });
+            } else {
+                this.setState({ message: error });
             }
-        );
+        }).catch(err => {
+            console.log(err);
+        });
     }
 
     resetMessage() {

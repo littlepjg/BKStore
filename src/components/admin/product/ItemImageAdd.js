@@ -10,7 +10,7 @@ class ItemImageAdd extends Component {
     render() {
         const { file } = this.props;
         return (
-            <Container className="col-sm-4 col-md-6">
+            <Container className="col-xs-6 col-sm-3 col-md-4 col-lg-3">
                 <img src={window.URL.createObjectURL(file)} className="img-responsive" alt="item-photo" />
 
                 <div className="form-group">

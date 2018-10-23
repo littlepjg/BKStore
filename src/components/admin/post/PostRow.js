@@ -12,7 +12,7 @@ class PostRow extends Component {
                 <td>{content}</td>
                 <td><a href={linkto}>{linkto}</a></td>
                 <td>
-                    <NavLink to={`/admin/posts/edit/:${id}`} className="btn btn-primary">Edit</NavLink>
+                    <NavLink to={`/admin/posts/edit/${id}`} className="btn btn-primary">Edit</NavLink>
                     <button className="btn btn-danger" onClick={() => deletePost(id)}>Delete</button>
                 </td>
             </tr>

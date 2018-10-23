@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
+import history from './history';
 
 //using boostrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -121,7 +122,7 @@ const routeGuest = route => (
 class App extends Component {
   render() {
     return (
-      <Router>
+      <Router history={history}>
         {/* su dung switch de tim duong dan dau tien match */}
         <Switch>
           {/* route admin */}
