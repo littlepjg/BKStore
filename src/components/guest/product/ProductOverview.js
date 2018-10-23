@@ -28,11 +28,7 @@ const DivOverview = styled.div`
     }
 
     #count-product {
-        color: #575757;
-        height: 43px;
-        padding-left: 15px;
-        padding-right: 8px;
-        font-size: 16px;
+        width: max-content;
     }
 
     #count-product::-webkit-inner-spin-button {
@@ -87,10 +83,10 @@ class ProductOverview extends Component {
                 <p className="price">{product.base_price} {product.unit}</p>
                 <hr />
                 <div>{product.description()}</div>
-                <hr/>
+                <hr />
                 <p>Số lượng:</p>
-                <input type="number" id="count-product" min="1" max="5" value={countProduct} onChange={this.handleChangeCountProduct}
-                    onKeyDown={e => e.preventDefault()} />
+                <input type="number" id="count-product" className="form-control" min="1" max="5" value={countProduct}
+                    onChange={this.handleChangeCountProduct} onKeyDown={e => e.preventDefault()} />
                 <div className="action">
                     <button id="add-to-cart">Add to Cart</button>
                     <button id="buy-now">Buy Now</button>

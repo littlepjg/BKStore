@@ -26,64 +26,47 @@ function getUserByPageWithSearch(req, res) {
         users: [],
     }
 
-    user_md.getTotalUser(searchValue).then(
-        data => {
+    user_md.getTotalUser(searchValue, (err, data) => {
+        if (err) {
+            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
+        } else {
             let totalUser = data[0].totalUser;
-            message.totalUser = totalUser;
             if (totalUser > 0) {
                 if (limit < totalUser) {
-                    user_md.getUserByPage(limit, noPerPage, searchValue).then(
-                        users => {
-                            message.users = [...users];
-                            res.json(message);
+                    user_md.getUserByPage(limit, noPerPage, searchValue, (err, users) => {
+                        if (err) {
+                            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' })
+                        } else {
+                            res.json({ success: true, error: '', totalUser, users: [...users] });
                         }
-                    ).catch(
-                        err => {
-                            console.log(err);
-                            message.error = "Có lỗi xảy ra với CSDL";
-                            res.json(message);
-                        }
-                    )
+                    })
                 } else {
-                    message.error = "404";
-                    res.json(message);
+                    res.json({ success: false, error: 'Không tìm thấy dữ liệu' });
                 }
             } else {
-                message.error = "Dữ liệu người dùng trống";
-                res.json(message);
+                res.json({ success: false, error: 'Không tìm thấy dữ liệu' });
             }
         }
-    ).catch(
-        err => {
-            console.log(err);
-            message.error = "Có lỗi xảy ra với CSDL";
-            res.json(message);
-        }
-    );
+    });
 }
 
 route.post('/delete', (req, res) => {
     const { id } = req.body;
-    let message = {
-        success: true,
-        error: '',
-    }
 
-    user_md.deleteUserById(id).then(
-        result => {
-            if (result.affectedRows > 0) {
-                message.status = "Xóa thành công";
-            } else {
-                message.error = "Người dùng không tồn tại";
-            }
-            res.json(message);
+    user_md.deleteUserById(id, (err, result) => {
+        if (err) {
+            res.json({
+                success: false,
+                error: 'Có lỗi xảy ra với CSDL'
+            })
+        } else if (result.affectedRows > 0) {
+            res.json({
+                success: true,
+                error: '',
+                message: 'Xóa thành công'
+            })
         }
-    ).catch(
-        err => {
-            message.error = "Có lỗi xảy ra với CSDL";
-            res.json(message);
-        }
-    );
+    })
 });
 
 module.exports = route;

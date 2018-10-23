@@ -7,8 +7,7 @@ route.use("/user", require(__dirname  + "/user.js"));
 // route.use("/blog", require(__dirname + "/blog.js"));
 
 route.get("/", (req, res) => {
-    // res.json({"message": "This is Home page"});
-    res.render("test"); //render view test.ejs
+    res.json({"message": "This is Home page"});
 });
 
 module.exports = route;

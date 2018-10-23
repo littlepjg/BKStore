@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import axios from 'axios';
+
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
+import { WhitePanel } from '../../theme/Style';
 import UserSearch from '../../components/admin/user/UserSearch';
 import UserInfoTable from '../../components/admin/user/UserInfoTable';
 import Pagination from '../../components/pagination/Pagination';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import MessageDialog from '../../components/dialog/MessageDialog';
 
 class User extends Component {
@@ -44,19 +48,10 @@ class User extends Component {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        fetch(`/admin/user/delete/`, {
-                            method: 'POST',
-                            headers: {
-                                "Content-Type": "application/json; charset=utf-8"
-                            },
-                            body: JSON.stringify({ id }),
-                        }).then(
-                            res => res.json()
-                        ).then(
-                            json => {
-                                console.log(json);
-                                const { success, error } = json;
-                                if (success && !error) {
+                        axios.post(`/admin/user/delete`, { id }).then(
+                            response => {
+                                const { success, error } = response.data;
+                                if (success) {
                                     let maxCurrentPage = currentPage * noPerPage;
                                     let totalAfterDel = totalUser - 1;
                                     if (maxCurrentPage <= totalAfterDel || (maxCurrentPage > totalAfterDel && totalAfterDel - (currentPage - 1) * noPerPage > 0)) {
@@ -66,7 +61,7 @@ class User extends Component {
                                     }
                                 }
                             }
-                        );
+                        )
                     }
                 },
                 {
@@ -87,19 +82,18 @@ class User extends Component {
 
     getUserByPage(page, searchValue) {
         let api = searchValue ? `/admin/user/pages/${page}/${searchValue}` : `/admin/user/pages/${page}`;
-        fetch(api).then(
-            res => res.json()
-        ).then(
-            json => {
-                const { success, error, totalUser, users } = json;
-                if (success && !error) {
-                    this.setState({ totalUser, currentPage: page, users });
-                } else {
-                    console.log(error);
-                    this.setState({ error });
-                }
+        axios.get(api).then(response => {
+            console.log(response);
+            const { success, error } = response.data;
+            if (success) {
+                const { totalUser, users } = response.data;
+                this.setState({ totalUser, currentPage: page, users });
+            } else {
+                this.setState({ error });
             }
-        );
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     resetError() {
@@ -114,14 +108,14 @@ class User extends Component {
     render() {
         const { totalUser, currentPage, noPerPage, users, searchValue, error } = this.state;
         return (
-            <div>
+            <WhitePanel>
                 <UserSearch totalUser={totalUser} searchValue={searchValue}
                     handleChangeSearch={this.handleChangeSearch} getUserByEmail={this.getUserByEmail} />
                 <UserInfoTable users={users} currentPage={currentPage} noPerPage={noPerPage} deleteUser={this.deleteUser} />
                 <Pagination currentPage={currentPage} total={totalUser} noPerPage={noPerPage}
                     getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
-                {error && <MessageDialog title={"Message"} error={error} resetError={this.resetError} />}
-            </div>
+                {error && <MessageDialog title={"Message"} message={error} resetMessage={this.resetError} />}
+            </WhitePanel>
         );
     }
 }

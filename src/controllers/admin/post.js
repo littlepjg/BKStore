@@ -10,141 +10,87 @@ route.get('/pages/:page', (req, res) => {
     let page = parseInt(req.params.page);
     let limit = (page - 1) * noPerPage;
 
-    let message = {
-        success: true,
-        error: '',
-        totalPost: 0,
-        posts: [],
-    }
-
-    post_md.getTotalPost().then(
-        data => {
+    post_md.getTotalPost((err, data) => {
+        if (err) {
+            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
+        } else {
             let totalPost = data[0].totalPost;
-            message.totalPost = totalPost;
             if (totalPost > 0) {
                 if (limit < totalPost) {
-                    post_md.getPostByPage(limit, noPerPage).then(
-                        posts => {
-                            message.posts = [...posts];
-                            res.json(message);
+                    post_md.getPostByPage(limit, noPerPage, (err, posts) => {
+                        if (err) {
+                            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
+                        } else {
+                            res.json({ success: true, error: '', totalPost, posts: [...posts] });
                         }
-                    ).catch(
-                        err => {
-                            console.log(err);
-                            message.error = "Có lỗi xảy ra với CSDL";
-                            res.json(message);
-                        }
-                    )
+                    });
                 } else {
-                    message.error = "404";
-                    res.json(message);
+                    res.json({ success: false, error: 'Không tìm thấy bài viết' });
                 }
             } else {
-                message.error = "Dữ liệu bài viết trống";
-                res.json(message);
+                res.json({ success: false, error: 'Không tìm thấy bài viết' });
             }
         }
-    ).catch(
-        err => {
-            console.log(err);
-            message.error = "Có lỗi xảy ra với CSDL";
-            res.json(message);
-        }
-    );
+    });
 });
 
 route.get("/getPost/:id", (req, res) => {
     let id = parseInt(req.params.id);
-    let message = {
-        success: true,
-        error: '',
-        post: null,
-    }
 
-    post_md.getPostById(id).then(
-        posts => {
+    post_md.getPostById(id, (err, posts) => {
+        if (err) {
+            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
+        } else {
             if (posts.length > 0) {
-                message.post = posts[0];
-                res.json(message);
+                res.json({ success: true, error: '', post: posts[0] });
             } else {
-                message.error = "Không tìm thấy bài viết";
-                res.json(message);
+                res.json({ success: false, error: 'Không tìm thấy bài viết' });
             }
         }
-    ).catch(
-        err => {
-            console.log(err);
-            message.error = "Có lỗi xảy ra với CSDL";
-            res.json(message)
-        }
-    )
+    });
 });
 
 route.post("/new", (req, res) => {
     let post = req.body;
-    let message = {
-        success: true,
-        error: ''
-    }
 
     post.created_at = new Date();
     post.updated_at = new Date();
 
-    post_md.addPost(post).then(
-        result => {
-            res.json(message);
+    post_md.addPost(post, (err, result) => {
+        if (!err) {
+            res.json({ success: true, error: '' });
+        } else {
+            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
         }
-    ).catch(
-        err => {
-            console.log(err);
-            message.error = "Có lỗi xảy ra với CSDL";
-            res.json(message);
-        }
-    );
+    });
 });
 
 route.post("/update", (req, res) => {
     let post = req.body;
-    let message = {
-        success: true,
-        error: ''
-    }
 
-    post_md.updatePost(post).then(
-        result => {
-            res.json(message);
+    post_md.updatePost(post, (err, result) => {
+        if (!err) {
+            res.json({ success: true, error: '' });
+        } else {
+            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
         }
-    ).catch(
-        err => {
-            console.log(err);
-            message.error = "Có lỗi xảy ra với CSDL";
-            res.json(message);
-        }
-    );
+    });
 });
 
 route.post('/delete', (req, res) => {
     const { id } = req.body;
-    let message = {
-        success: true,
-        error: '',
-    }
 
-    post_md.deletePost(id).then(
-        result => {
+    post_md.deletePost(id, (err, result) => {
+        if (!err) {
             if (result.affectedRows > 0) {
-                message.status = "Xóa thành công";
+                res.json({ success: true, error: '', status: 'Xóa thành công' });
             } else {
-                message.error = "Bài viết không tồn tại";
+                res.json({ success: false, error: 'Bài viết không tồn tại' });
             }
-            res.json(message);
+        } else {
+            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
         }
-    ).catch(
-        err => {
-            message.error = "Có lỗi xảy ra với CSDL";
-            res.json(message);
-        }
-    );
+    });
 })
 
 module.exports = route;

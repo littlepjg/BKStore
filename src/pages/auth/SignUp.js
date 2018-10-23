@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 const initialState = {
     full_name: '',
@@ -46,25 +47,10 @@ class SignUp extends Component {
             email,
             passwd
         }
-        fetch('/user/register', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(user),
-        }).then(
-            res => res.json()
-        ).then(
-            json => {
-                const { success, error } = json;
-                if (success) {
-                    console.log(json);
-                    this.setState({ error })
-                    // this.props.onRouteChange('/');
-                    // this.props.history.push("/")
-                }
-            }
-        );
+        axios.post('http://localhost:5000/user/register', user).then(response => {
+            const { success, error } = response.data;
+            this.setState({ error });
+        })
     }
 
     validateForm() {
@@ -75,8 +61,6 @@ class SignUp extends Component {
 
     render() {
         const { full_name, email, passwd, passwordConfirm, error } = this.state;
-        console.log("state: ", this.state);
-
         return (
             <div className="container">
                 <div className="row">

@@ -2,58 +2,28 @@ const db = require('../common/database');
 
 const conn = db.getConnection();
 
-const addPost = post => {
-    return new Promise((resolve, reject) => {
-        conn.query("INSERT INTO posts SET ?", post, (err, result) => {
-            if (err) reject(err);
-            else resolve(result);
-        });
-    });
+const addPost = (post, callback) => {
+    conn.query("INSERT INTO posts SET ?", post, callback);
 }
 
-const updatePost = post => {
-    return new Promise((resolve, reject) => {
-        conn.query("UPDATE posts SET title = ?, content = ?, updated_at = ? WHERE id = ?", [post.title, post.content, new Date(), post.id], (err, result) => {
-            if (err) reject(err);
-            else resolve(result);
-        });
-    });
+const updatePost = (post, callback) => {
+    conn.query("UPDATE posts SET title = ?, content = ?, updated_at = ? WHERE id = ?", [post.title, post.content, new Date(), post.id], callback);
 }
 
-const getPostById = id => {
-    return new Promise((resolve, reject) => {
-        conn.query("SELECT * FROM posts WHERE id=?", [id], (err, posts) => {
-            if (err) reject(err);
-            else resolve(posts);
-        });
-    });
+const getPostById = (id, callback) => {
+    conn.query("SELECT * FROM posts WHERE id=?", [id], callback);
 }
 
-const getPostByPage = (limit, noPerPage) => {
-    return new Promise((resolve, reject) => {
-        conn.query("SELECT * FROM posts limit ?, ?", [limit, noPerPage], (err, posts) => {
-            if (err) reject(err);
-            else resolve(posts);
-        });
-    });
+const getPostByPage = (limit, noPerPage, callback) => {
+    conn.query("SELECT * FROM posts limit ?, ?", [limit, noPerPage], callback);
 }
 
-const getTotalPost = () => {
-    return new Promise((resolve, reject) => {
-        conn.query("SELECT count(id) as totalPost FROM posts", (err, data) => {
-            if (err) reject(err);
-            else resolve(data);
-        })
-    })
+const getTotalPost = (callback) => {
+    conn.query("SELECT count(id) as totalPost FROM posts", callback);
 }
 
-const deletePost = (id) => {
-    return new Promise((resolve, reject) => {
-        conn.query("DELETE FROM posts WHERE id = ?", [id], (err, result) => {
-            if (err) reject(err);
-            else resolve(result);
-        });
-    })
+const deletePost = (id, callback) => {
+    conn.query("DELETE FROM posts WHERE id = ?", [id], callback);
 }
 
 module.exports = {
