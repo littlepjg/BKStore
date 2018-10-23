@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 const initialState = {
     email: '',
@@ -30,26 +31,13 @@ class SignIn extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const { email, passwd } = this.state;
-        let user = { email, passwd };
-        fetch('/user/login', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(user),
-        }).then(
-            res => res.json()
-        ).then(
-            json => {
-                const { success, error } = json;
-                if (success) {
-                    console.log(json);
-                    this.setState({ error })
-                    // this.props.onRouteChange('/');
-                    // this.props.history.push("/")
-                }
+        axios.post('http://localhost:5000/user/login', { email, passwd }).then(response => {
+            console.log(response);
+        }).catch(error => {
+            if (error.response.status == 401) {
+                this.setState({ error: 'Invalid email or password.' });
             }
-        );
+        })
     }
 
     validateForm() {

@@ -1,7 +1,11 @@
 const express = require("express");
-const route = express.Router();
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 const user_md = require('../models/user');
 const helper = require('../helpers/helper');
+
+const route = express.Router();
 
 route.get('/', (req, res) => {
     res.writeHead(200, { "Content-type": "text/html" });
@@ -15,66 +19,73 @@ route.post("/register", (req, res) => {
         success: true,
         error: ''
     }
-    user_md.getUserByEmail(user.email).then(
-        users => {
-            let user1 = users[0];
-            // console.log(users);
-            if (users.length > 0) {
-                message.error = "Email đã được sử dụng";
-                res.json(message);
-            } else {
-                user.passwd = helper.hashPassword(user.passwd);
-                user.created_at = new Date();
-                user.updated_at = new Date();
-                user_md.addUser(user).then(
-                    result => {
-                        // console.log(result);
-                        res.json(message);
-                    }
-                ).catch(
-                    err => {
-                        message.error = "Có lỗi xảy ra với CSDL";
-                        res.json(message);
-                    }
-                );
-            }
+    user_md.getUserByEmail(user.email, (err, users) => {
+        if (err) {
+            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
+        } else if (users.length > 0) {
+            res.json({ success: false, error: 'Email đã được sử dụng' });
+        } else {
+            user.passwd = helper.hashPassword(user.passwd);
+            user.created_at = new Date();
+            user.updated_at = new Date();
+            user_md.addUser(user, (err, result) => {
+                if (!err) {
+                    res.json({ success: true, error: '', message: 'Thêm tài khoản thành công' });
+                } else {
+                    res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
+                }
+            });
         }
-    ).catch(
-        err => {
-            message.error = "Có lỗi xảy ra với CSDL";
-            res.json(message);
-        }
-    )
+    });
 });
 
-route.post("/login", (req, res) => {
-    let user = req.body;
-    let message = {
-        success: true,
-        error: ''
-    }
 
-    user_md.getUserByEmail(user.email).then(
-        users => {
-            let user1 = users[0];
-            if (users.length < 1) {
-                message.error = "Tài khoản không tồn tại";
-                res.json(message);
-            } else {
-                if (helper.comparePassword(user.passwd, user1.passwd)) {
-                    res.json(message);
-                } else {
-                    message.error = "Mật khẩu không đúng";
-                    res.json(message);
-                }
+// LocalStrategy expects to find credentials in parameters named username and password
+const localOptions = { usernameField: 'email', passwordField: 'passwd' };
+passport.use(new LocalStrategy(localOptions,
+    function (email, password, done) {
+        user_md.getUserByEmail(email, (err, users) => {
+            if (err) done(err);
+            if (!users[0]) { return done(null, false, { message: "Invalid email" }); }
+
+            // compare password is 'password equal to user.password?
+            if (!helper.comparePassword(password, users[0].passwd)) {
+                return done(null, false, { message: "Invalid password" });
             }
-        }
-    ).catch(
-        err => {
-            message.error = "Có lỗi xảy ra với CSDL";
-            res.json(message);
-        }
-    )
-})
+
+            return done(null, users[0]);
+        });
+    }
+));
+
+// passport.serializeUser(function (user, done) {
+//     done(null, user.id);
+// });
+
+// passport.deserializeUser(function (id, done) {
+//     user_md.getUserById(id, function (err, users) {
+//         done(err, users[0]);
+//     });
+// });
+
+route.post('/login', passport.authenticate('local', {
+    session: false,
+    failureFlash: true,
+    successFlash: 'Welcome!'
+}), (req, res) => {
+    const { id, full_name, email, phone_number, address, level } = req.user;
+    res.json({
+        success: true,
+        user: {
+            id,
+            full_name,
+            email,
+            phone_number,
+            address,
+            level
+        },
+        error: ''
+    })
+});
 
 module.exports = route;

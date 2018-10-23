@@ -1,7 +1,37 @@
 import React, { Component } from 'react';
-import SideBar from '../components/admin/SideBar';
+import styled from 'styled-components';
 import $ from 'jquery';
-import './admin.css';
+
+import SideBar from '../components/admin/SideBar';
+
+const LogoutModel = styled.div`
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: white;
+    margin: 150px auto;
+    width: 300px;
+    padding: 25px 0px;
+    z-index: 200;
+    box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.5);
+
+    .btn {
+        margin: 0 10px;
+        padding: 6px 20px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #26a69a;
+        text-align: center;
+        letter-spacing: .5px;
+        transition: .2s ease-out;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: #2bbbad;
+    }
+`;
 
 class AdminLayout extends Component {
     constructor(props) {
@@ -10,6 +40,8 @@ class AdminLayout extends Component {
             stateWeb: true,
             hideNav: false
         }
+        this.handleLogOut = this.handleLogOut.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
@@ -27,11 +59,25 @@ class AdminLayout extends Component {
         })
     }
 
+    handleLogOut() {
+        this.toggleModal();
+    }
+
+    toggleModal() {
+        this.refs.modal.classList.toggle('hide');
+    }
+
     render() {
         return (
-            <div id="wrapper" style={{backgroundColor: "#f4f4f4"}}>
-                <SideBar />
-                <div id="page-wrapper" className="gray-bg container-fluid" style={{ minHeight: "636px" }}>
+            <div id="wrapper" style={{ backgroundColor: "#f4f4f4" }}>
+                <LogoutModel className='hide' ref='modal' id='logoutModal'>
+                    <p><strong>Are you sure you want to log out?</strong></p>
+                    <button className='btn' onClick={this.handleLogOut}>Yes</button>
+                    <button className='btn' onClick={this.toggleModal}>No</button>
+                </LogoutModel>
+                
+                <SideBar handleLogOut={this.handleLogOut} />
+                <div id="page-wrapper" className="gray-bg container-fluid" style={{ minHeight: "636px", marginLeft: "220px" }}>
                     <div className="row border-bottom">
                         <nav className="navbar navbar-static-top" style={{ marginBottom: "0" }}>
                             <div className="navbar-header">

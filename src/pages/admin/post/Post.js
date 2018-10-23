@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
+import axios from 'axios';
+
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import {WhitePanel} from '../../../theme/Style';
+import { WhitePanel } from '../../../theme/Style';
 import PostInfoTable from '../../../components/admin/post/PostInfoTable';
 import Pagination from '../../../components/pagination/Pagination';
 import MessageDialog from '../../../components/dialog/MessageDialog';
@@ -44,29 +46,20 @@ class Post extends Component {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        fetch(`/admin/post/delete`, {
-                            method: 'POST',
-                            headers: {
-                                "Content-Type": "application/json; charset=utf-8"
-                            },
-                            body: JSON.stringify({ id }),
-                        }).then(
-                            res => res.json()
-                        ).then(
-                            json => {
-                                console.log(json);
-                                const { success, error } = json;
-                                if (success && !error) {
-                                    let maxCurrentPage = currentPage * noPerPage;
-                                    let totalAfterDel = totalPost - 1;
-                                    if (maxCurrentPage <= totalAfterDel || (maxCurrentPage > totalAfterDel && totalAfterDel - (currentPage - 1) * noPerPage > 0)) {
-                                        this.getPostByPage(currentPage);
-                                    } else {
-                                        this.getPostByPage(currentPage - 1);
-                                    }
+                        axios.post(`/admin/post/delete`, { id }).then(response => {
+                            const { success, error } = response.data;
+                            if (success) {
+                                let maxCurrentPage = currentPage * noPerPage;
+                                let totalAfterDel = totalPost - 1;
+                                if (maxCurrentPage <= totalAfterDel || (maxCurrentPage > totalAfterDel && totalAfterDel - (currentPage - 1) * noPerPage > 0)) {
+                                    this.getPostByPage(currentPage);
+                                } else {
+                                    this.getPostByPage(currentPage - 1);
                                 }
                             }
-                        );
+                        }).catch(err => {
+                            console.log(err);
+                        })
                     }
                 },
                 {
@@ -77,19 +70,17 @@ class Post extends Component {
     }
 
     getPostByPage(page) {
-        fetch(`/admin/post/pages/${page}`).then(
-            res => res.json()
-        ).then(
-            json => {
-                const { success, error, totalPost, posts } = json;
-                if (success && !error) {
-                    this.setState({ totalPost, currentPage: page, posts });
-                } else {
-                    console.log(error);
-                    this.setState({ error });
-                }
+        axios.get(`/admin/post/pages/${page}`).then(response => {
+            const { success, error } = response.data;
+            if (success) {
+                const { totalPost, posts } = response.data;
+                this.setState({ totalPost, currentPage: page, posts });
+            } else {
+                this.setState({ error });
             }
-        );
+        }).catch(err => {
+            console.log(err);
+        });
     }
 
     resetError() {
@@ -104,7 +95,7 @@ class Post extends Component {
     render() {
         const { totalPost, currentPage, noPerPage, posts, error } = this.state;
         return (
-            <WhitePanel style={{margin: "10px 0px 30px"}}>
+            <WhitePanel>
                 <div className="row" style={{ marginBottom: "10px", marginTop: "35px" }}>
                     <div className="col-md-12">
                         <NavLink to="/admin/posts/new" className="btn btn-success pull-right">Add new post</NavLink>
