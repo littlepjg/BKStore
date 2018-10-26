@@ -44,7 +44,7 @@ class SelectImage extends Component {
                 <label htmlFor="upload-photo"><span className="fa fa-plus btn btn-primary"> Select files</span></label>
                 <input type="file" multiple accept="image/*" id="upload-photo" onChange={this.handleSelectImage} />
                 <h3>Overview image</h3>
-                <div class="row">
+                <div className="row">
                     {files.map(file => <ItemImageAdd file={file} />)}
                 </div>
 

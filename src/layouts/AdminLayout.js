@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import $ from 'jquery';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 import SideBar from '../components/admin/SideBar';
 
@@ -40,6 +43,7 @@ class AdminLayout extends Component {
             stateWeb: true,
             hideNav: false
         }
+
         this.handleLogOut = this.handleLogOut.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
     }
@@ -68,14 +72,15 @@ class AdminLayout extends Component {
     }
 
     render() {
+        const { signOutUser, history } = this.props;
         return (
             <div id="wrapper" style={{ backgroundColor: "#f4f4f4" }}>
                 <LogoutModel className='hide' ref='modal' id='logoutModal'>
                     <p><strong>Are you sure you want to log out?</strong></p>
-                    <button className='btn' onClick={this.handleLogOut}>Yes</button>
+                    <button className='btn' onClick={() => signOutUser(history)}>Yes</button>
                     <button className='btn' onClick={this.toggleModal}>No</button>
                 </LogoutModel>
-                
+
                 <SideBar handleLogOut={this.handleLogOut} />
                 <div id="page-wrapper" className="gray-bg container-fluid" style={{ minHeight: "636px", marginLeft: "220px" }}>
                     <div className="row border-bottom">
@@ -92,4 +97,10 @@ class AdminLayout extends Component {
     }
 }
 
-export default AdminLayout;
+function mapStateToProps(state) {
+    return {
+        auth: state.auth
+    }
+}
+
+export default withRouter(connect(mapStateToProps, actions)(AdminLayout));

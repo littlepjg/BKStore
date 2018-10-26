@@ -53,6 +53,10 @@ const DivOverview = styled.div`
             background: #1ab394;
             border: 1px solid #1ab394;
         }
+
+        .hover-opacity:hover{
+            opacity: 0.9;
+        }
     }
 `
 
@@ -88,8 +92,8 @@ class ProductOverview extends Component {
                 <input type="number" id="count-product" className="form-control" min="1" max="5" value={countProduct}
                     onChange={this.handleChangeCountProduct} onKeyDown={e => e.preventDefault()} />
                 <div className="action">
-                    <button id="add-to-cart">Add to Cart</button>
-                    <button id="buy-now">Buy Now</button>
+                    <button id="add-to-cart" className="hover-opacity">Add to Cart</button>
+                    <button id="buy-now" className="hover-opacity">Buy Now</button>
                 </div>
             </DivOverview>
         );
