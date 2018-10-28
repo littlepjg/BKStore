@@ -43,31 +43,11 @@ class Header extends Component {
                     <div className="navbar-header">
                         <NavLink className="navbar-brand" to="/">BKStore</NavLink>
                     </div>
-                    {/* <ul className="nav navbar-nav navbar-right">
-                        <li className="dropdown">
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown">Dropdown <b className="caret"></b></a>
-                            <ul className="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
-                        </li>
-                    </ul> */}
                     <div>
-
                         <form action="" method="POST" role="form">
                             <input type="text" className="form-control" placeholder="Search for ..." />
                             <button type="submit" className="btn btn-primary">Search</button>
                         </form>
-                        {/*                         
-                        <form className="navbar-form navbar-left form-search" role="search">
-                            <div className="form-group">
-                                <input type="text" name="search" className="form-control" placeholder="Search" />
-                            </div>
-                            <button type="submit" className="btn btn-default"><i className="fa fa-search"></i></button>
-                        </form> */}
-
                     </div>
                 </div>
             </NavBar>

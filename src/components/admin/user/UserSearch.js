@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import * as actions from '../../../actions/admin_user_action';
 
 const FormUser = styled.form`
     padding: 5px 0 35px 0;
@@ -18,20 +20,28 @@ const FormUser = styled.form`
 `;
 
 class UserSearch extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchValue: ''
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault();
-        this.props.getUserByEmail();
+        this.props.getUsersByPage(1, this.state.searchValue);
     }
 
     render() {
-        const { totalUser, searchValue, handleChangeSearch } = this.props;
+        const { searchValue } = this.state;
+        const { totalUser } = this.props;
         return (
             <div>
                 <h3>Total Users: {totalUser}</h3>
 
                 <FormUser onSubmit={event => this.handleSubmit(event)}>
                     <input type="text" className="form-control input-sm" placeholder="Search for users by email"
-                        value={searchValue} onChange={(e) => handleChangeSearch(e.target.value)} />
+                        value={searchValue} onChange={(e) => this.setState({ searchValue: e.target.value })} />
                     <button type="submit" className="btn btn-primary btn-sm">Search</button>
                 </FormUser>
             </div>
@@ -39,4 +49,10 @@ class UserSearch extends Component {
     }
 }
 
-export default UserSearch;
+function mapStateToProps(state) {
+    return {
+        totalUser: state.admin.user.totalUser
+    }
+}
+
+export default connect(mapStateToProps, actions)(UserSearch);

@@ -16,7 +16,7 @@ export function signInUser({ email, passwd }) {
                 }
             })
             .catch(error => {
-                if (error.response.status == 401) {
+                if (error.response.status === 401) {
                     dispatch(authError('Invalid email or password.'));
                 }
             });

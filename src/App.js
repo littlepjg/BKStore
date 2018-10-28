@@ -48,70 +48,70 @@ class App extends Component {
         <Switch>
           {/* route admin */}
           {/* {user && user.level == 2 && routes.admin.map((route) => routeAdmin(route))} */}
-          <Route exact path="/admin" render={props => level && level == 2 ? (
+          <Route exact path="/admin" render={props => level && level === 2 ? (
             <AdminLayout>
               <Home {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/users" render={props => level && level == 2 ? (
+          <Route exact path="/admin/users" render={props => level && level === 2 ? (
             <AdminLayout>
               <User {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/posts" render={props => level && level == 2 ? (
+          <Route exact path="/admin/posts" render={props => level && level === 2 ? (
             <AdminLayout>
               <Post {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/posts/new" render={props => level && level == 2 ? (
+          <Route exact path="/admin/posts/new" render={props => level && level === 2 ? (
             <AdminLayout>
               <CUPost {...props} newPost={true} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/posts/edit/:id" render={props => level && level == 2 ? (
+          <Route exact path="/admin/posts/edit/:id" render={props => level && level === 2 ? (
             <AdminLayout>
               <CUPost {...props} newPost={false} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/products" render={props => level && level == 2 ? (
+          <Route exact path="/admin/products" render={props => level && level === 2 ? (
             <AdminLayout>
               <Home {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/product/add" render={props => level && level == 2 ? (
+          <Route exact path="/admin/product/add" render={props => level && level === 2 ? (
             <AdminLayout>
               <AddProduct {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/product/attributes" render={props => level && level == 2 ? (
+          <Route exact path="/admin/product/attributes" render={props => level && level === 2 ? (
             <AdminLayout>
               <ProductAttribute {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/statistical/revenue" render={props => level && level == 2 ? (
+          <Route exact path="/admin/statistical/revenue" render={props => level && level === 2 ? (
             <AdminLayout>
               <RevenueStatistic {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/statistical/product" render={props => level && level == 2 ? (
+          <Route exact path="/admin/statistical/product" render={props => level && level === 2 ? (
             <AdminLayout>
               <ProductStatistic {...props} />
             </AdminLayout>

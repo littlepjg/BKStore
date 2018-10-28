@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { NavLink, Redirect, withRouter } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// import history from '../../history';
 import * as actions from '../../actions';
 
 const initialState = {
