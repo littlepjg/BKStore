@@ -94,7 +94,6 @@ class CUPost extends Component {
 
     render() {
         const { title, content, newPost, message } = this.state;
-        console.log("prop: ", this.props);
         return (
             <WhitePanel>
                 <form onSubmit={this.handleSubmit}>

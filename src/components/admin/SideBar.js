@@ -62,10 +62,6 @@ const Navbar = styled.nav`
 `;
 
 class SideBar extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { handleLogOut } = this.props;
         return (
@@ -92,6 +88,7 @@ class SideBar extends Component {
                             <ul id="product" className="nav nav-second-level collapse">
                                 <li><NavLink to="/admin/products">Sản phẩm hiện có</NavLink></li>
                                 <li><NavLink to="/admin/product/add">Thêm sản phẩm</NavLink></li>
+                                <li><NavLink to="/admin/product/attributes">Thuộc tính sản phẩm</NavLink></li>
                             </ul>
                         </li>
                         <li>
@@ -102,7 +99,7 @@ class SideBar extends Component {
                             </ul>
                         </li>
                         <li>
-                            <a style={{cursor: "pointer"}} onClick={e => {
+                            <a style={{ cursor: "pointer" }} onClick={e => {
                                 e.preventDefault();
                                 handleLogOut();
                             }}><i className="fa fa-sign-out"></i> <span className="nav-label">Đăng xuất</span></a>

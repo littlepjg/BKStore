@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import axios from 'axios';
+import { NavLink, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import * as actions from '../../actions';
 
 const initialState = {
     email: '',
     passwd: '',
-    error: ''
+    error: '',
 }
 
 class SignIn extends Component {
@@ -17,7 +19,7 @@ class SignIn extends Component {
     }
 
     clearState() {
-        this.setState({ ...initialState })
+        this.setState({ ...initialState });
     }
 
     handleChange(event) {
@@ -31,13 +33,7 @@ class SignIn extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const { email, passwd } = this.state;
-        axios.post('http://localhost:5000/user/login', { email, passwd }).then(response => {
-            console.log(response);
-        }).catch(error => {
-            if (error.response.status == 401) {
-                this.setState({ error: 'Invalid email or password.' });
-            }
-        })
+        this.props.signInUser({ email, passwd });
     }
 
     validateForm() {
@@ -48,7 +44,13 @@ class SignIn extends Component {
     }
 
     render() {
-        const { email, passwd, error } = this.state;
+        let { from } = this.props.location.state || { from: undefined };
+        const { email, passwd } = this.state;
+        const { error } = this.props.auth;
+        if (this.props.auth.authenticated) {
+            from = from ? from : this.props.auth.user.level === 2 ? { pathname: "/admin" } : { pathname: "/" };
+            return <Redirect to={from} />;
+        }
 
         return (
             <div className="container">
@@ -92,4 +94,10 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+function mapStateToProps(state) {
+    return {
+        auth: state.auth
+    }
+}
+
+export default connect(mapStateToProps, actions)(SignIn);

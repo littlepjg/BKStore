@@ -26,7 +26,7 @@ class Thumbnails extends Component {
 
     handleChangeImage(e, i) {
         const { currentThumbnail } = this.state;
-        if (currentThumbnail != i) {
+        if (currentThumbnail !== i) {
             this.setState({ currentThumbnail: i });
             this.props.handleChangeImage(i);
         }
@@ -38,7 +38,7 @@ class Thumbnails extends Component {
         return (
             <div>
                 {thumbnails.map((thumbnail, i) => (
-                    <ThumbnailButton keys={i} onClick={e => this.handleChangeImage(e, i)} active={i == currentThumbnail}>
+                    <ThumbnailButton keys={i} onClick={e => this.handleChangeImage(e, i)} active={i === currentThumbnail}>
                         <img src={thumbnail} alt="thumbnail-product" />
                     </ThumbnailButton>
                 ))}
