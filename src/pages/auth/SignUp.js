@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import axios from 'axios';
+import { NavLink, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import * as actions from '../../actions';
 
 const initialState = {
     full_name: '',
     email: '',
     passwd: '',
-    passwordConfirm: '',
-    error: '',
-    passwordMatch: false
+    passwordConfirm: ''
 }
 
 class SignUp extends Component {
@@ -31,26 +31,10 @@ class SignUp extends Component {
         });
     }
 
-    confirmPW() {
-        const { password, passwordConfirm } = this.state
-        const isMatch = password === passwordConfirm && password.length > 7;
-        this.setState({
-            passwordMatch: isMatch
-        });
-    }
-
     handleSubmit(event) {
         event.preventDefault();
         const { full_name, email, passwd } = this.state;
-        let user = {
-            full_name,
-            email,
-            passwd
-        }
-        axios.post('http://localhost:5000/user/register', user).then(response => {
-            const { success, error } = response.data;
-            this.setState({ error });
-        })
+        this.props.signUpUser({ full_name, email, passwd });
     }
 
     validateForm() {
@@ -60,7 +44,14 @@ class SignUp extends Component {
     }
 
     render() {
-        const { full_name, email, passwd, passwordConfirm, error } = this.state;
+        const { full_name, email, passwd, passwordConfirm } = this.state;
+        let { from } = this.props.location.state || { from: undefined };
+        const { error } = this.props.auth;
+        if (this.props.auth.authenticated) {
+            from = from ? from : this.props.auth.user.level === 2 ? { pathname: "/admin" } : { pathname: "/" };
+            return <Redirect to={from} />;
+        }
+
         return (
             <div className="container">
                 <div className="row">
@@ -110,4 +101,10 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp;
+function mapStateToProps(state) {
+    return {
+        auth: state.auth
+    }
+}
+
+export default connect(mapStateToProps, actions)(SignUp);

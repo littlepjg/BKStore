@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import UserRow from './UserRow';
+import { connect } from 'react-redux';
 
+import UserRow from './UserRow';
 
 class UserInfoTable extends Component {
     render() {
-        const { users, currentPage, noPerPage, deleteUser } = this.props;
+        const { users, currentPage, noPerPage } = this.props.user;
         return (
             <div className="table-responsive">
                 <table className="table table-bordered table-hover table-striped">
@@ -18,7 +19,7 @@ class UserInfoTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user, index) => <UserRow key={user.id} pos={(currentPage - 1) * noPerPage + index + 1} user={user} deleteUser={deleteUser} />)}
+                        {users.map((user, index) => <UserRow key={user.id} pos={(currentPage - 1) * noPerPage + index + 1} userInfo={user} />)}
                     </tbody>
                 </table>
             </div>
@@ -26,4 +27,10 @@ class UserInfoTable extends Component {
     }
 }
 
-export default UserInfoTable;
+function mapStateToProps(state) {
+    return {
+        user: state.admin.user
+    }
+}
+
+export default connect(mapStateToProps)(UserInfoTable);

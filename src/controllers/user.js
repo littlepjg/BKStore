@@ -28,9 +28,25 @@ route.post("/register", (req, res) => {
             user.passwd = helper.hashPassword(user.passwd);
             user.created_at = new Date();
             user.updated_at = new Date();
+
+            // id, full_name, email, phone_number, address, level
             user_md.addUser(user, (err, result) => {
                 if (!err) {
-                    res.json({ success: true, error: '', message: 'Thêm tài khoản thành công' });
+                    user_md.getUserById(result.insertId, (err, users) => {
+                        const { id, full_name, email, phone_number, address, level } = users[0];
+                        res.json({
+                            success: true,
+                            error: '',
+                            message: 'Thêm tài khoản thành công',
+                            user: {
+                                id,
+                                full_name,
+                                email, phone_number,
+                                address,
+                                level
+                            }
+                        });
+                    })
                 } else {
                     res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
                 }
