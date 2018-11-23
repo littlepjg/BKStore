@@ -22,6 +22,14 @@ class SelectImage extends Component {
             files: []
         }
         this.handleSelectImage = this.handleSelectImage.bind(this);
+        this.deleteImage = this.deleteImage.bind(this);
+    }
+
+    deleteImage(index) {
+        this.setState(({ files }) => {
+            files.splice(index, 1);
+            return { files }
+        })
     }
 
     handleSelectImage(e) {
@@ -35,9 +43,7 @@ class SelectImage extends Component {
 
     render() {
         const { files } = this.state;
-        if (files.length > 0) {
-            console.log("files: ", files[0].name);
-        }
+
         return (
             <Container className="col-md-6">
                 <legend>Images</legend>
@@ -45,9 +51,8 @@ class SelectImage extends Component {
                 <input type="file" multiple accept="image/*" id="upload-photo" onChange={this.handleSelectImage} />
                 <h3>Overview image</h3>
                 <div className="row">
-                    {files.map(file => <ItemImageAdd file={file} />)}
+                    {files.map((file, index) => <ItemImageAdd key={index} file={file} pos={index} deleteImage={this.deleteImage} />)}
                 </div>
-
             </Container>
         );
     }

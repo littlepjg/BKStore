@@ -7,8 +7,8 @@
         "host": "localhost",
         "port": 3306,
         "database": "website-sale",
-        "user": "root",
-        "password": "1234"
+        "user": "devuser",
+        "password": "password"
     },
     "salt": 10,
     "secret_key": "secretkey",
