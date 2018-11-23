@@ -92,6 +92,9 @@ class SideBar extends Component {
                             </ul>
                         </li>
                         <li>
+                            <NavLink to="/admin/bills"><i className="fa fa-shopping-bag"></i> <span className="nav-label">Quản lý đơn hàng</span></NavLink>
+                        </li>
+                        <li>
                             <a href="#statistical" data-toggle="collapse"><i className="fa fa-bar-chart-o"></i> <span className="nav-label">Thống kê</span><span className="fa arrow"></span></a>
                             <ul id="statistical" className="nav nav-second-level collapse">
                                 <li><NavLink to="/admin/statistical/revenue">Thống kê doanh thu</NavLink></li>

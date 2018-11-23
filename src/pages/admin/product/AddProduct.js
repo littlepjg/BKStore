@@ -54,7 +54,28 @@ class AddProduct extends Component {
                                 <div className="col-xs-8 col-sm-4">
                                     <label htmlFor="quantity">Quantity</label>
                                     <input type="number" className="form-control" id="quantity" name="quantity"
-                                        defaultValue="0" min="0"/>
+                                        defaultValue="0" min="0" />
+                                </div>
+                            </div>
+
+                            <div className="row" style={{position: "relative"}}>
+                                <div className="col-xs-12 col-sm-6">
+                                    <label htmlFor="product-type">Product Attributes</label>
+                                    <select name="product_attributes" id="product-type" className="form-control">
+                                        <option value="1">CPU</option>
+                                        <option value="2">Bộ nhớ</option>
+                                        <option value="2">RAM</option>
+                                    </select>
+                                </div>
+
+                                <div className="col-xs-8 col-sm-4">
+                                    <label htmlFor="quantity">Value</label>
+                                    <input type="text" className="form-control" id="attribute_value" name="attribute_value"
+                                        defaultValue="0" min="0" />
+                                </div>
+
+                                <div className="col-xs-4 col-sm-2" style={{position: "absolute", bottom: "0px", right: "0px" }}>
+                                    <button type="button" className="btn btn-success">Add</button>
                                 </div>
                             </div>
 
