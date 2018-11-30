@@ -19,19 +19,22 @@ const NavBar = styled.nav`
         color: #ffffff;
     }
 
-    form {
-        display: flex;
-    }
-
-    form input {
-        border-top-right-radius: 0px;
-        border-bottom-right-radius: 0px;
-    }
-
-    form button {
-        border-top-left-radius: 0px;
-        border-bottom-left-radius: 0px;
-        padding-left: 30px;
+    div.div-search {
+        width: 60%;
+        form {
+            display: flex;
+            input {
+                border-top-right-radius: 0px;
+                border-bottom-right-radius: 0px;
+                height: 42px;
+            }
+            button {
+                border-top-left-radius: 0px;
+                border-bottom-left-radius: 0px;
+                padding-left: 30px;
+                height: 42px;
+            }
+        }
     }
 `;
 
@@ -43,9 +46,9 @@ class Header extends Component {
                     <div className="navbar-header">
                         <NavLink className="navbar-brand" to="/">BKStore</NavLink>
                     </div>
-                    <div>
+                    <div className="div-search">
                         <form action="" method="POST" role="form">
-                            <input type="text" className="form-control" placeholder="Search for ..." />
+                            <input type="text" className="form-control" placeholder="Tìm kiếm trên BKStore" />
                             <button type="submit" className="btn btn-primary">Search</button>
                         </form>
                     </div>
