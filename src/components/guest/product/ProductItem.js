@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+
+import logo from './products-01.png';
 
 const Container = styled.div`
     border: 1px solid #e1e1e1;
@@ -51,10 +54,11 @@ const Container = styled.div`
     }
 
     .button_group {
-        float: left;
         margin-bottom: 10px;
         width: 100%;
         text-align: center;
+        display: flex;
+        justify-content: center;
         .button {
             margin: 0 3px 5px 3px;
             border-radius: 10px;
@@ -79,8 +83,8 @@ const Container = styled.div`
         }
 
         .wishlist {
-            padding: 9px 10px;
-            font-size: 14px;
+            padding: 2px 10px;
+            font-size: 24px;
         }
     }
 }
@@ -91,13 +95,13 @@ class ProductItem extends Component {
         return (
             <Container className="products">
                 <div className="thumbnail">
-                    <a href="details.html"><img src="/upload/products-01.png" alt="Product Name" /></a>
+                    <NavLink to="/product/detail/1"><img src={logo} alt="Product Name" /></NavLink>
                 </div>
                 <div className="productname">Iphone 5s Gold 32 Gb 2013</div>
                 <h4 className="price">$451.00</h4>
                 <div className="button_group">
-                    <button class="button add-cart" type="button">Add To Cart</button>
-                    <button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button>
+                    <button className="button add-cart" type="button">Add To Cart</button>
+                    <button className="button wishlist" type="button"><i className="fa fa-heart-o"></i></button>
                 </div>
             </Container>
         )

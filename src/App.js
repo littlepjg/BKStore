@@ -29,6 +29,7 @@ import ProductFavorite from './pages/guest/ProductFavorite';
 import UserOrder from './pages/guest/UserOrder';
 import SearchProduct from './pages/guest/SearchProduct';
 import HomePage from './pages/guest/HomePage';
+import ShoppingCart from './pages/guest/ShoppingCart';
 
 const Home = () => <h3>Home</h3>;
 
@@ -163,9 +164,9 @@ class App extends Component {
               <ProductFavorite />
             </GuestLayout>
           )} />
-          <Route exact path="/user/card" render={props => (
+          <Route exact path="/user/cart" render={props => (
             <GuestLayout>
-              <ProductFavorite />
+              <ShoppingCart />
             </GuestLayout>
           )} />
           <Route exact path="/product/search" render={props => (
@@ -173,7 +174,7 @@ class App extends Component {
               <SearchProduct {...props} />
             </GuestLayout>
           )} />
-          <Route exact path="/product/detail" render={props => (
+          <Route exact path="/product/detail/:id" render={props => (
             <GuestLayout>
               <ProductDetail {...props} />
             </GuestLayout>
