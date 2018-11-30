@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const NavBar = styled.nav`
     background: #f4f4f4;
-
+    margin: 0px;
     .container {
         display: flex;
         align-items: center;
