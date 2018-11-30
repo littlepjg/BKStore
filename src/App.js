@@ -2,17 +2,12 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-//using boostrap css
+// using boostrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './App.css';
 
-import GuestLayout from './layouts/GuestLayout';
-import SignIn from './pages/auth/SignIn';
-import SignUp from './pages/auth/SignUp';
-import ForgotPassword from './pages/auth/ForgotPassword';
-import ProductDetail from './pages/product/ProductDetail';
-
+// admin layout
 import AdminLayout from './layouts/AdminLayout';
 import User from './pages/admin/User';
 import Post from './pages/admin/post/Post';
@@ -22,6 +17,18 @@ import ProductStatistic from './pages/admin/statistical/ProductStatistic';
 import NotFound from './pages/404';
 import AddProduct from './pages/admin/product/AddProduct';
 import ProductAttribute from './pages/admin/product/ProductAttribute';
+
+// user layout
+import GuestLayout from './layouts/GuestLayout';
+import SignIn from './pages/auth/SignIn';
+import SignUp from './pages/auth/SignUp';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ProductDetail from './pages/guest/ProductDetail';
+import Profile from './pages/guest/Profile';
+import ProductFavorite from './pages/guest/ProductFavorite';
+import UserOrder from './pages/guest/UserOrder';
+import SearchProduct from './pages/guest/SearchProduct';
+import HomePage from './pages/guest/HomePage';
 
 const Home = () => <h3>Home</h3>;
 
@@ -123,7 +130,7 @@ class App extends Component {
           {/* {routes.guest.map((route) => routeGuest(route))} */}
           <Route exact path="/" render={props => (
             <GuestLayout>
-              <Home {...props} />
+              <HomePage {...props} />
             </GuestLayout>
           )} />
           <Route exact path="/user/signin" render={props => (
@@ -139,6 +146,31 @@ class App extends Component {
           <Route exact path="/user/forgotpassword" render={props => (
             <GuestLayout>
               <ForgotPassword {...props} />
+            </GuestLayout>
+          )} />
+          <Route exact path="/user/account" render={props => (
+            <GuestLayout>
+              <Profile />
+            </GuestLayout>
+          )} />
+          <Route exact path="/user/orders" render={props => (
+            <GuestLayout>
+              <UserOrder />
+            </GuestLayout>
+          )} />
+          <Route exact path="/user/favorites" render={props => (
+            <GuestLayout>
+              <ProductFavorite />
+            </GuestLayout>
+          )} />
+          <Route exact path="/user/card" render={props => (
+            <GuestLayout>
+              <ProductFavorite />
+            </GuestLayout>
+          )} />
+          <Route exact path="/product/search" render={props => (
+            <GuestLayout>
+              <SearchProduct {...props} />
             </GuestLayout>
           )} />
           <Route exact path="/product/detail" render={props => (
