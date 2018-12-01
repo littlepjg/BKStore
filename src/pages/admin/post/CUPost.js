@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import MessageDialog from '../../../../src/components/dialog/MessageDialog';
+import BackButton from '../../../components/BackButton';
 
 class CUPost extends Component {
     constructor(props) {
@@ -96,6 +97,7 @@ class CUPost extends Component {
         const { title, content, newPost, message } = this.state;
         return (
             <div>
+                <BackButton />
                 <TitlePanel>
                     <h3>{newPost ? "Thêm bài viết" : "Chỉnh sửa bài viết"}</h3>
                 </TitlePanel>

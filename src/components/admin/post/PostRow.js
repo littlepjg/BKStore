@@ -49,8 +49,8 @@ class PostRow extends Component {
                 <td>{content}</td>
                 <td><a href={linkto}>{linkto}</a></td>
                 <td>
-                    <NavLink to={`/admin/posts/edit/${id}`} className="btn btn-primary">Edit</NavLink>
-                    <button className="btn btn-danger" onClick={() => this.deletePost(id)}>Delete</button>
+                    <NavLink to={`/admin/posts/edit/${id}`} className="btn btn-primary">Chỉnh sửa</NavLink>
+                    <button className="btn btn-danger" onClick={() => this.deletePost(id)}>Xóa</button>
                 </td>
             </tr >
         );

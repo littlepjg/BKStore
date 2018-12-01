@@ -11,12 +11,14 @@ import './App.css';
 
 // admin layout
 import AdminLayout from './layouts/AdminLayout';
+import DashBoard from './pages/admin/DashBoard';
 import User from './pages/admin/User';
 import Post from './pages/admin/post/Post';
 import CUPost from './pages/admin/post/CUPost';
 import RevenueStatistic from './pages/admin/statistical/RevenueStatistic';
 import ProductStatistic from './pages/admin/statistical/ProductStatistic';
 import NotFound from './pages/404';
+import ProductList from './pages/admin/product/ProductList';
 import AddProduct from './pages/admin/product/AddProduct';
 import ProductAttribute from './pages/admin/product/ProductAttribute';
 import BillOfSale from './pages/admin/bill/BillOfSale';
@@ -34,8 +36,6 @@ import SearchProduct from './pages/guest/SearchProduct';
 import HomePage from './pages/guest/HomePage';
 import ShoppingCart from './pages/guest/ShoppingCart';
 import BillDetail from './pages/admin/bill/BillDetail';
-
-const Home = () => <h3>Home</h3>;
 
 class App extends Component {
   render() {
@@ -60,9 +60,9 @@ class App extends Component {
         <Switch>
           {/* route admin */}
           {/* {user && user.level == 2 && routes.admin.map((route) => routeAdmin(route))} */}
-          <Route exact path="/admin" render={props => level && level === 2 ? (
+          <Route exact path="/admin/dashboard" render={props => level && level === 2 ? (
             <AdminLayout>
-              <Home {...props} />
+              <DashBoard {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
@@ -97,7 +97,7 @@ class App extends Component {
             )} />
           <Route exact path="/admin/products" render={props => level && level === 2 ? (
             <AdminLayout>
-              <Home {...props} />
+              <ProductList {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)

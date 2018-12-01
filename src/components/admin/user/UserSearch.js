@@ -37,12 +37,12 @@ class UserSearch extends Component {
         const { totalUser } = this.props;
         return (
             <div>
-                <h3>Total Users: {totalUser}</h3>
+                <h3>Số lượng: {totalUser}</h3>
 
                 <FormUser onSubmit={event => this.handleSubmit(event)}>
-                    <input type="text" className="form-control input-sm" placeholder="Search for users by email"
+                    <input type="text" className="form-control input-sm" placeholder="Tìm kiếm bằng email"
                         value={searchValue} onChange={(e) => this.setState({ searchValue: e.target.value })} />
-                    <button type="submit" className="btn btn-primary btn-sm">Search</button>
+                    <button type="submit" className="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
                 </FormUser>
             </div>
         );

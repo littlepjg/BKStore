@@ -3,6 +3,7 @@ import CKEditor from 'react-ckeditor-wrapper';
 import styled from 'styled-components';
 
 import { TitlePanel, WhitePanel } from '../../../theme/Style';
+import BackButton from '../../../components/BackButton';
 import SelectImage from '../../../components/admin/product/SelectImage';
 
 const GenaralIfo = styled.div`
@@ -30,6 +31,7 @@ class AddProduct extends Component {
         const { description } = this.state;
         return (
             <div>
+                <BackButton />
                 <TitlePanel>
                     <h3>Thêm sản phẩm</h3>
                 </TitlePanel>

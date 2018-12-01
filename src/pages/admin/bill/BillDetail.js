@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import BillDetailRow from '../../../components/admin/bill/BillDetailRow';
 import ViewProductImages from '../../../components/admin/bill/ViewProductImages';
+import BackButton from '../../../components/BackButton';
 
 const Container = styled.div`
     h4 {
@@ -60,6 +61,7 @@ class BillDetail extends Component {
 
         return (
             <Container>
+                <BackButton />
                 <TitlePanel>
                     <h3>Chi tiết đơn hàng</h3>
                 </TitlePanel>

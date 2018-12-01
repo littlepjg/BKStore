@@ -78,16 +78,21 @@ class SideBar extends Component {
                             </div>
                         </li>
                         <li>
+                            <NavLink to="/admin/dashboard"><i class="fa fa-tachometer"></i> <span className="nav-label">Dashboard</span></NavLink>
+                        </li>
+                        <li>
                             <NavLink to="/admin/posts"><i className="fa fa-newspaper-o"></i> <span className="nav-label">Bài viết</span></NavLink>
                         </li>
                         <li>
                             <NavLink to="/admin/users"><i className="fa fa-user"></i> <span className="nav-label">Quản lý người dùng</span></NavLink>
                         </li>
                         <li>
-                            <a href="#product" data-toggle="collapse"><i className="fa fa-archive"></i> <span className="nav-label">Quản lý sản phẩm </span><i className="fa fa-chevron-down"></i></a>
+                            <a href="#product" data-toggle="collapse" style={{ position: "relative" }}>
+                                <i className="fa fa-archive"></i>
+                                <span className="nav-label">Quản lý sản phẩm </span>
+                                <i className="fa fa-chevron-down" style={{ position: "absolute", right: 10 }}></i></a>
                             <ul id="product" className="nav nav-second-level collapse">
                                 <li><NavLink to="/admin/products">Sản phẩm hiện có</NavLink></li>
-                                <li><NavLink to="/admin/product/add">Thêm sản phẩm</NavLink></li>
                                 <li><NavLink to="/admin/product/attributes">Thuộc tính sản phẩm</NavLink></li>
                             </ul>
                         </li>

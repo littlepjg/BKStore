@@ -49,7 +49,7 @@ class Post extends Component {
                 <WhitePanel>
                     <div className="row" style={{ marginBottom: "10px", marginTop: "35px" }}>
                         <div className="col-md-12">
-                            <NavLink to="/admin/posts/new" className="btn btn-success pull-right">Add new post</NavLink>
+                            <NavLink to="/admin/posts/new" className="btn btn-success pull-right">Tạo mới</NavLink>
                         </div>
                     </div>
                     <PostInfoTable />

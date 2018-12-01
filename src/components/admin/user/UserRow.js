@@ -47,7 +47,7 @@ class UserRow extends Component {
                 <td>{full_name}</td>
                 <td>{email}</td>
                 <td>{address}</td>
-                <td><button type="button" className="btn btn-danger" onClick={() => this.deleteUser(id)}>Delete</button></td>
+                <td><button type="button" className="btn btn-danger" onClick={() => this.deleteUser(id)}>Xóa</button></td>
             </tr>
         );
     }
