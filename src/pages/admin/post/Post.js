@@ -6,7 +6,7 @@ import * as actions from '../../../actions/admin_post_actions';
 
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import { WhitePanel } from '../../../theme/Style';
+import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import PostInfoTable from '../../../components/admin/post/PostInfoTable';
 import Pagination from '../../../components/pagination/Pagination';
 import MessageDialog from '../../../components/dialog/MessageDialog';
@@ -41,17 +41,23 @@ class Post extends Component {
     render() {
         const { totalPost, currentPage, noPerPage, error } = this.props.post;
         return (
-            <WhitePanel>
-                <div className="row" style={{ marginBottom: "10px", marginTop: "35px" }}>
-                    <div className="col-md-12">
-                        <NavLink to="/admin/posts/new" className="btn btn-success pull-right">Add new post</NavLink>
+            <div>
+                <TitlePanel>
+                    <h3>Quản lý bài viết</h3>
+                </TitlePanel>
+
+                <WhitePanel>
+                    <div className="row" style={{ marginBottom: "10px", marginTop: "35px" }}>
+                        <div className="col-md-12">
+                            <NavLink to="/admin/posts/new" className="btn btn-success pull-right">Tạo mới</NavLink>
+                        </div>
                     </div>
-                </div>
-                <PostInfoTable />
-                <Pagination currentPage={currentPage} total={totalPost} noPerPage={noPerPage}
-                    getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
-                {error && <MessageDialog title={"Message"} message={error} resetMessage={this.resetError} />}
-            </WhitePanel>
+                    <PostInfoTable />
+                    <Pagination currentPage={currentPage} total={totalPost} noPerPage={noPerPage}
+                        getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
+                    {error && <MessageDialog title={"Message"} message={error} resetMessage={this.resetError} />}
+                </WhitePanel>
+            </div>
         );
     }
 }
