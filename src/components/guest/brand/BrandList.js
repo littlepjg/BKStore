@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import BrandItem from './BrandItem';
 
 const Container = styled.div`
     float: left;
@@ -85,55 +86,21 @@ const Container = styled.div`
 `;
 class BrandList extends Component {
     render() {
+        const images = [
+            "https://vn-live-03.slatic.net/original/65fa75cabea090540e56620e95f73146.jpg",
+            "https://vn-live-03.slatic.net/original/9593a960fd8c7805479ff31fa0fcc137.jpg",
+            "https://vn-live-03.slatic.net/original/e4b0daccf569b22374baa62c1b3abe20.jpg",
+            "https://vn-live-03.slatic.net/original/60c41a048a95b384c0161a4f0a3d23cf.jpg",
+            "https://vn-live-02.slatic.net/original/349fda9f47121ca7555d7fb7d18f16c4.jpg",
+            "https://vn-live-03.slatic.net/original/ae57fd39b2931db0ba35fbc84689e708.jpg",
+        ];
         return (
             <Container className="our-brand">
-                <h3 className="title"><strong>Logo nhà sản xuất</strong></h3>
+                <h3 className="title"><strong>Brand</strong></h3>
                 <ul id="brandLogo">
                     <li>
                         <ul className="brand_item">
-                            <li>
-                                <a href="#">
-                                    <div className="brand-logo">
-                                        <img src="https://vn-live-03.slatic.net/original/65fa75cabea090540e56620e95f73146.jpg" alt />
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div className="brand-logo">
-                                        <img src="https://vn-live-03.slatic.net/original/9593a960fd8c7805479ff31fa0fcc137.jpg" alt />
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div className="brand-logo">
-                                        <img src="https://vn-live-03.slatic.net/original/e4b0daccf569b22374baa62c1b3abe20.jpg" alt />
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div className="brand-logo">
-                                        <img src="https://vn-live-03.slatic.net/original/60c41a048a95b384c0161a4f0a3d23cf.jpg" alt />
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#">
-                                    <div className="brand-logo">
-                                        <img src="https://vn-live-03.slatic.net/original/ae57fd39b2931db0ba35fbc84689e708.jpg" alt />
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div className="brand-logo">
-                                        <img src="https://vn-live-02.slatic.net/original/349fda9f47121ca7555d7fb7d18f16c4.jpg" alt />
-                                    </div>
-                                </a>
-                            </li>
+                            {images.map((image, key)=> <BrandItem key={key} imageURL={image}/>)}
                         </ul>
                     </li>
 
