@@ -95,7 +95,7 @@ class ProductItem extends Component {
         return (
             <Container className="products">
                 <div className="thumbnail">
-                    <NavLink to="/product/detail/1"><img src={logo} alt="Product Name" /></NavLink>
+                    <a href="product/detail"><img src="/upload/products-01.png" alt="Product Name" /></a>
                 </div>
                 <div className="productname">Iphone 5s Gold 32 Gb 2013</div>
                 <h4 className="price">$451.00</h4>
