@@ -15,42 +15,35 @@ route.get('/', (req, res) => {
 
 route.post("/register", (req, res) => {
     let user = req.body;
-    let message = {
-        success: true,
-        error: ''
-    }
-    user_md.getUserByEmail(user.email, (err, users) => {
-        if (err) {
-            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
-        } else if (users.length > 0) {
-            res.json({ success: false, error: 'Email đã được sử dụng' });
-        } else {
-            user.passwd = helper.hashPassword(user.passwd);
-            user.created_at = new Date();
-            user.updated_at = new Date();
 
-            // id, full_name, email, phone_number, address, level
-            user_md.addUser(user, (err, result) => {
-                if (!err) {
-                    user_md.getUserById(result.insertId, (err, users) => {
-                        const { id, full_name, email, phone_number, address, level } = users[0];
-                        res.json({
-                            success: true,
-                            error: '',
-                            message: 'Thêm tài khoản thành công',
-                            user: {
-                                id,
-                                full_name,
-                                email, phone_number,
-                                address,
-                                level
-                            }
-                        });
-                    })
-                } else {
-                    res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
-                }
-            });
+    user.passwd = helper.hashPassword(user.passwd);
+    user.created_at = new Date();
+    user.updated_at = new Date();
+
+    // id, full_name, email, phone_number, address, level
+    user_md.addUser(user, (err, result) => {
+        if (!err) {
+            user_md.getUserById(result.insertId, (err, users) => {
+                const { id, full_name, email, phone_number, address, level } = users[0];
+                res.json({
+                    success: true,
+                    error: '',
+                    message: 'Thêm tài khoản thành công',
+                    user: {
+                        id,
+                        full_name,
+                        email, phone_number,
+                        address,
+                        level
+                    }
+                });
+            })
+        } else {
+            if (err.code == 'ER_DUP_ENTRY') {
+                res.json({ success: false, error: 'Email đã được sử dụng' });
+            } else {
+                res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
+            }
         }
     });
 });

@@ -12,10 +12,10 @@ class UserInfoTable extends Component {
                     <thead>
                         <tr>
                             <th>STT</th>
-                            <th>Full Name</th>
+                            <th>Họ Tên</th>
                             <th>Email</th>
-                            <th>Address</th>
-                            <th>Delete</th>
+                            <th>Địa chỉ</th>
+                            <th>Hoạt động</th>
                         </tr>
                     </thead>
                     <tbody>
