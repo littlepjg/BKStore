@@ -3,6 +3,7 @@ import ProductItem from '../../components/guest/product/ProductItem';
 import BottomHeader from '../../components/guest/BottomHeader';
 import ProductList from '../../components/guest/product/ProductList';
 import HomeSlider from '../../components/guest/HomeSlider';
+import BrandList from '../../components/guest/brand/BrandList';
 
 class HomePage extends Component {
     constructor(props) {
@@ -38,6 +39,10 @@ class HomePage extends Component {
                         <ProductList key={2} productListName="Máy tính Laptop"/>
                     </div>
                 </div>
+
+                
+                <BrandList />
+                
             </div>
         )
     }
