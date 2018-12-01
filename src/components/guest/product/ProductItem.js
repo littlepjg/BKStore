@@ -96,8 +96,8 @@ class ProductItem extends Component {
                 <div className="productname">Iphone 5s Gold 32 Gb 2013</div>
                 <h4 className="price">$451.00</h4>
                 <div className="button_group">
-                    <button class="button add-cart" type="button">Add To Cart</button>
-                    <button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button>
+                    <button className="button add-cart" type="button">Add To Cart</button>
+                    <button className="button wishlist" type="button"><i className="fa fa-heart-o"></i></button>
                 </div>
             </Container>
         )

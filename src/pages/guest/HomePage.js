@@ -30,21 +30,12 @@ class HomePage extends Component {
                 </div>
                 <div className="row">
                     <div className="col">
-                        <ProductList />
+                        <ProductList key={1} productListName="Điện thoại di động"/>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-3">
-                        <ProductItem />
-                    </div>
-                    <div className="col-md-3">
-                        <ProductItem />
-                    </div>
-                    <div className="col-md-3">
-                        <ProductItem />
-                    </div>
-                    <div className="col-md-3">
-                        <ProductItem />
+                    <div className="col">
+                        <ProductList key={2} productListName="Máy tính Laptop"/>
                     </div>
                 </div>
             </div>

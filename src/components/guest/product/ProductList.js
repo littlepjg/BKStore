@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import styed from 'styled-components';
 import ProductItem from './ProductItem';
-// import left from './images/arrow_left.png';
-// import right from './images/arrow_right.png';
 
 const Container = styed.div`
     float: left;
@@ -10,100 +8,127 @@ const Container = styed.div`
     position: relative;
     padding: 15px 10px 0 10px;
     margin: 0;
-    #list{
-        margin: 0;
-        padding: 0;
-        display: block;
-        float: left;
-        width: 100%;
-    }
-    #list li{
-        float: left;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        display: inline;
-    }
-
-    .control {
+    .pagination{
         position: absolute;
-        right: 0;
-        top: 20px;
-        background: #fff;
-    }
-    .caroufredsel_wrapper {
-        min-height: 1650px;
-    }
-    .control .next {
-        margin-left: 15px;
-        margin-right: 15px;
-        float: left;
-        width: 14px;
-        height: 20px;
-        font-size: 20px;
-        text-decoration: none;
-        background: url("./images/arow_right.png") left top no-repeat;
-        &:hover {
-            background-position: left bottom;
-        }
-    }
-
-    .control .prev{
-        display: block;
-        float: left;
-        width: 14px;
-        height: 20px;
-        font-size: 20px;
-        text-decoration: none;
-        background: url() left top no-repeat;
-
-        &:hover {
-            background-position: left bottom;
-        }
+        right: 10px;
+        top: 10px;
     }
 `;
+
 class ProductList extends Component {
+    constructor() {
+        super();
+        this.state = {
+            products: ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0","0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",],
+            currentPage: 1,
+            limitPage: 4,
+        }
+        this.handlerClick = this.handlerClick.bind(this);
+    }
+    handlerClick(pageNum) {
+        console.log(pageNum);
+        
+        this.setState({
+            currentPage: pageNum,
+        })
+    }
+    pageItem(pageNum, key) {
+        const { currentPage } = this.state;
+
+        if (typeof pageNum === 'number') {
+            return pageNum !== currentPage
+                ? (<li key={key} id={pageNum} onClick={()=> this.handlerClick(pageNum)}><a href="#">{pageNum}</a></li>)
+                : (<li key={key} id={pageNum} onClick={()=> this.handlerClick(pageNum)} className="active"><a href="#">{pageNum}</a></li>);
+        }
+        return <li key={key} id={pageNum} onClick={()=> this.handlerClick(pageNum)} className="disabled"><a href="#">{pageNum}</a></li>;
+    }
+    pagination(countPages, currentPage) {
+        let c = currentPage>0?currentPage:1,
+         last = countPages, 
+         delta = 2, 
+         left = c - delta,
+         right = c + delta + 1,
+         temp = 0,
+         range=[],
+         rangeWithDots = [];
+
+         for(let i = 1; i <= last; i++){
+            if( i === 1 || i === last || (i >= left && i < right)) range.push(i);
+         }
+
+        for (const i of range) {
+            if(temp){
+                //check push 2, n-1
+                if(i - temp === 2){
+                    rangeWithDots.push(temp+1);
+                }else if(i - temp !== 1){
+                    //i-l > 2
+                    rangeWithDots.push('...');
+                }
+
+            }
+            rangeWithDots.push(i);
+            temp = i;
+        }
+        console.log('current', c);
+        console.log('count', countPages);
+        console.log('range', range);
+        console.log('rangewithdots', rangeWithDots);
+
+        return rangeWithDots;
+    }
+    nextPage(){
+        const {currentPage, limitPage, products} = this.state;
+        const countPages = Math.ceil(products.length / limitPage);
+
+        if(currentPage < countPages){
+            this.setState({
+                currentPage: currentPage+1
+            });
+        }
+    }
+
+    prevPage(){
+        const {currentPage} = this.state;
+
+        if(currentPage > 1){
+            this.setState({
+                currentPage: currentPage-1
+            });
+        }
+    }
     render() {
+        const {
+            products,
+            currentPage,
+            limitPage,
+        } = this.state;
+
+        const indexOfLastProduct = currentPage * limitPage;
+        const indexOfFirstProduct = indexOfLastProduct - limitPage;
+        const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+        const renderProducts = currentProducts.map((product, index) => {
+            return (
+                <div key={index} className="col-md-3">
+                    <ProductItem key={index} data={product} />
+                </div>
+            );
+        });
+        const countPages = Math.ceil(products.length / limitPage);
+
         return (
             <Container className="products-list">
-                <h3 className="title"><strong> Điện thoại di động</strong></h3>
-                <div className="control">
-                    <a id="prev_product" className="prev glyphicon glyphicon-chevron-left" href="/" style={{ display: 'block' }}></a>
-                    <a id="next_product" className="next glyphicon glyphicon-chevron-right" href="/" style={{ display: 'block' }}></a>
-                </div>
-                <div className="caroufredsel_wrapper" style={{ display: 'block', textAlign: 'start', float: 'left', position: 'relative', top: 'auto', right: 'auto', bottom: 'auto', left: 'auto', zIndex: 'auto', width: 1140, height: 419, margin: 0, overflow: 'hidden' }}>
-                    <ul id="list" style={{ textAlign: 'left', float: 'none', position: 'absolute', top: 0, right: 'auto', bottom: 'auto', left: 0, margin: 0, width: 5700, height: 419 }}>
-                        <li style={{ width: 1140 }}>
-                            <div className="row">
-                                <div className="col-md-3">
-                                    <ProductItem />
-                                </div>
-                                <div className="col-md-3">
-                                    <ProductItem /></div>
-                                <div className="col-md-3">
-                                    <ProductItem />
-                                </div>
-                                <div className="col-md-3">
-                                    <ProductItem />
-                                </div>
-                            </div>
-                        </li>
-                        <li style={{ width: 1140 }}>
-                            <div className="row">
-                                <div className="col-md-3">
-                                    <ProductItem />
-                                </div>
-                                <div className="col-md-3">
-                                    <ProductItem /></div>
-                                <div className="col-md-3">
-                                    <ProductItem />
-                                </div>
-                                <div className="col-md-3">
-                                    <ProductItem />
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                <h3 className="title"><strong> {this.props.productListName}</strong></h3>
+                <ul className="pagination">
+                    <li className="left" onClick={()=>this.prevPage()}><span className="glyphicon glyphicon-chevron-left"></span></li>
+                    {
+                        this.pagination(countPages, currentPage).map( (pageNum, key) => this.pageItem(pageNum, key))
+                    }
+                    <li className="right" onClick={()=>this.nextPage()}><span className="glyphicon glyphicon-chevron-right"></span></li>
+                </ul>
+                <div className="row">
+                    {renderProducts}
                 </div>
             </Container>
         );
