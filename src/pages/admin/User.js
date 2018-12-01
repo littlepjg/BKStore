@@ -5,7 +5,7 @@ import * as actions from '../../actions/admin_user_action';
 
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import { WhitePanel } from '../../theme/Style';
+import { TitlePanel, WhitePanel } from '../../theme/Style';
 import UserSearch from '../../components/admin/user/UserSearch';
 import UserInfoTable from '../../components/admin/user/UserInfoTable';
 import Pagination from '../../components/pagination/Pagination';
@@ -41,13 +41,19 @@ class User extends Component {
     render() {
         const { totalUser, currentPage, noPerPage, error } = this.props.user;
         return (
-            <WhitePanel>
-                <UserSearch />
-                <UserInfoTable />
-                <Pagination currentPage={currentPage} total={totalUser} noPerPage={noPerPage}
-                    getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
-                {error && <MessageDialog title={"Message"} message={error} resetMessage={this.resetError} />}
-            </WhitePanel>
+            <div>
+                <TitlePanel>
+                    <h3>Quản lý người dùng</h3>
+                </TitlePanel>
+
+                <WhitePanel>
+                    <UserSearch />
+                    <UserInfoTable />
+                    <Pagination currentPage={currentPage} total={totalUser} noPerPage={noPerPage}
+                        getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
+                    {error && <MessageDialog title={"Message"} message={error} resetMessage={this.resetError} />}
+                </WhitePanel>
+            </div>
         );
     }
 }

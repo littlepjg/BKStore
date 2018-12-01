@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { WhitePanel } from '../../../theme/Style';
+import { TitlePanel, WhitePanel } from '../../../theme/Style';
 
 class ProductAttribute extends Component {
     render() {
         return (
             <div>
-                <h1>Product attributes</h1>
+                <TitlePanel>
+                    <h3>Thuộc tính sản phẩm</h3>
+                </TitlePanel>
+
                 <WhitePanel className="container-fluid">
                     <div className="row col-md-5">
                         <div className="row" style={{ display: "flex", alignItems: "flex-end", marginBottom: "30px" }}>

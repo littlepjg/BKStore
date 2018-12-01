@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { connect } from 'react-redux';
 
 // using boostrap css
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './App.css';
@@ -17,6 +19,7 @@ import ProductStatistic from './pages/admin/statistical/ProductStatistic';
 import NotFound from './pages/404';
 import AddProduct from './pages/admin/product/AddProduct';
 import ProductAttribute from './pages/admin/product/ProductAttribute';
+import BillOfSale from './pages/admin/bill/BillOfSale';
 
 // user layout
 import GuestLayout from './layouts/GuestLayout';
@@ -30,6 +33,7 @@ import UserOrder from './pages/guest/UserOrder';
 import SearchProduct from './pages/guest/SearchProduct';
 import HomePage from './pages/guest/HomePage';
 import ShoppingCart from './pages/guest/ShoppingCart';
+import BillDetail from './pages/admin/bill/BillDetail';
 
 const Home = () => <h3>Home</h3>;
 
@@ -108,6 +112,20 @@ class App extends Component {
           <Route exact path="/admin/product/attributes" render={props => level && level === 2 ? (
             <AdminLayout>
               <ProductAttribute {...props} />
+            </AdminLayout>
+          ) : (
+              redirectToLogin(props)
+            )} />
+          <Route exact path="/admin/bills" render={props => level && level === 2 ? (
+            <AdminLayout>
+              <BillOfSale {...props} />
+            </AdminLayout>
+          ) : (
+              redirectToLogin(props)
+            )} />
+          <Route exact path="/admin/bill/detail/:id" render={props => level && level === 2 ? (
+            <AdminLayout>
+              <BillDetail {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)

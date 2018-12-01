@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import CKEditor from 'react-ckeditor-wrapper';
 import axios from 'axios';
 
-import { WhitePanel } from '../../../theme/Style';
+import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import MessageDialog from '../../../../src/components/dialog/MessageDialog';
 
 class CUPost extends Component {
@@ -95,27 +95,31 @@ class CUPost extends Component {
     render() {
         const { title, content, newPost, message } = this.state;
         return (
-            <WhitePanel>
-                <form onSubmit={this.handleSubmit}>
-                    <legend>{newPost ? "Add new post" : "Update post"}</legend>
+            <div>
+                <TitlePanel>
+                    <h3>{newPost ? "Thêm bài viết" : "Chỉnh sửa bài viết"}</h3>
+                </TitlePanel>
 
-                    <div className="form-group">
-                        <label htmlFor="title">Title:</label>
-                        <input type="text" className="form-control" id="title" placeholder="Title"
-                            value={title} onChange={(e) => this.setState({ title: e.target.value })} />
-                    </div>
+                <WhitePanel>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <label htmlFor="title">Title:</label>
+                            <input type="text" className="form-control" id="title" placeholder="Title"
+                                value={title} onChange={(e) => this.setState({ title: e.target.value })} />
+                        </div>
 
-                    <div className="form-group">
-                        <label htmlFor="">Content:</label>
-                        <CKEditor value={content}
-                            onChange={this.handleEditorChange}
-                            config={{ extraAllowedContent: 'div(*); p(*); strong(*);' }} />
-                    </div>
+                        <div className="form-group">
+                            <label htmlFor="">Content:</label>
+                            <CKEditor value={content}
+                                onChange={this.handleEditorChange}
+                                config={{ extraAllowedContent: 'div(*); p(*); strong(*);' }} />
+                        </div>
 
-                    <button type="submit" className="btn btn-success">{newPost ? "Add" : "Update"}</button>
-                </form>
-                {message && <MessageDialog title={"Message"} message={message} resetMessage={this.resetMessage} />}
-            </WhitePanel>
+                        <button type="submit" className="btn btn-success">{newPost ? "Add" : "Update"}</button>
+                    </form>
+                    {message && <MessageDialog title={"Message"} message={message} resetMessage={this.resetMessage} />}
+                </WhitePanel>
+            </div>
         );
     }
 }
