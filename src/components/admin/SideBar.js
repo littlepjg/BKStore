@@ -78,7 +78,7 @@ class SideBar extends Component {
                             </div>
                         </li>
                         <li>
-                            <NavLink to="/admin/dashboard"><i class="fa fa-tachometer"></i> <span className="nav-label">Dashboard</span></NavLink>
+                            <NavLink to="/admin/dashboard"><i className="fa fa-tachometer"></i> <span className="nav-label">Dashboard</span></NavLink>
                         </li>
                         <li>
                             <NavLink to="/admin/posts"><i className="fa fa-newspaper-o"></i> <span className="nav-label">Bài viết</span></NavLink>

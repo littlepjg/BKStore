@@ -20,13 +20,13 @@ class User extends Component {
     }
 
     getNextPage() {
-        const { currentPage, searchValue } = this.props.user;
-        this.props.getUsersByPage(currentPage + 1, searchValue);
+        const { pager: { limit, nextPageNum }, searchValue } = this.props.user;
+        this.props.getUsersByPage(limit, nextPageNum, searchValue);
     }
 
     getPrevPage() {
-        const { currentPage, searchValue } = this.props.user;
-        this.props.getUsersByPage(currentPage - 1, searchValue);
+        const { pager: { limit, prevPageNum }, searchValue } = this.props.user;
+        this.props.getUsersByPage(limit, prevPageNum, searchValue);
     }
 
     resetError() {
@@ -34,12 +34,13 @@ class User extends Component {
     }
 
     componentDidMount() {
-        const { currentPage, searchValue } = this.props.user;
-        this.props.getUsersByPage(currentPage, searchValue);
+        const { pager: { limit, currentPageNum }, searchValue } = this.props.user;
+        this.props.getUsersByPage(limit, currentPageNum, searchValue);
     }
 
     render() {
-        const { totalUser, currentPage, noPerPage, error } = this.props.user;
+        const { pager: { totalCount, currentPageNum, limit }, error } = this.props.user;
+        console.log("Pager: ", this.props.user.pager);
         return (
             <div>
                 <TitlePanel>
@@ -49,7 +50,7 @@ class User extends Component {
                 <WhitePanel>
                     <UserSearch />
                     <UserInfoTable />
-                    <Pagination currentPage={currentPage} total={totalUser} noPerPage={noPerPage}
+                    <Pagination currentPage={currentPageNum} total={totalCount} noPerPage={limit}
                         getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
                     {error && <MessageDialog title={"Message"} message={error} resetMessage={this.resetError} />}
                 </WhitePanel>

@@ -21,29 +21,33 @@ route.post("/register", (req, res) => {
     user.updated_at = new Date();
 
     // id, full_name, email, phone_number, address, level
-    user_md.addUser(user, (err, result) => {
-        if (!err) {
-            user_md.getUserById(result.insertId, (err, users) => {
-                const { id, full_name, email, phone_number, address, level } = users[0];
-                res.json({
-                    success: true,
-                    error: '',
-                    message: 'Thêm tài khoản thành công',
-                    user: {
-                        id,
-                        full_name,
-                        email, phone_number,
-                        address,
-                        level
-                    }
-                });
-            })
+    user_md.addUser(user).then(user => {
+        console.log('user: ', user);
+        user_md.getUserById(user[0]).then(user => {
+            res.json({
+                success: true,
+                error: '',
+                message: 'Thêm tài khoản thành công',
+                user: {
+                    id: user.id,
+                    full_name: user.full_name,
+                    email: user.email,
+                    phone_number: user.phone_number,
+                    address: user.address,
+                    level: user.level
+                }
+            });
+        }).catch(error => {
+            console.log("error: ", error);
+            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
+        });
+
+    }).catch(error => {
+        console.log("error: ", error);
+        if (error.code == 'ER_DUP_ENTRY') {
+            res.json({ success: false, error: 'Email đã được sử dụng' });
         } else {
-            if (err.code == 'ER_DUP_ENTRY') {
-                res.json({ success: false, error: 'Email đã được sử dụng' });
-            } else {
-                res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
-            }
+            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
         }
     });
 });
@@ -53,17 +57,23 @@ route.post("/register", (req, res) => {
 const localOptions = { usernameField: 'email', passwordField: 'passwd' };
 passport.use(new LocalStrategy(localOptions,
     function (email, password, done) {
-        user_md.getUserByEmail(email, (err, users) => {
-            if (err) done(err);
-            if (!users[0]) { return done(null, false, { message: "Invalid email" }); }
-
-            // compare password is 'password equal to user.password?
-            if (!helper.comparePassword(password, users[0].passwd)) {
+        user_md.getUserByEmail(email).then(user => {
+            console.log('user: ', user);
+            if (!user) {
+                return done(null, false, { message: "Invalid email" })
+            }
+            if (!helper.comparePassword(password, user.passwd)) {
                 return done(null, false, { message: "Invalid password" });
             }
-
-            return done(null, users[0]);
-        });
+            return done(null, {
+                id: user.id,
+                full_name: user.full_name,
+                email: user.email,
+                phone_number: user.phone_number,
+                address: user.address,
+                level: user.level
+            });
+        }).catch(error => done(error));
     }
 ));
 
@@ -82,17 +92,9 @@ route.post('/login', passport.authenticate('local', {
     failureFlash: true,
     successFlash: 'Welcome!'
 }), (req, res) => {
-    const { id, full_name, email, phone_number, address, level } = req.user;
     res.json({
         success: true,
-        user: {
-            id,
-            full_name,
-            email,
-            phone_number,
-            address,
-            level
-        },
+        user: req.user,
         error: ''
     })
 });

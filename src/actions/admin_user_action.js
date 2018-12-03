@@ -4,16 +4,19 @@ import { adUserError, } from './admin_actions';
 
 const ROOT_URL = 'http://localhost:5000';
 
-export function getUsersByPage(page, searchValue) {
+export function getUsersByPage(limit, pageNum, searchValue) {
     return function (dispatch) {
-        let api = searchValue ? `${ROOT_URL}/admin/user/pages/${page}/${searchValue}` : `${ROOT_URL}/admin/user/pages/${page}`;
-        axios.get(api).then(response => {
+        let api = `${ROOT_URL}/admin/user/pages`;
+        const params = searchValue ? { limit, pageNum, searchValue } : { limit, pageNum };
+        axios.get(api, {
+            params
+        }).then(response => {
             const { success, error } = response.data;
             if (success) {
-                const { totalUser, users } = response.data;
+                const { pager, users } = response.data;
                 dispatch({
                     type: GET_USERS,
-                    payload: { totalUser, currentPage: page, users, searchValue, error: '' }
+                    payload: { pager, users, searchValue, error: '' }
                 })
             } else {
                 dispatch(adUserError(error));

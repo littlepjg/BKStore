@@ -5,16 +5,32 @@ import {
 
 const defaultState = {
     post: {
-        totalPost: 0,
-        currentPage: 1,
-        noPerPage: 10,
+        pager: {
+            offset: 0,
+            limit: 10,
+            currentPageNum: 1,
+            totalCount: 0,
+            hasPrev: false,
+            hasNext: false,
+            prevPageNum: undefined,
+            nextPageNum: undefined,
+            lastPageNum: 1,
+        },
         posts: [],
         error: ''
     },
     user: {
-        totalUser: 0,
-        currentPage: 1,
-        noPerPage: 10,
+        pager: {
+            offset: 0,
+            limit: 10,
+            currentPageNum: 1,
+            totalCount: 0,
+            hasPrev: false,
+            hasNext: false,
+            prevPageNum: undefined,
+            nextPageNum: undefined,
+            lastPageNum: 1,
+        },
         users: [],
         searchValue: '',
         error: ''

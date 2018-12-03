@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import styled from 'styled-components';
+import moment from 'moment';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -15,6 +16,7 @@ const Label = styled.label`
 const SearchForm = styled.form`
     max-width: 300px;
     display: flex;
+    margin-top: 15px;
 
     input {
         padding: 0 8px 0 8px;
@@ -31,13 +33,15 @@ class BillOfSale extends Component {
         super(props);
         this.state = {
             billTypeSelected: '1',
-            startDate: new Date(),
+            startDate: moment('03/12/2018', 'dd/MM/yyyy').toDate(),
             endDate: new Date(),
-            searchValue: ''
+            searchValue: '',
+            productNum: 10
         }
         this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
         this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
         this.handleChangeBillType = this.handleChangeBillType.bind(this);
+        this.handleChangeProductNum = this.handleChangeProductNum.bind(this);
         this.getPrevPage = this.getPrevPage.bind(this);
         this.getNextPage = this.getNextPage.bind(this);
     }
@@ -68,6 +72,12 @@ class BillOfSale extends Component {
         });
     }
 
+    handleChangeProductNum(e) {
+        this.setState({
+            productNum: parseInt(e.target.value)
+        });
+    }
+
     getPrevPage() {
 
     }
@@ -77,7 +87,7 @@ class BillOfSale extends Component {
     }
 
     render() {
-        const { billTypeSelected, startDate, endDate, searchValue } = this.state;
+        const { billTypeSelected, startDate, endDate, searchValue, productNum } = this.state;
         const bills = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
         const currentPage = 1, totalBill = 10, noPerPage = 10;
 
@@ -88,7 +98,7 @@ class BillOfSale extends Component {
                 </TitlePanel>
 
                 <WhitePanel>
-                    <div className="row" style={{ display: 'flex', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+                    <div className="row">
                         <div className="col-sm-6">
                             <div className="row">
                                 <div className="col-xs-12 col-sm-6">
@@ -106,7 +116,7 @@ class BillOfSale extends Component {
                                 </div>
                             </div>
 
-                            <div className="row" style={{ display: 'flex', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+                            <div className="row" style={{ display: 'flex', alignItems: 'flex-end', flexWrap: 'wrap', marginBottom: '15px' }}>
                                 <div className="col-xs-8 col-sm-7">
                                     <Label htmlFor="product-type">Đơn hàng</Label>
                                     <select name="product_type_id" id="product-type" className="form-control"
@@ -124,7 +134,20 @@ class BillOfSale extends Component {
                             </div>
                         </div>
 
-                        <div className="col-sm-6" style={{ height: '100%', marginTop: 15 }}>
+                        <div className="col-sm-6" style={{ height: '100%', marginTop: 15, display: 'flex', flexDirection: 'column', alignItems: 'space-between' }}>
+                            <div className="row">
+                                <div className="col-xs-8 col-sm-7">
+                                    <Label htmlFor="product-type">Hiển thị</Label>
+                                    <select name="product_num" id="product-type" className="form-control"
+                                        value={productNum} onChange={this.handleChangeProductNum}>
+                                        <option value="10">10 hàng</option>
+                                        <option value="15">15 hàng</option>
+                                        <option value="20">20 hàng</option>
+                                        <option value="35">35 hàng</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <SearchForm onSubmit={event => this.handleSubmit(event)}>
                                 <input type="text" className="form-control" placeholder="Tìm kiếm đơn hàng"
                                     value={searchValue} onChange={(e) => this.setState({ searchValue: e.target.value })} />
