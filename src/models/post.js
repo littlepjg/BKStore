@@ -1,29 +1,44 @@
-const db = require('../common/database');
+const db = require('../common/knex');
+const { paginate } = require('../helpers/dbUtils');
 
-const conn = db.getConnection();
-
-const addPost = (post, callback) => {
-    conn.query("INSERT INTO posts SET ?", post, callback);
+const addPost = async (post) => {
+    const { title, content } = post;
+    return await db('posts')
+        .insert({
+            title,
+            content,
+            created_at: db.fn.now(),
+            updated_at: db.fn.now()
+        });
 }
 
-const updatePost = (post, callback) => {
-    conn.query("UPDATE posts SET title = ?, content = ?, updated_at = ? WHERE id = ?", [post.title, post.content, new Date(), post.id], callback);
+const updatePost = async (post) => {
+    const { id, title, content } = post;
+    return await db('posts')
+        .update({
+            title,
+            content,
+            updated_at: db.fn.now()
+        }).where({ id });
 }
 
-const getPostById = (id, callback) => {
-    conn.query("SELECT * FROM posts WHERE id=?", [id], callback);
+const getPostById = async (id) => {
+    return await db('posts')
+        .select()
+        .where({ id })
+        .first();
 }
 
-const getPostByPage = (limit, noPerPage, callback) => {
-    conn.query("SELECT * FROM posts limit ?, ?", [limit, noPerPage], callback);
+const getPostByPage = async (limit, pageNum) => {
+    return await paginate(
+        db('posts')
+            .select(),
+        { limit, pageNum }
+    );
 }
 
-const getTotalPost = (callback) => {
-    conn.query("SELECT count(id) as totalPost FROM posts", callback);
-}
-
-const deletePost = (id, callback) => {
-    conn.query("DELETE FROM posts WHERE id = ?", [id], callback);
+const deletePost = async (id) => {
+    return await db('posts').where({ id }).del();
 }
 
 module.exports = {
@@ -31,6 +46,5 @@ module.exports = {
     getPostById,
     updatePost,
     getPostByPage,
-    getTotalPost,
     deletePost
 }

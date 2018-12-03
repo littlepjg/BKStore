@@ -1,46 +1,42 @@
-const db = require('../common/database');
+const db = require('../common/knex');
+const { paginate } = require('../helpers/dbUtils');
 
-const conn = db.getConnection();
-
-const addUser = (user, callback) => {
-    conn.query("INSERT INTO users SET ?", user, callback);
+const addUser = async (user) => {
+    const { full_name, email, passwd } = user;
+    return await db('users')
+        .insert({
+            full_name,
+            email,
+            passwd,
+            created_at: db.fn.now(),
+            updated_at: db.fn.now()
+        });
 }
 
-const getUserByEmail = (email, callback) => {
-    conn.query("SELECT * FROM users WHERE email=?", [email], callback);
+const getUserByEmail = async (email) => {
+    return await db('users')
+        .select()
+        .where({ email })
+        .first();
 }
 
-const getUserById = (id, callback) => {
-    conn.query("SELECT * FROM users WHERE id=?", [id], callback);
+const getUserById = async (id) => {
+    return await db('users')
+        .select()
+        .where({ id })
+        .first();
 }
 
-const getUserByPage = (limit, noPerPage, searchValue, callback) => {
-    let sql, params;
-    if (!searchValue) {
-        sql = "SELECT * FROM users  WHERE level = ? limit ?, ?";
-        params = [1, limit, noPerPage];
-    } else {
-        sql = "SELECT * FROM users  WHERE level = ? AND email LIKE ? limit ?, ?";
-        params = [1, `%${searchValue}%`, limit, noPerPage];
+const getUserByPage = async (limit, pageNum, searchValue) => {
+    const builder = db('users').where({ level: 1 });
+    if (searchValue) {
+        builder.andWhere('email', 'like', `%${searchValue}%`);
     }
-    conn.query(sql, params, callback);
+    return await paginate(builder, { limit, pageNum });
 }
 
-const getTotalUser = (searchValue, callback) => {
-    let sql, params;
-    if (!searchValue) {
-        sql = "SELECT count(id) as totalUser FROM users WHERE level = ?";
-        params = [1];
-    } else {
-        sql = "SELECT count(id) as totalUser FROM users WHERE level = ? and email LIKE ?";
-        params = [1, `%${searchValue}%`];
-    }
-
-    conn.query(sql, params, callback);
-}
-
-const deleteUserById = (id, callback) => {
-    conn.query("DELETE FROM users WHERE id = ?", [id], callback);
+const deleteUserById = async (id) => {
+    return await db('users').where({ id }).del();
 }
 
 module.exports = {
@@ -48,6 +44,5 @@ module.exports = {
     getUserByEmail,
     getUserById,
     getUserByPage,
-    deleteUserById,
-    getTotalUser
+    deleteUserById
 }

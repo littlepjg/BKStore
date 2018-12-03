@@ -29,20 +29,21 @@ class UserSearch extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.getUsersByPage(1, this.state.searchValue);
+        const { limit } = this.props.user.pager;
+        this.props.getUsersByPage(limit, 1, this.state.searchValue);
     }
 
     render() {
         const { searchValue } = this.state;
-        const { totalUser } = this.props;
+        const { totalCount } = this.props.user.pager;
         return (
             <div>
-                <h3>Số lượng: {totalUser}</h3>
+                <h3>Số lượng: {totalCount}</h3>
 
                 <FormUser onSubmit={event => this.handleSubmit(event)}>
                     <input type="text" className="form-control input-sm" placeholder="Tìm kiếm bằng email"
                         value={searchValue} onChange={(e) => this.setState({ searchValue: e.target.value })} />
-                    <button type="submit" className="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>
+                    <button type="submit" className="btn btn-primary btn-sm"><i className="fa fa-search"></i></button>
                 </FormUser>
             </div>
         );
@@ -51,7 +52,7 @@ class UserSearch extends Component {
 
 function mapStateToProps(state) {
     return {
-        totalUser: state.admin.user.totalUser
+        user: state.admin.user
     }
 }
 

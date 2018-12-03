@@ -5,7 +5,7 @@ import UserRow from './UserRow';
 
 class UserInfoTable extends Component {
     render() {
-        const { users, currentPage, noPerPage } = this.props.user;
+        const { users, pager: { currentPageNum, limit } } = this.props.user;
         return (
             <div className="table-responsive">
                 <table className="table table-bordered table-hover table-striped">
@@ -19,7 +19,7 @@ class UserInfoTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user, index) => <UserRow key={user.id} pos={(currentPage - 1) * noPerPage + index + 1} userInfo={user} />)}
+                        {users.map((user, index) => <UserRow key={user.id} pos={(currentPageNum - 1) * limit + index + 1} userInfo={user} />)}
                     </tbody>
                 </table>
             </div>

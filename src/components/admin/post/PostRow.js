@@ -8,7 +8,7 @@ import * as actions from '../../../actions/admin_post_actions';
 
 class PostRow extends Component {
     deletePost(id) {
-        const { currentPage, noPerPage, totalPost } = this.props.post;
+        const { currentPageNum, totalCount, limit } = this.props.post.pager;
         confirmAlert({
             title: 'Confirm to delete',
             message: 'Are you sure to delete this post.',
@@ -19,12 +19,12 @@ class PostRow extends Component {
                         axios.post(`/admin/post/delete`, { id }).then(response => {
                             const { success, error } = response.data;
                             if (success) {
-                                let maxCurrentPage = currentPage * noPerPage;
-                                let totalAfterDel = totalPost - 1;
-                                if (currentPage === 1 || maxCurrentPage <= totalAfterDel || (maxCurrentPage > totalAfterDel && totalAfterDel - (currentPage - 1) * noPerPage > 0)) {
-                                    this.props.getPostsByPage(currentPage);
+                                let maxCurrentPage = currentPageNum * limit;
+                                let totalAfterDel = totalCount - 1;
+                                if (currentPageNum === 1 || maxCurrentPage <= totalAfterDel || (maxCurrentPage > totalAfterDel && totalAfterDel - (currentPageNum - 1) * limit > 0)) {
+                                    this.props.getPostsByPage(limit, currentPageNum);
                                 } else {
-                                    this.props.getPostsByPage(currentPage - 1);
+                                    this.props.getPostsByPage(limit, currentPageNum - 1);
                                 }
                             }
                         }).catch(err => {

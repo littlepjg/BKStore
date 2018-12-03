@@ -20,13 +20,13 @@ class Post extends Component {
     }
 
     getNextPage() {
-        const { currentPage } = this.props.post;
-        this.props.getPostsByPage(currentPage + 1);
+        const { limit, nextPageNum } = this.props.post.pager;
+        this.props.getPostsByPage(limit, nextPageNum);
     }
 
     getPrevPage() {
-        const { currentPage } = this.props.post;
-        this.props.getPostsByPage(currentPage - 1);
+        const { limit, prevPageNum } = this.props.post.pager;
+        this.props.getPostsByPage(limit, prevPageNum);
     }
 
     resetError() {
@@ -34,12 +34,12 @@ class Post extends Component {
     }
 
     componentDidMount() {
-        const { currentPage } = this.props.post;
-        this.props.getPostsByPage(currentPage);
+        const { limit, currentPageNum } = this.props.post.pager;
+        this.props.getPostsByPage(limit, currentPageNum);
     }
 
     render() {
-        const { totalPost, currentPage, noPerPage, error } = this.props.post;
+        const { pager: { totalCount, currentPageNum, limit }, error } = this.props.post;
         return (
             <div>
                 <TitlePanel>
@@ -53,7 +53,7 @@ class Post extends Component {
                         </div>
                     </div>
                     <PostInfoTable />
-                    <Pagination currentPage={currentPage} total={totalPost} noPerPage={noPerPage}
+                    <Pagination currentPage={currentPageNum} total={totalCount} noPerPage={limit}
                         getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
                     {error && <MessageDialog title={"Message"} message={error} resetMessage={this.resetError} />}
                 </WhitePanel>
