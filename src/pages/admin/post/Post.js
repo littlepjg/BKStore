@@ -6,7 +6,7 @@ import * as actions from '../../../actions/admin_post_actions';
 
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import { TitlePanel, WhitePanel } from '../../../theme/Style';
+import { TitlePanel, WhitePanel, Label } from '../../../theme/Style';
 import PostInfoTable from '../../../components/admin/post/PostInfoTable';
 import Pagination from '../../../components/pagination/Pagination';
 import MessageDialog from '../../../components/dialog/MessageDialog';
@@ -17,6 +17,7 @@ class Post extends Component {
         this.getPrevPage = this.getPrevPage.bind(this);
         this.getNextPage = this.getNextPage.bind(this);
         this.resetError = this.resetError.bind(this);
+        this.handleChangePostNum = this.handleChangePostNum.bind(this);
     }
 
     getNextPage() {
@@ -38,6 +39,12 @@ class Post extends Component {
         this.props.getPostsByPage(limit, currentPageNum);
     }
 
+    handleChangePostNum(e) {
+        const limit = parseInt(e.target.value);
+        this.props.getUsersByPage(limit, 1, this.state.searchValue);
+        console.log("LIMIT: ", limit);
+    }
+
     render() {
         const { pager: { totalCount, currentPageNum, limit }, error } = this.props.post;
         return (
@@ -52,6 +59,20 @@ class Post extends Component {
                             <NavLink to="/admin/posts/new" className="btn btn-success pull-right">Tạo mới</NavLink>
                         </div>
                     </div>
+
+                    <div className="row" style={{ padding: '5px 0 20px 0' }}>
+                        <div className="col-sm-6 col-md-4">
+                            <Label htmlFor="product-type">Hiển thị</Label>
+                            <select name="product_num" id="product-type" className="form-control"
+                                value={limit} onChange={this.handleChangePostNum}>
+                                <option value="10">10 hàng</option>
+                                <option value="15">15 hàng</option>
+                                <option value="20">20 hàng</option>
+                                <option value="35">35 hàng</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <PostInfoTable />
                     <Pagination currentPage={currentPageNum} total={totalCount} noPerPage={limit}
                         getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />

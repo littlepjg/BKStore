@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { TitlePanel, WhitePanel } from '../../../theme/Style';
+import { TitlePanel, WhitePanel, Label } from '../../../theme/Style';
 import ProductRow from '../../../components/admin/product/ProductRow';
 import Pagination from '../../../components/pagination/Pagination';
-
-const Label = styled.label`
-    display: block;
-`;
 
 const SearchForm = styled.form`
     max-width: 300px;

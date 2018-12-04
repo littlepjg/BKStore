@@ -5,7 +5,7 @@ import PostRow from './PostRow';
 
 class PostInfoTable extends Component {
     render() {
-        const { posts, pager: { currentPageNum, limit } } = this.props.post;
+        const { posts, pager: { offset } } = this.props.post;
         return (
             <div className="table-responsive">
                 <table className="table table-bordered table-hover table-striped">
@@ -19,7 +19,7 @@ class PostInfoTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {posts.map((post, index) => <PostRow key={post.id} pos={(currentPageNum - 1) * limit + index + 1} postInfo={post} />)}
+                        {posts.map((post, index) => <PostRow key={post.id} pos={offset + index + 1} postInfo={post} />)}
                     </tbody>
                 </table>
             </div>

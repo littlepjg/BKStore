@@ -15,7 +15,7 @@ class BackButton extends Component {
     render() {
         return (
             <Button type="button" className="btn btn-success">
-                <i class="fa fa-long-arrow-left"></i>
+                <i className="fa fa-long-arrow-left"></i>
                 Quay lại
             </Button>
         )
