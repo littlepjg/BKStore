@@ -41,7 +41,7 @@ class Post extends Component {
 
     handleChangePostNum(e) {
         const limit = parseInt(e.target.value);
-        this.props.getUsersByPage(limit, 1, this.state.searchValue);
+        this.props.getPostsByPage(limit, 1);
         console.log("LIMIT: ", limit);
     }
 

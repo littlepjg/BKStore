@@ -40,7 +40,6 @@ class User extends Component {
 
     render() {
         const { pager: { totalCount, currentPageNum, limit }, error } = this.props.user;
-        console.log("Pager: ", this.props.user.pager);
         return (
             <div>
                 <TitlePanel>

@@ -30,8 +30,7 @@ class UserSearch extends Component {
 
     handleChangeUserNum(e) {
         const limit = parseInt(e.target.value);
-        this.props.getUsersByPage(limit, 1, this.state.searchValue);
-        console.log("LIMIT: ", limit);
+        this.props.getUsersByPage(limit, 1, this.props.user.searchValue);
     }
 
     handleSubmit(e) {

@@ -14,7 +14,7 @@ class BackButton extends Component {
 
     render() {
         return (
-            <Button type="button" className="btn btn-success">
+            <Button type="button" className="btn btn-success" onClick={() => this.props.onClick()}>
                 <i className="fa fa-long-arrow-left"></i>
                 Quay lại
             </Button>

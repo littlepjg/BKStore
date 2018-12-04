@@ -81,7 +81,7 @@ class DashBoard extends Component {
                         <Card>
                             <CardHeader>
                                 <CardIcon inputColor="#26c6da">
-                                    <i class="fa fa-newspaper-o fa-4x"></i>
+                                    <i className="fa fa-newspaper-o fa-4x"></i>
                                 </CardIcon>
                                 <p>Post</p>
                                 <h3>200</h3>
