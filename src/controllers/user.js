@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-const user_md = require('../models/user');
+const user_md = require('../models/userModel');
 const helper = require('../helpers/helper');
 
 const route = express.Router();

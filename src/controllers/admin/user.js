@@ -1,5 +1,5 @@
 const express = require("express");
-const user_md = require('../../models/user');
+const user_md = require('../../models/userModel');
 
 const route = express.Router();
 
@@ -16,7 +16,7 @@ route.get('/pages', (req, res) => {
             address: user.address,
             level: user.level
         }));
-        res.json({ success: true, error: '', users: [...users], pager: result.pager });
+        res.json({ success: true, error: '', users, pager: result.pager });
     }).catch(error => {
         console.log("error: ", error);
         res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' })

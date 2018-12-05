@@ -61,7 +61,7 @@ class BillDetail extends Component {
 
         return (
             <Container>
-                <BackButton />
+                <BackButton onClick={this.props.history.goBack} />
                 <TitlePanel>
                     <h3>Chi tiết đơn hàng</h3>
                 </TitlePanel>
