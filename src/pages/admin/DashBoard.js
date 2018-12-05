@@ -92,7 +92,7 @@ class DashBoard extends Component {
                         <Card>
                             <CardHeader>
                                 <CardIcon inputColor="#ffa726">
-                                    <i class="fa fa-user fa-4x"></i>
+                                    <i className="fa fa-user fa-4x"></i>
                                 </CardIcon>
                                 <p>User</p>
                                 <h3>200</h3>
@@ -103,7 +103,7 @@ class DashBoard extends Component {
                         <Card>
                             <CardHeader>
                                 <CardIcon inputColor="#66bb6a">
-                                    <i class="fa fa-user fa-4x"></i>
+                                    <i class="fa fa-btc fa-4x"></i>
                                 </CardIcon>
                                 <p>Revenue</p>
                                 <h3>2000 <small>$</small></h3>
