@@ -12,10 +12,10 @@ class PostInfoTable extends Component {
                     <thead>
                         <tr>
                             <th>STT</th>
-                            <th>Title</th>
-                            <th>Content</th>
-                            <th>Link To</th>
-                            <th>Action</th>
+                            <th>Tiêu đề</th>
+                            <th>Nội dung</th>
+                            <th>Đường dẫn</th>
+                            <th>Hoạt động</th>
                         </tr>
                     </thead>
                     <tbody>

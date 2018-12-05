@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import ShoppingCartIcon from './ShoppingCartIcon';
 
 const NavBar = styled.nav`
     background: #f4f4f4;
@@ -31,7 +32,7 @@ const NavBar = styled.nav`
             button {
                 border-top-left-radius: 0px;
                 border-bottom-left-radius: 0px;
-                padding-left: 30px;
+                padding-left: 22px;
                 height: 42px;
             }
         }
@@ -52,6 +53,7 @@ class Header extends Component {
                             <button type="submit" className="btn btn-primary">Search</button>
                         </form>
                     </div>
+                    <ShoppingCartIcon />
                 </div>
             </NavBar>
         );
