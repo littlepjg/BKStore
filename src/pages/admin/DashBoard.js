@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import { TitlePanel, WhitePanel } from '../../theme/Style';
 
@@ -67,9 +68,53 @@ const CardIcon = styled.div`
 class DashBoard extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            totalUser: 0,
+            totalPost: 0,
+            revenue: 0,
+            topSellingProducts: []
+        }
+    }
+
+    componentDidMount() {
+        const ROOT_URL = 'http://localhost:5000';
+
+        // get common info
+        axios.get(`${ROOT_URL}/admin/dashboard`).then(response => {
+            const { success, error } = response.data;
+            if (success) {
+                const { infoDashboard } = response.data;
+                this.setState({
+                    ...infoDashboard
+                });
+            } else {
+                console.log("error: ", error);
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+
+        // get top selling products
+        axios.get(`${ROOT_URL}/admin/dashboard/top_product`, {
+            params: {
+                limit: 10
+            }
+        }).then(response => {
+            const { success, error } = response.data;
+            if (success) {
+                const { topSellingProducts } = response.data;
+                this.setState({
+                    topSellingProducts
+                });
+            } else {
+                console.log("error: ", error);
+            }
+        })
     }
 
     render() {
+        const { totalUser, totalPost, revenue, topSellingProducts } = this.state;
+        console.log("TOPSELLING: ", topSellingProducts);
         return (
             <div>
                 <TitlePanel>
@@ -84,7 +129,7 @@ class DashBoard extends Component {
                                     <i className="fa fa-newspaper-o fa-4x"></i>
                                 </CardIcon>
                                 <p>Post</p>
-                                <h3>200</h3>
+                                <h3>{`${totalPost}`}</h3>
                             </CardHeader>
                         </Card>
                     </div>
@@ -95,7 +140,7 @@ class DashBoard extends Component {
                                     <i className="fa fa-user fa-4x"></i>
                                 </CardIcon>
                                 <p>User</p>
-                                <h3>200</h3>
+                                <h3>{`${totalUser}`}</h3>
                             </CardHeader>
                         </Card>
                     </div>
@@ -103,10 +148,10 @@ class DashBoard extends Component {
                         <Card>
                             <CardHeader>
                                 <CardIcon inputColor="#66bb6a">
-                                    <i class="fa fa-btc fa-4x"></i>
+                                    <i className="fa fa-btc fa-4x"></i>
                                 </CardIcon>
                                 <p>Revenue</p>
-                                <h3>2000 <small>$</small></h3>
+                                <h3>{`${revenue}`} <small>$</small></h3>
                             </CardHeader>
                         </Card>
                     </div>
