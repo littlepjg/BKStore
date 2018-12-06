@@ -7,7 +7,7 @@ import * as actions from '../../../actions/admin_user_action';
 
 class UserRow extends Component {
     deleteUser(id) {
-        const { currentPage, noPerPage, totalUser, searchValue } = this.props.user;
+        const { pager: { currentPageNum, totalCount, limit, offset, prevPageNum }, searchValue } = this.props.user;
         confirmAlert({
             title: 'Confirm to delete',
             message: 'Are you sure to delete this user.',
@@ -19,12 +19,10 @@ class UserRow extends Component {
                             response => {
                                 const { success, error } = response.data;
                                 if (success) {
-                                    let maxCurrentPage = currentPage * noPerPage;
-                                    let totalAfterDel = totalUser - 1;
-                                    if (maxCurrentPage <= totalAfterDel || (maxCurrentPage > totalAfterDel && totalAfterDel - (currentPage - 1) * noPerPage > 0)) {
-                                        this.props.getUsersByPage(currentPage, searchValue);
+                                    if (currentPageNum > 1 && offset + 1 === totalCount) {
+                                        this.props.getUsersByPage(limit, prevPageNum, searchValue);
                                     } else {
-                                        this.props.getUsersByPage(currentPage - 1, searchValue);
+                                        this.props.getUsersByPage(limit, currentPageNum, searchValue);
                                     }
                                 }
                             }

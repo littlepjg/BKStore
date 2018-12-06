@@ -15,4 +15,8 @@ const TitlePanel = styled(WhitePanel)`
     }
 `;
 
-export { WhitePanel, TitlePanel }
+const Label = styled.label`
+    display: block;
+`;
+
+export { WhitePanel, TitlePanel, Label }

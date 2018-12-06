@@ -94,10 +94,11 @@ class CUPost extends Component {
     }
 
     render() {
+        console.log("HISTORY: ", this.props.history);
         const { title, content, newPost, message } = this.state;
         return (
             <div>
-                <BackButton />
+                <BackButton onClick={this.props.history.goBack} />
                 <TitlePanel>
                     <h3>{newPost ? "Thêm bài viết" : "Chỉnh sửa bài viết"}</h3>
                 </TitlePanel>

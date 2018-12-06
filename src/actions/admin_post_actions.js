@@ -4,15 +4,17 @@ import { adPostError } from './admin_actions';
 
 const ROOT_URL = 'http://localhost:5000';
 
-export function getPostsByPage(page) {
+export function getPostsByPage(limit, pageNum) {
     return function (dispatch) {
-        axios.get(`${ROOT_URL}/admin/post/pages/${page}`).then(response => {
+        axios.get(`${ROOT_URL}/admin/post/pages`, {
+            params: { limit, pageNum }
+        }).then(response => {
             const { success, error } = response.data;
             if (success) {
-                const { totalPost, posts } = response.data;
+                const { pager, posts } = response.data;
                 dispatch({
                     type: GET_POSTS,
-                    payload: { totalPost, currentPage: page, posts, erorr: '' }
+                    payload: { pager, posts, erorr: '' }
                 })
             } else {
                 dispatch(adPostError(error));

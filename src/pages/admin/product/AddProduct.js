@@ -31,7 +31,7 @@ class AddProduct extends Component {
         const { description } = this.state;
         return (
             <div>
-                <BackButton />
+                <BackButton onClick={this.props.history.goBack} />
                 <TitlePanel>
                     <h3>Thêm sản phẩm</h3>
                 </TitlePanel>

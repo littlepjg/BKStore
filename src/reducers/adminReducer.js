@@ -1,23 +1,68 @@
 import {
     GET_POSTS, AD_POST_ERROR, RESET_AD_POST_ERROR,
-    GET_USERS, AD_USER_ERROR, REST_AD_USER_ERROR
+    GET_USERS, AD_USER_ERROR, REST_AD_USER_ERROR,
+    GET_PRODUCTS_ADMIN,
 } from '../actions/types';
 
 const defaultState = {
     post: {
-        totalPost: 0,
-        currentPage: 1,
-        noPerPage: 10,
+        pager: {
+            offset: 0,
+            limit: 10,
+            currentPageNum: 1,
+            totalCount: 0,
+            hasPrev: false,
+            hasNext: false,
+            prevPageNum: undefined,
+            nextPageNum: undefined,
+            lastPageNum: 1,
+        },
         posts: [],
         error: ''
     },
     user: {
-        totalUser: 0,
-        currentPage: 1,
-        noPerPage: 10,
+        pager: {
+            offset: 0,
+            limit: 10,
+            currentPageNum: 1,
+            totalCount: 0,
+            hasPrev: false,
+            hasNext: false,
+            prevPageNum: undefined,
+            nextPageNum: undefined,
+            lastPageNum: 1,
+        },
         users: [],
         searchValue: '',
         error: ''
+    },
+    product: {
+        productList: {
+            pager: {
+                offset: 0,
+                limit: 10,
+                currentPageNum: 1,
+                totalCount: 0,
+                hasPrev: false,
+                hasNext: false,
+                prevPageNum: undefined,
+                nextPageNum: undefined,
+                lastPageNum: 1,
+            },
+            products: [],
+            searchValue: '',
+            filter: {
+                provider: 0,
+                product_type: 0,
+            },
+            error: '',
+        },
+        productAttribute: {
+            productTypes: [],
+            productTypeAttibutes: [],
+            prodcutAttributes: [],
+            error: '',
+        },
     }
 }
 
@@ -31,6 +76,8 @@ export default function (state = { ...defaultState }, action) {
         case AD_USER_ERROR:
         case REST_AD_USER_ERROR:
             return { ...state, user: { ...state.user, ...action.payload } };
+        case GET_PRODUCTS_ADMIN:
+            return { ...state, product: { ...state.product, productList: { ...action.payload } } };
         default:
             return state;
     }
