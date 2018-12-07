@@ -141,8 +141,8 @@ class ProductsView extends Component {
     constructor(){
         super();
         this.state = {
-            list: 'active',
-            grid: '',
+            mode: 'list',
+
             products: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -187,11 +187,9 @@ class ProductsView extends Component {
         }
     }
 
-    clickHandle(){
-        const {list, grid} = this.state;
+    clickHandle(mode){
         this.setState({
-            list: list?'':'active',
-            grid: grid?'':'active',
+            mode: mode.trim()
         });
     }
 
@@ -211,9 +209,9 @@ class ProductsView extends Component {
     }
 
     render() {
-        const {list, grid} = this.state;
-        const {products, currentPage, limit} = this.state;
+        const {mode} = this.state;
 
+        const {products, currentPage, limit} = this.state;
         const countPage = Math.ceil(products.length / limit);
         const pageList = pagination(countPage, currentPage);
 
@@ -224,7 +222,7 @@ class ProductsView extends Component {
         return (
             <div className="container-fluid">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-sm-2">
                         <div class="category">
                             <div>Relative Catagory</div>
                         </div>
@@ -240,10 +238,34 @@ class ProductsView extends Component {
                                 <li><a href="#">WIKO</a></li>
                             </ul>
                         </Category>
+
+                         <Category className="category leftbar">
+                            <h3 className="title">Categories</h3>
+                            <ul>
+                                <li><a href="#"> Samsung </a></li>
+                                <li><a href="#">Apple</a></li>
+                                <li><a href="#">Xiaomi</a></li>
+                                <li><a href="#">ASUS</a></li>
+                                <li><a href="#">SONY</a></li>
+                                <li><a href="#">WIKO</a></li>
+                            </ul>
+                        </Category>
+
+                         <Category className="category leftbar">
+                            <h3 className="title">Categories</h3>
+                            <ul>
+                                <li><a href="#"> Samsung </a></li>
+                                <li><a href="#">Apple</a></li>
+                                <li><a href="#">Xiaomi</a></li>
+                                <li><a href="#">ASUS</a></li>
+                                <li><a href="#">SONY</a></li>
+                                <li><a href="#">WIKO</a></li>
+                            </ul>
+                        </Category>
                         
                     </div>
 
-                    <div class="col-md-9">
+                    <div class="col-sm-10">
                         <div class="row">
                             <Sorter class="sorter">
                                 <p>Sort by:</p>
@@ -257,10 +279,10 @@ class ProductsView extends Component {
 
                                 <div className="view">View</div>
                                 <div>
-                                    <a href="#" class={"list " + list} onClick={()=>this.clickHandle()}>
+                                    <a href="#" class={"list " + (mode==="list"?'active':"")} onClick={()=>this.clickHandle("list")}>
                                         List
                                     </a>
-                                    <a href="#" class={"grid " + grid} onClick={()=>this.clickHandle()}>
+                                    <a href="#" class={"grid "+(mode==="grid"?'active':"")} onClick={()=>this.clickHandle("grid")}>
                                         Grid
                                     </a>
                                 </div>
@@ -268,19 +290,26 @@ class ProductsView extends Component {
                             <h3 className="title">Điện thoại di động</h3>
                             
                         </div>
-
-                        <div class="row">
-                            <ProductItemHorizonto />
-                        </div>
                     
+
                         <div class="row">
                             {
                                 currentProducts.length>0?currentProducts.map((product, key)=>{
-                                    return (
-                                        <div class="col-md-3" key={key}>
-                                            <ProductItem key={key} product={product}/>        
-                                        </div>
-                                    )
+                                    if(mode === "list"){
+                                        return (
+                                            <div class="col-md-3" key={key}>
+                                                <ProductItem key={key} product={product}/>        
+                                            </div>
+                                        )
+                                    }
+                                    if(mode === 'grid'){
+                                        return (
+                                            <div class="col-xs-12">
+                                                <ProductItemHorizonto key={key}/>
+                                            </div>
+                                        )
+                                    }
+                                    
                                 }):<p>Không tìm thấy sản phẩm nào</p>
                             }
                         </div>

@@ -35,9 +35,9 @@ import UserOrder from './pages/guest/UserOrder';
 import SearchProduct from './pages/guest/SearchProduct';
 import HomePage from './pages/guest/HomePage';
 import ProductDetailList from './pages/guest/ProductDetailList';
-const Home = () => <h3>Home</h3>;
 import ShoppingCart from './pages/guest/ShoppingCart';
 import BillDetail from './pages/admin/bill/BillDetail';
+const Home = () => <h3>Home</h3>;
 
 class App extends Component {
   render() {

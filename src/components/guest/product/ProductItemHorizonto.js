@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import image01 from './products-01.png';
 
 const Container = styled.div`
     border: 1px solid #e1e1e1;
@@ -59,15 +60,7 @@ const Container = styled.div`
         .new_price sup {
             font-size: 18px;
         }
-        .old_price {
-            float: left;
-            text-decoration: line-through;
-            font-size: 18px;
-            color: #666666;
-        }
-        .old_price sup {
-            font-size: 10px;
-        }
+        
         .button {
             margin: 0 5px;
 
@@ -105,7 +98,7 @@ class ProductItemHorizonto extends Component {
         return (
             <Container className="products">
                 <div className="thumbnail">
-                    <img src="images/products/small/products-05.png" alt="Product Name" />
+                    <a href="/product/detail"><img src={image01} alt="Product Name" /></a>
                 </div>
                 <div className="product-list-description">
                     <div className="productname">Lincoln Corner Unit Products</div>
@@ -114,7 +107,6 @@ class ProductItemHorizonto extends Component {
                     <div className="list_bottom">
                         <div className="price">
                             <span className="new_price">450.00<sup>$</sup></span>
-                            <span className="old_price"> 450.00<sup>$</sup></span>
                         </div>
                         <div className="button_group">
                             <button className="button">Add To Cart</button>
@@ -123,7 +115,6 @@ class ProductItemHorizonto extends Component {
                     </div>
                 </div>
             </Container>
-
         );
     }
 }

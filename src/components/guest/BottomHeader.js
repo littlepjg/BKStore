@@ -29,12 +29,12 @@ class BottomHeader extends Component {
     render() {
         return (
             <Container className="bottom-header" data-spm="menu">
-                <a className="lzd-menu-labels-item" href="/">
+                <a className="lzd-menu-labels-item" href="/home/productlist">
                     <i className="lzd-site-nav-menu-iconfont lzd-menu-labels-item-icon">
                     </i>
                     <span className="lzd-menu-labels-item-text">Điện thoại</span>
                 </a>
-                <a className="lzd-menu-labels-item" href="/">
+                <a className="lzd-menu-labels-item" href="/home/productlist">
                     <i className="lzd-site-nav-menu-iconfont lzd-menu-labels-item-icon"></i>
                     <span className="lzd-menu-labels-item-text">Máy tính</span>
                 </a>
