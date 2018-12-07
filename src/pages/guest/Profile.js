@@ -10,21 +10,21 @@ class Profile extends Component {
             <div id="profile">
                 <div className="container">
                     <h2>Quản lý tài khoản</h2>
+                    <hr />
                     <div class="account_manage">
                         <div class="col-sm-4">
                             <div class="info_account">
                                 <h4>Thông tin cá nhân</h4>
                                 <label for="email">Email:</label>
-                                <input type="email" name="email" id="inputemail" class="form-control" value="" title="" />
+                                <input type="email" name="email" id="inputemail" class="form-control" value="" title="" placeholder="Email" />
 
-                                <label for="firstname">Tên:</label>
-                                <input type="text" name="firstname" class="form-control" placeholder="First name" />
-                                <input type="text" name="lastname" class="form-control" placeholder="Last name" />
+                                <label for="name">Họ và tên:</label>
+                                <input type="text" name="name" class="form-control" placeholder="Họ và tên" />
 
                                 <label for="birthday">Ngày sinh:</label>
                                 <div class="form-group">
                                     <div class='input-group date' id='datetimepicker1'>
-                                        <input type='text' name="birthday" class="form-control" />
+                                        <input type='text' name="birthday" class="form-control" placeholder="Ngày sinh" />
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                     </div>
