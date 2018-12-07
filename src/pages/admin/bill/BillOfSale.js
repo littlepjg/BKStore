@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import styled from 'styled-components';
 import moment from 'moment';
+import { connect } from 'react-redux';
+
+import * as actions from '../../../actions/admin_bill_actions';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -32,14 +35,27 @@ class BillOfSale extends Component {
             startDate: moment('03/12/2018', 'dd/MM/yyyy').toDate(),
             endDate: new Date(),
             searchValue: '',
+            filterByDate: 0,
             productNum: 10
         }
+        this.handleChangeFilterByDate = this.handleChangeFilterByDate.bind(this);
         this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
         this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
         this.handleChangeBillType = this.handleChangeBillType.bind(this);
         this.handleChangeProductNum = this.handleChangeProductNum.bind(this);
         this.getPrevPage = this.getPrevPage.bind(this);
         this.getNextPage = this.getNextPage.bind(this);
+    }
+
+    componentDidMount() {
+        const { pager: { limit, currentPageNum }, searchValue, filter } = this.props.bill;
+        this.props.getBillsByPage(limit, currentPageNum, searchValue, filter);
+    }
+
+    handleChangeFilterByDate(e) {
+        this.setState({
+            filterByDate: parseInt(e.target.value)
+        });
     }
 
     handleChangeStartDate(date) {
@@ -74,19 +90,43 @@ class BillOfSale extends Component {
         });
     }
 
-    getPrevPage() {
+    handleSubmit(e) {
+        e.preventDefault();
+        const { filter, pager: { limit } } = this.props.productList;
+        this.props.getBillsByPage(limit, 1, this.state.searchValue, filter);
+    }
 
+    getPrevPage() {
+        const { pager: { limit, prevPageNum }, searchValue, filter } = this.props.productList;
+        this.props.getBillsByPage(limit, prevPageNum, searchValue, filter);
     }
 
     getNextPage() {
-
+        const { pager: { limit, nextPageNum }, searchValue, filter } = this.props.productList;
+        this.props.getBillsByPage(limit, nextPageNum, searchValue, filter);
     }
 
     render() {
-        const { billTypeSelected, startDate, endDate, searchValue, productNum } = this.state;
-        const bills = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-        const currentPage = 1, totalBill = 10, noPerPage = 10;
+        const { billTypeSelected, startDate, endDate, searchValue, productNum, filterByDate } = this.state;
+        const { bills, pager, filter } = this.props.bill;
+        console.log(bills);
+        const renderFilterByDate = () => {
+            if (filterByDate) return (<div>
+                <div className="col-xs-12 col-sm-6">
+                    <Label htmlFor="">Từ</Label>
+                    <div className="form-group">
+                        <DatePicker className="form-control" selected={startDate} onChange={this.handleChangeStartDate} />
+                    </div>
+                </div>
 
+                <div className="col-xs-12 col-sm-6">
+                    <Label htmlFor="">Đến</Label>
+                    <div className="form-group">
+                        <DatePicker className="form-control" selected={endDate} onChange={this.handleChangeEndDate} />
+                    </div>
+                </div>
+            </div>);
+        }
         return (
             <div>
                 <TitlePanel>
@@ -97,19 +137,15 @@ class BillOfSale extends Component {
                     <div className="row">
                         <div className="col-sm-6">
                             <div className="row">
-                                <div className="col-xs-12 col-sm-6">
-                                    <Label htmlFor="">Từ</Label>
-                                    <div className="form-group">
-                                        <DatePicker className="form-control" selected={startDate} onChange={this.handleChangeStartDate} />
-                                    </div>
+                                <div className="col-xs-12 col-sm-8">
+                                    <Label htmlFor="">Ngày đặt</Label>
+                                    <select name="product_type_id" id="product-type" className="form-control"
+                                        value={filterByDate} onChange={this.handleChangeFilterByDate}>
+                                        <option value="0">Tất cả</option>
+                                        <option value="1">Chọn ngày</option>
+                                    </select>
                                 </div>
-
-                                <div className="col-xs-12 col-sm-6">
-                                    <Label htmlFor="">Đến</Label>
-                                    <div className="form-group">
-                                        <DatePicker className="form-control" selected={endDate} onChange={this.handleChangeEndDate} />
-                                    </div>
-                                </div>
+                                {renderFilterByDate()}
                             </div>
 
                             <div className="row" style={{ display: 'flex', alignItems: 'flex-end', flexWrap: 'wrap', marginBottom: '15px' }}>
@@ -117,10 +153,10 @@ class BillOfSale extends Component {
                                     <Label htmlFor="product-type">Đơn hàng</Label>
                                     <select name="product_type_id" id="product-type" className="form-control"
                                         value={billTypeSelected} onChange={this.handleChangeBillType}>
-                                        <option value="1">Tất cả</option>
-                                        <option value="2">Đang giao hàng</option>
-                                        <option value="3">Đã giao hàng</option>
-                                        <option value="4">Đổi trả</option>
+                                        <option value="0">Tất cả</option>
+                                        <option value="1">Đang giao hàng</option>
+                                        <option value="2">Đã giao hàng</option>
+                                        <option value="3">Đổi trả</option>
                                     </select>
                                 </div>
 
@@ -147,7 +183,7 @@ class BillOfSale extends Component {
                             <SearchForm onSubmit={event => this.handleSubmit(event)}>
                                 <input type="text" className="form-control" placeholder="Tìm kiếm đơn hàng"
                                     value={searchValue} onChange={(e) => this.setState({ searchValue: e.target.value })} />
-                                <button type="submit" className="btn btn-primary"><i class="fa fa-search"></i></button>
+                                <button type="submit" className="btn btn-primary"><i className="fa fa-search"></i></button>
                             </SearchForm>
                         </div>
                     </div>
@@ -158,8 +194,8 @@ class BillOfSale extends Component {
                             <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th>Mã KH</th>
-                                    <th>Mã NV</th>
+                                    <th>Tên KH</th>
+                                    <th>Shiper</th>
                                     <th>Địa chỉ</th>
                                     <th>Ngày đặt</th>
                                     <th>Ngày nhận</th>
@@ -170,12 +206,12 @@ class BillOfSale extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {bills.map((bill, index) => <BillRow key={index} />)}
+                                {bills.map((bill, index) => <BillRow key={index} pos={pager.offset + index + 1} billInfo={bill} />)}
                             </tbody>
                         </table>
                     </div>
 
-                    <Pagination currentPage={currentPage} total={totalBill} noPerPage={noPerPage}
+                    <Pagination currentPage={pager.currentPageNum} total={pager.totalCount} noPerPage={pager.limit}
                         getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
                 </WhitePanel>
             </div>
@@ -183,4 +219,10 @@ class BillOfSale extends Component {
     }
 }
 
-export default BillOfSale;
+function mapStateToProps(state) {
+    return {
+        bill: state.admin.bill
+    }
+}
+
+export default connect(mapStateToProps, actions)(BillOfSale);

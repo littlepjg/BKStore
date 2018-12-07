@@ -12,7 +12,8 @@ import './App.css';
 // admin layout
 import AdminLayout from './layouts/AdminLayout';
 import DashBoard from './pages/admin/DashBoard';
-import User from './pages/admin/User';
+import User from './pages/admin/user/User';
+import CUUser from './pages/admin/user/CUUser';
 import Post from './pages/admin/post/Post';
 import CUPost from './pages/admin/post/CUPost';
 import RevenueStatistic from './pages/admin/statistical/RevenueStatistic';
@@ -74,6 +75,13 @@ class App extends Component {
           ) : (
               redirectToLogin(props)
             )} />
+          <Route exact path="/admin/users/new" render={props => level && level === 2 ? (
+            <AdminLayout>
+              <CUUser {...props} />
+            </AdminLayout>
+          ) : (
+              redirectToLogin(props)
+            )} />
           <Route exact path="/admin/posts" render={props => level && level === 2 ? (
             <AdminLayout>
               <Post {...props} />
@@ -123,7 +131,7 @@ class App extends Component {
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/bill/detail/:id" render={props => level && level === 2 ? (
+          <Route exact path="/admin/bill/:id/detail" render={props => level && level === 2 ? (
             <AdminLayout>
               <BillDetail {...props} />
             </AdminLayout>

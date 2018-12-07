@@ -2,12 +2,9 @@ const db = require('../common/knex');
 const { paginate } = require('../helpers/dbUtils');
 
 const addUser = async (user) => {
-    const { full_name, email, passwd } = user;
     return await db('users')
         .insert({
-            full_name,
-            email,
-            passwd,
+            ...user,
             created_at: db.fn.now(),
             updated_at: db.fn.now()
         });

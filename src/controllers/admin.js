@@ -3,9 +3,11 @@ const product_md = require('../models/productModel');
 
 const route = express.Router();
 
+route.use("/dashboard", require(__dirname + "/admin/dashboard.js"));
 route.use("/user", require(__dirname + "/admin/user.js"));
 route.use("/post", require(__dirname + "/admin/post.js"));
 route.use("/product", require(__dirname + "/admin/product.js"));
+route.use("/bill", require(__dirname + "/admin/bill.js"));
 
 route.get('/', (req, res) => {
     res.writeHead(200, { "Content-type": "text/html" });

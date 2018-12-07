@@ -8,7 +8,7 @@ import * as actions from '../../../actions/admin_product_actions';
 
 class ProductRow extends Component {
     deleteProduct(id) {
-        const { parger: { currentPageNum, totalCount, limit, offset, prevPageNum }, searchValue, filter } = this.props.productList;
+        const { pager: { currentPageNum, totalCount, limit, offset, prevPageNum }, searchValue, filter } = this.props.productList;
         confirmAlert({
             title: 'Confirm to delete',
             message: 'Are you sure to delete this product.',

@@ -15,14 +15,10 @@ route.get('/', (req, res) => {
 
 route.post("/register", (req, res) => {
     let user = req.body;
-
     user.passwd = helper.hashPassword(user.passwd);
-    user.created_at = new Date();
-    user.updated_at = new Date();
 
     // id, full_name, email, phone_number, address, level
     user_md.addUser(user).then(user => {
-        console.log('user: ', user);
         user_md.getUserById(user[0]).then(user => {
             res.json({
                 success: true,
