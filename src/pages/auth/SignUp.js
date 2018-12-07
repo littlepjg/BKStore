@@ -48,7 +48,7 @@ class SignUp extends Component {
         let { from } = this.props.location.state || { from: undefined };
         const { error } = this.props.auth;
         if (this.props.auth.authenticated) {
-            from = from ? from : this.props.auth.user.level === 2 ? { pathname: "/admin" } : { pathname: "/" };
+            from = from ? from : this.props.auth.user.level === 2 ? { pathname: "/admin/dashboard" } : { pathname: "/" };
             return <Redirect to={from} />;
         }
 

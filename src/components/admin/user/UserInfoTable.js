@@ -5,21 +5,21 @@ import UserRow from './UserRow';
 
 class UserInfoTable extends Component {
     render() {
-        const { users, currentPage, noPerPage } = this.props.user;
+        const { users, pager: { offset } } = this.props.user;
         return (
             <div className="table-responsive">
                 <table className="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>
                             <th>STT</th>
-                            <th>Full Name</th>
+                            <th>Họ Tên</th>
                             <th>Email</th>
-                            <th>Address</th>
-                            <th>Delete</th>
+                            <th>Địa chỉ</th>
+                            <th>Hoạt động</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user, index) => <UserRow key={user.id} pos={(currentPage - 1) * noPerPage + index + 1} userInfo={user} />)}
+                        {users.map((user, index) => <UserRow key={user.id} pos={offset + index + 1} userInfo={user} />)}
                     </tbody>
                 </table>
             </div>
