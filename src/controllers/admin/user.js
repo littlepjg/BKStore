@@ -1,5 +1,6 @@
 const express = require("express");
 const user_md = require('../../models/userModel');
+const helper = require('../../helpers/helper');
 
 const route = express.Router();
 
@@ -20,6 +21,21 @@ route.get('/pages', (req, res) => {
     }).catch(error => {
         console.log("error: ", error);
         res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' })
+    });
+});
+
+route.post('/add', (req, res) => {
+    const { user } = req.body;
+    user['passwd'] = helper.hashPassword('12345678');
+    user_md.addUser(user).then(user => {
+        res.json({ success: true, error: '' });
+    }).catch(error => {
+        console.log("error: ", error);
+        if (error.code == 'ER_DUP_ENTRY') {
+            res.json({ success: false, error: 'Email đã được sử dụng' });
+        } else {
+            res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' });
+        }
     });
 });
 
