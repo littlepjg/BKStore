@@ -9,7 +9,6 @@ const Dialog = styled.div`
     left: 0;
     z-index: 1050;
     background-color: rgba(0, 0, 0, 0.4);
-    display: ${({message}) => message?"block":"none"}
 `;
 
 class MessageDialog extends Component {

@@ -7,4 +7,16 @@ const WhitePanel = styled.div`
     padding: 20px;
 `;
 
-export { WhitePanel }
+const TitlePanel = styled(WhitePanel)`
+    margin: 10px 0px 0px;
+
+    h3 {
+        margin: 0;
+    }
+`;
+
+const Label = styled.label`
+    display: block;
+`;
+
+export { WhitePanel, TitlePanel, Label }

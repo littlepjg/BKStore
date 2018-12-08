@@ -3,20 +3,26 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { connect } from 'react-redux';
 
 // using boostrap css
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './App.css';
 
 // admin layout
 import AdminLayout from './layouts/AdminLayout';
-import User from './pages/admin/User';
+import DashBoard from './pages/admin/DashBoard';
+import User from './pages/admin/user/User';
+import CUUser from './pages/admin/user/CUUser';
 import Post from './pages/admin/post/Post';
 import CUPost from './pages/admin/post/CUPost';
 import RevenueStatistic from './pages/admin/statistical/RevenueStatistic';
 import ProductStatistic from './pages/admin/statistical/ProductStatistic';
 import NotFound from './pages/404';
+import ProductList from './pages/admin/product/ProductList';
 import AddProduct from './pages/admin/product/AddProduct';
 import ProductAttribute from './pages/admin/product/ProductAttribute';
+import BillOfSale from './pages/admin/bill/BillOfSale';
 
 // user layout
 import GuestLayout from './layouts/GuestLayout';
@@ -29,8 +35,9 @@ import ProductFavorite from './pages/guest/ProductFavorite';
 import UserOrder from './pages/guest/UserOrder';
 import SearchProduct from './pages/guest/SearchProduct';
 import HomePage from './pages/guest/HomePage';
+import ProductDetailList from './pages/guest/ProductDetailList';
 import ShoppingCart from './pages/guest/ShoppingCart';
-
+import BillDetail from './pages/admin/bill/BillDetail';
 const Home = () => <h3>Home</h3>;
 
 class App extends Component {
@@ -56,9 +63,9 @@ class App extends Component {
         <Switch>
           {/* route admin */}
           {/* {user && user.level == 2 && routes.admin.map((route) => routeAdmin(route))} */}
-          <Route exact path="/admin" render={props => level && level === 2 ? (
+          <Route exact path="/admin/dashboard" render={props => level && level === 2 ? (
             <AdminLayout>
-              <Home {...props} />
+              <DashBoard {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
@@ -66,6 +73,13 @@ class App extends Component {
           <Route exact path="/admin/users" render={props => level && level === 2 ? (
             <AdminLayout>
               <User {...props} />
+            </AdminLayout>
+          ) : (
+              redirectToLogin(props)
+            )} />
+          <Route exact path="/admin/users/new" render={props => level && level === 2 ? (
+            <AdminLayout>
+              <CUUser {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
@@ -93,7 +107,7 @@ class App extends Component {
             )} />
           <Route exact path="/admin/products" render={props => level && level === 2 ? (
             <AdminLayout>
-              <Home {...props} />
+              <ProductList {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
@@ -108,6 +122,20 @@ class App extends Component {
           <Route exact path="/admin/product/attributes" render={props => level && level === 2 ? (
             <AdminLayout>
               <ProductAttribute {...props} />
+            </AdminLayout>
+          ) : (
+              redirectToLogin(props)
+            )} />
+          <Route exact path="/admin/bills" render={props => level && level === 2 ? (
+            <AdminLayout>
+              <BillOfSale {...props} />
+            </AdminLayout>
+          ) : (
+              redirectToLogin(props)
+            )} />
+          <Route exact path="/admin/bill/:id/detail" render={props => level && level === 2 ? (
+            <AdminLayout>
+              <BillDetail {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
@@ -177,6 +205,12 @@ class App extends Component {
           <Route exact path="/product/detail/:id" render={props => (
             <GuestLayout>
               <ProductDetail {...props} />
+            </GuestLayout>
+          )} />
+
+          <Route exact path="/home/productlist" render={()=>(
+            <GuestLayout>
+              <ProductDetailList />
             </GuestLayout>
           )} />
 

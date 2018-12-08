@@ -5,21 +5,21 @@ import PostRow from './PostRow';
 
 class PostInfoTable extends Component {
     render() {
-        const { posts, currentPage, noPerPage } = this.props.post;
+        const { posts, pager: { offset } } = this.props.post;
         return (
             <div className="table-responsive">
                 <table className="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>
                             <th>STT</th>
-                            <th>Title</th>
-                            <th>Content</th>
-                            <th>Link To</th>
-                            <th>Action</th>
+                            <th>Tiêu đề</th>
+                            <th>Nội dung</th>
+                            <th>Đường dẫn</th>
+                            <th>Hoạt động</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {posts.map((post, index) => <PostRow key={post.id} pos={(currentPage - 1) * noPerPage + index + 1} postInfo={post} />)}
+                        {posts.map((post, index) => <PostRow key={post.id} pos={offset + index + 1} postInfo={post} />)}
                     </tbody>
                 </table>
             </div>
