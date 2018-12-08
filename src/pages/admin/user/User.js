@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
-import * as actions from '../../actions/admin_user_action';
+import * as actions from '../../../actions/admin_user_action';
 
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import { TitlePanel, WhitePanel } from '../../theme/Style';
-import UserSearch from '../../components/admin/user/UserSearch';
-import UserInfoTable from '../../components/admin/user/UserInfoTable';
-import Pagination from '../../components/pagination/Pagination';
-import MessageDialog from '../../components/dialog/MessageDialog';
+import { TitlePanel, WhitePanel } from '../../../theme/Style';
+import UserSearch from '../../../components/admin/user/UserSearch';
+import UserInfoTable from '../../../components/admin/user/UserInfoTable';
+import Pagination from '../../../components/pagination/Pagination';
+import MessageDialog from '../../../components/dialog/MessageDialog';
 
 class User extends Component {
     constructor(props) {
@@ -47,6 +48,11 @@ class User extends Component {
                 </TitlePanel>
 
                 <WhitePanel>
+                    <div className="row" style={{ marginBottom: "10px", marginTop: "35px" }}>
+                        <div className="col-md-12">
+                            <NavLink to="/admin/users/new" className="btn btn-success pull-right">Tạo mới</NavLink>
+                        </div>
+                    </div>
                     <UserSearch />
                     <UserInfoTable />
                     <Pagination currentPage={currentPageNum} total={totalCount} noPerPage={limit}

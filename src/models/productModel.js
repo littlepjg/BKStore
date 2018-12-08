@@ -12,9 +12,6 @@ const getProductTypes = async () => {
 const getProductAdminByPage = async (limit, pageNum, searchValue, filter) => {
     const whereClause = {};
     const { provider, product_type } = filter;
-    if (searchValue) {
-        whereClause['products.product_name'] = searchValue;
-    }
     if (provider) {
         whereClause['products.provider_id'] = provider;
     }
@@ -39,14 +36,45 @@ const getProductAdminByPage = async (limit, pageNum, searchValue, filter) => {
         'providers.id',
         'products.provider_id'
     );
+
+    if (searchValue && !whereClause) {
+        builder.where('products.product_name', 'like', `%${searchValue}%`);
+    }
     if (whereClause) {
         builder.where(whereClause);
+        if (searchValue) {
+            builder.andWhere('products.product_name', 'like', `%${searchValue}%`);
+        }
     }
 
     return await paginate(
         builder,
         { limit, pageNum }
     );
+}
+
+const getTopSellingProducts = async (limit) => {
+    return await db('products')
+        .innerJoin(db('sale_bills')
+            .select(db.raw('product_id, sum(amount) as count'))
+            .innerJoin(
+                'sale_details',
+                'sale_details.id',
+                'sale_bills.id'
+            ).whereRaw('(sale_bills.book_date between (CURDATE() - INTERVAL 1 MONTH ) and CURDATE()) and sale_bills.status_order < 4')
+            .groupBy('product_id')
+            .limit(limit).as('x'),
+            'x.product_id',
+            'products.id')
+        .select(
+            'products.id',
+            'products.product_name',
+            'products.product_images',
+            'products.base_price',
+            'products.unit',
+            'products.quantity',
+            'x.count'
+        );
 }
 
 const deleteProduct = async (id) => {
@@ -57,5 +85,6 @@ module.exports = {
     getProviders,
     getProductTypes,
     getProductAdminByPage,
+    getTopSellingProducts,
     deleteProduct,
 }
