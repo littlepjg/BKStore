@@ -35,8 +35,10 @@ import ProductFavorite from './pages/guest/ProductFavorite';
 import UserOrder from './pages/guest/UserOrder';
 import SearchProduct from './pages/guest/SearchProduct';
 import HomePage from './pages/guest/HomePage';
+import ProductDetailList from './pages/guest/ProductDetailList';
 import ShoppingCart from './pages/guest/ShoppingCart';
 import BillDetail from './pages/admin/bill/BillDetail';
+const Home = () => <h3>Home</h3>;
 
 class App extends Component {
   render() {
@@ -203,6 +205,12 @@ class App extends Component {
           <Route exact path="/product/detail/:id" render={props => (
             <GuestLayout>
               <ProductDetail {...props} />
+            </GuestLayout>
+          )} />
+
+          <Route exact path="/home/productlist" render={()=>(
+            <GuestLayout>
+              <ProductDetailList />
             </GuestLayout>
           )} />
 
