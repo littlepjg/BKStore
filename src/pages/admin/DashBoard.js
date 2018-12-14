@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+import { formatNumber } from '../../helpers/formatNumber';
 import { TitlePanel, WhitePanel } from '../../theme/Style';
 
 const Card = styled.div`
@@ -122,7 +123,7 @@ class DashBoard extends Component {
                 </TitlePanel>
 
                 <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-4">
                         <Card>
                             <CardHeader>
                                 <CardIcon inputColor="#26c6da">
@@ -133,7 +134,7 @@ class DashBoard extends Component {
                             </CardHeader>
                         </Card>
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col-sm-4">
                         <Card>
                             <CardHeader>
                                 <CardIcon inputColor="#ffa726">
@@ -144,14 +145,14 @@ class DashBoard extends Component {
                             </CardHeader>
                         </Card>
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col-sm-4">
                         <Card>
                             <CardHeader>
                                 <CardIcon inputColor="#66bb6a">
                                     <i className="fa fa-btc fa-4x"></i>
                                 </CardIcon>
                                 <p>Revenue</p>
-                                <h3>{`${revenue}`} <small>$</small></h3>
+                                <h3>{revenue ? formatNumber(revenue) : 0} <small>VNĐ</small></h3>
                             </CardHeader>
                         </Card>
                     </div>

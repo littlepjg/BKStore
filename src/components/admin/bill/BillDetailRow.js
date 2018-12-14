@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { formatNumber } from '../../../helpers/formatNumber';
 
 class BillDetailRow extends Component {
     render() {
@@ -8,7 +9,7 @@ class BillDetailRow extends Component {
                 <td>{pos}</td>
                 <td>{detail.productId}</td>
                 <td>{detail.productName}</td>
-                <td>{detail.unitPrice} VNĐ</td>
+                <td>{formatNumber(detail.unitPrice)} VNĐ</td>
                 <td>{detail.amount}</td>
                 <td>1</td>
                 <td>
