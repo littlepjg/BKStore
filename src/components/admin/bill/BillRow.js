@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { formatDate } from '../../../helpers/formatDate';
+import { formatNumber } from '../../../helpers/formatNumber';
 
 const statusOrder = {
     '1': 'Đang giao hàng',
@@ -19,8 +20,8 @@ class BillRow extends Component {
                 <td>{billInfo.destination_address}</td>
                 <td>{formatDate(billInfo.book_date)}</td>
                 <td>{formatDate(billInfo.delivery_date)}</td>
-                <td>{billInfo.ship_fee} VNĐ</td>
-                <td>{billInfo.bill_value} VNĐ</td>
+                <td>{formatNumber(billInfo.ship_fee)} VNĐ</td>
+                <td>{formatNumber(billInfo.bill_value)} VNĐ</td>
                 <td>{statusOrder[`${billInfo.status_order}`]}</td>
                 <td>
                     <NavLink to={`/admin/bill/${billInfo.id}/detail`} className="btn btn-success">Chi tiết</NavLink>

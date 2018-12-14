@@ -1,14 +1,6 @@
 const db = require('../common/knex');
 const { paginate } = require('../helpers/dbUtils');
 
-const getProviders = async () => {
-    return await db('providers').select();
-}
-
-const getProductTypes = async () => {
-    return await db('product_type').select();
-}
-
 const getProductAdminByPage = async (limit, pageNum, searchValue, filter) => {
     const whereClause = {};
     const { provider, product_type } = filter;
@@ -82,8 +74,6 @@ const deleteProduct = async (id) => {
 }
 
 module.exports = {
-    getProviders,
-    getProductTypes,
     getProductAdminByPage,
     getTopSellingProducts,
     deleteProduct,

@@ -81,7 +81,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `bkstore`.`category_attributes`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `bkstore`.`category_attributes` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `category_name` VARCHAR(255) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT NULL,
@@ -94,7 +94,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `bkstore`.`product_attributes`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `bkstore`.`product_attributes` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `product_type_id` INT(11) NOT NULL,
   `category_attribute_id` INT(11) NOT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
