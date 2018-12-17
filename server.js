@@ -6,6 +6,14 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const multer = require('multer');
+const path = require('path');
+var upload = multer({
+    storage: multer.diskStorage({
+        destination: function (req, file, callback) { callback(null, './upload/product'); },
+        filename: function (req, file, callback) { callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); }
+    }),
+});
 
 const app = express();
 
@@ -54,6 +62,22 @@ app.get('/', (req, res) => {
     res.write("<h1>Hi, my name is Tieu.</h1>");
     res.end();
     // res.sendFile(__dirname + '/build/index.html');
+});
+
+app.get('/photos/:type/:name', (req, res) => {
+    const { type, name } = req.params;
+    res.sendFile(__dirname + `/upload/${type}/${name}`);
+});
+
+app.post('/upload', upload.any(), (req, res) => {
+    console.log("req.body"); //form fields
+    console.log(req.body);
+    console.log(req.body.file);
+    console.log("req.file");
+    console.log(req.files); //form files
+    if (!req.body && !req.files) {
+        res.json({ success: false });
+    }
 });
 
 const { host, port } = config.get('server');

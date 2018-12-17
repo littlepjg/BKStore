@@ -15,6 +15,7 @@ class UserInfoTable extends Component {
                             <th>Họ Tên</th>
                             <th>Email</th>
                             <th>Địa chỉ</th>
+                            <th>Loại tài khoản</th>
                             <th>Hoạt động</th>
                         </tr>
                     </thead>
