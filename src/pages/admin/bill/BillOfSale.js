@@ -31,18 +31,19 @@ class BillOfSale extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            billTypeSelected: '1',
+            billTypeSelected: '0',
             startDate: moment('03/12/2018', 'dd/MM/yyyy').toDate(),
             endDate: new Date(),
             searchValue: '',
             filterByDate: 0,
-            productNum: 10
         }
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChangeFilterByDate = this.handleChangeFilterByDate.bind(this);
         this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
         this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
         this.handleChangeBillType = this.handleChangeBillType.bind(this);
         this.handleChangeProductNum = this.handleChangeProductNum.bind(this);
+        this.handleFilterBill = this.handleFilterBill.bind(this);
         this.getPrevPage = this.getPrevPage.bind(this);
         this.getNextPage = this.getNextPage.bind(this);
     }
@@ -85,31 +86,41 @@ class BillOfSale extends Component {
     }
 
     handleChangeProductNum(e) {
-        this.setState({
-            productNum: parseInt(e.target.value)
-        });
+        const limit = parseInt(e.target.value);
+        const { searchValue, filter } = this.props.bill;
+        this.props.getBillsByPage(limit, 1, searchValue, filter);
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        const { filter, pager: { limit } } = this.props.productList;
+        const { filter, pager: { limit } } = this.props.bill;
         this.props.getBillsByPage(limit, 1, this.state.searchValue, filter);
     }
 
+    handleFilterBill(e) {
+        const { startDate, endDate, billTypeSelected, filterByDate } = this.state;
+        const date = filterByDate ? { startDate, endDate } : 0;
+        const filter = {
+            date,
+            billType: parseInt(billTypeSelected),
+        }
+        const { pager: { limit }, searchValue } = this.props.bill;
+        this.props.getBillsByPage(limit, 1, searchValue, filter);
+    }
+
     getPrevPage() {
-        const { pager: { limit, prevPageNum }, searchValue, filter } = this.props.productList;
+        const { pager: { limit, prevPageNum }, searchValue, filter } = this.props.bill;
         this.props.getBillsByPage(limit, prevPageNum, searchValue, filter);
     }
 
     getNextPage() {
-        const { pager: { limit, nextPageNum }, searchValue, filter } = this.props.productList;
+        const { pager: { limit, nextPageNum }, searchValue, filter } = this.props.bill;
         this.props.getBillsByPage(limit, nextPageNum, searchValue, filter);
     }
 
     render() {
-        const { billTypeSelected, startDate, endDate, searchValue, productNum, filterByDate } = this.state;
-        const { bills, pager, filter } = this.props.bill;
-        console.log(bills);
+        const { billTypeSelected, startDate, endDate, searchValue, filterByDate } = this.state;
+        const { bills, pager } = this.props.bill;
         const renderFilterByDate = () => {
             if (filterByDate) return (<div>
                 <div className="col-xs-12 col-sm-6">
@@ -161,7 +172,7 @@ class BillOfSale extends Component {
                                 </div>
 
                                 <div className="col-xs-4 col-sm-5" style={{ marginTop: 10 }}>
-                                    <button type="button" className="btn btn-success">Lọc</button>
+                                    <button type="button" className="btn btn-success" onClick={this.handleFilterBill}>Lọc</button>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +182,7 @@ class BillOfSale extends Component {
                                 <div className="col-xs-8 col-sm-7">
                                     <Label htmlFor="product-type">Hiển thị</Label>
                                     <select name="product_num" id="product-type" className="form-control"
-                                        value={productNum} onChange={this.handleChangeProductNum}>
+                                        value={pager.limit} onChange={this.handleChangeProductNum}>
                                         <option value="10">10 hàng</option>
                                         <option value="15">15 hàng</option>
                                         <option value="20">20 hàng</option>

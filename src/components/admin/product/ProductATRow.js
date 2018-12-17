@@ -4,14 +4,14 @@ class ProductATRow extends Component {
     // action = 1: liên kết
     // action = 2: xóa
     render() {
-        const { action } = this.props;
+        const { pos, action, object: { id, name }, onClick } = this.props;
         return (
             <tr>
-                <td>1</td>
-                <td>Bộ nhớ trong</td>
+                <td>{pos}</td>
+                <td>{name}</td>
                 <td>
-                    {action == 1 && <button className="btn btn-success">Liên kết</button>}
-                    {action == 2 && <button className="btn btn-danger">Xóa</button>}
+                    {action == 1 && <button className="btn btn-success" onClick={onClick}>Liên kết</button>}
+                    {action == 2 && <button className="btn btn-danger" onClick={onClick}>Xóa</button>}
                 </td>
             </tr>
         );
