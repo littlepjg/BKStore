@@ -5,7 +5,14 @@ import ProductsView from '../../components/guest/product/ProductsView';
 import BottomHeader from '../../components/guest/BottomHeader';
 
 class ProductDetailList extends Component {
+    constructor(){
+        super(this.props);
+        this.state = {
+        }
+    }
     render() {
+        console.log(this.props.match.params.type_product);
+        
         return (
             <div className="container-fluid">
                 <div class="row">

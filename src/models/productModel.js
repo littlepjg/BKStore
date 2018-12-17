@@ -81,10 +81,27 @@ const deleteProduct = async (id) => {
     return await db('products').where({ id }).del();
 }
 
+const getProductListByIdProvider = (provider_id)=>{
+    return await db('providers')
+    .where('id', provider_id)
+    .join('products', 'providers.id', 'products.provider_id')
+    .join()
+    .select(
+        'providers.name',
+        'products.id',
+        'product_name',
+        'product_images',
+        'base_price',
+        'description',
+        'quantity'
+    );
+}
+
 module.exports = {
     getProviders,
     getProductTypes,
     getProductAdminByPage,
     getTopSellingProducts,
     deleteProduct,
+    getProductListByIdProvider
 }
