@@ -161,7 +161,7 @@ class AddProduct extends Component {
             this.setState(prevState => {
                 const productTypeAttributes = prevState.productInfo.productTypeAttributes;
                 productTypeAttributes.unshift({
-                    id: productAttribute,
+                    product_attribute_id: productAttribute,
                     name: prevState.productAttributes.find(e => e.id === productAttribute).category_name,
                     value: attributeValue,
                 })
@@ -182,7 +182,7 @@ class AddProduct extends Component {
             return {
                 productInfo: {
                     ...prevState.productInfo,
-                    productTypeAttributes: prevState.productInfo.productTypeAttributes.filter(e => e.id != id),
+                    productTypeAttributes: prevState.productInfo.productTypeAttributes.filter(e => e.product_attribute_id != id),
                 }
             }
         })
@@ -269,7 +269,7 @@ class AddProduct extends Component {
         formData.append('product_name', productInfo.product_name);
         formData.append('product_type_id', productInfo.product_type_id);
         formData.append('quantity', productInfo.quantity);
-        formData.append('productAttribute', productInfo.productTypeAttributes);
+        formData.append('productAttribute', JSON.stringify(productInfo.productTypeAttributes));
         formData.append('price', productInfo.price);
         formData.append('provider', productInfo.provider);
         formData.append('description', productInfo.description);
@@ -347,7 +347,7 @@ class AddProduct extends Component {
                                         <label htmlFor="product-type">Product Attributes</label>
                                         <select name="product_attributes" id="product-type" className="form-control"
                                             ref={e => this.productAttribute = e}>
-                                            {productAttributes.filter(e => !productTypeAttributes.find(e1 => e1.id === e.id)).map(productAttr => <option key={productAttr.id} value={`${productAttr.id}`}>{productAttr.category_name}</option>)}
+                                            {productAttributes.filter(e => !productTypeAttributes.find(e1 => e1.product_attribute_id === e.id)).map(productAttr => <option key={productAttr.id} value={`${productAttr.id}`}>{productAttr.category_name}</option>)}
                                         </select>
                                     </div>
 
@@ -375,7 +375,7 @@ class AddProduct extends Component {
                                             </thead>
                                             <tbody>
                                                 {productTypeAttributes.map((attr, i) => (
-                                                    <tr key={attr.id}>
+                                                    <tr key={attr.product_attribute_id}>
                                                         <td>{i + 1}</td>
                                                         <td>{attr.name}</td>
                                                         <td>{attr.value}</td>
