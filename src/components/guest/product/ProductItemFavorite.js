@@ -25,6 +25,10 @@ const Container = styled.div`
     margin-left: 20px;
 }
 
+.products_item_favorite .info_item_favorite_describe .fa-trash{
+    font-size: 24px;
+}
+
 .products_item_favorite .info_item_favorite_describe .name{
     font-size: 16px;
     margin-bottom: 5px;
@@ -62,13 +66,13 @@ class ProductItemFavorite extends Component {
                             <p class="name">MacBook Air 13.3-inch, 1.6 GHz Intel core i5 2015</p>
                             <p class="describe">Màu: bạc</p>
                             <a href="#">
-                                <span class="glyphicon glyphicon-trash"></span>
+                                <i class="fa fa-trash"></i>
                             </a>
                         </div>
                     </div>
                     <p className="price_item_favorite">2.000.000 đ</p>
                     <div className="button_add">
-                        <button type="button" class="btn btn-success add"><i class="glyphicon glyphicon-shopping-cart"></i></button>
+                        <img src="//laz-img-cdn.alicdn.com/tfs/TB1iUYumfDH8KJjy1XcXXcpdXXa-144-64.png" width="72" height="32" />
                     </div>
                 </div>
             </Container>
