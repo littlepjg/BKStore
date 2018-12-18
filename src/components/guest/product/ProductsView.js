@@ -6,6 +6,7 @@ import list from './list-icon.png';
 import ProductItem from './ProductItem';
 import pagination from './pagination/pageUtil';
 import ProductItemHorizonto from './ProductItemHorizonto';
+import HomeSlider from '../HomeSlider';
 
 const Category = styled.div`
     position: relative;
@@ -205,32 +206,187 @@ const Sorter = styled.div`
 `;
 
 class ProductsView extends Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
             mode: 'list',
 
             products: [
                 {
-                    id:'1',
+                    id: '1',
                     product_name: 'Huawei Y6 Prime 2018',
                     product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
                     quantily: '200',
 
                 },
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                {
+                    id: '2',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '3',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '4',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '5',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '6',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '7',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '8',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '9',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '10',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '11',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '12',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '13',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '14',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '15',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '16',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '17',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '18',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '19',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '20',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '21',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '22',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '23',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '24',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
+                {
+                    id: '25',
+                    product_name: 'Huawei Y6 Prime 2018',
+                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
+                    quantily: '200',
+
+                },
             ],
             currentPage: 1,
             limit: 30,
@@ -262,20 +418,20 @@ class ProductsView extends Component {
         }
     }
 
-    clickHandle(mode){
+    clickHandle(mode) {
         this.setState({
             mode: mode.trim()
         });
     }
 
-    handleClickItemPager(pageNum){
+    handleClickItemPager(pageNum) {
         console.log(pageNum);
-        
+
         this.setState({
             currentPage: pageNum,
         });
     }
-    renderPager(pageNum, key){
+    renderPager(pageNum, key) {
         const current = this.state.currentPage;
         if (typeof pageNum === 'number') {
             return pageNum !== current ? <li key={key} onClick={() => this.handleClickItemPager(pageNum)}><a href="#">{pageNum}</a></li> : <li onClick={() => this.handleClickItemPager(pageNum)} className="active" key={key}><a href="#">{pageNum}</a></li>
@@ -284,24 +440,27 @@ class ProductsView extends Component {
     }
 
     render() {
-        const {mode} = this.state;
+        const { mode } = this.state;
 
-        const {products, currentPage, limit} = this.state;
+        const { products, currentPage, limit } = this.state;
         const countPage = Math.ceil(products.length / limit);
         const pageList = pagination(countPage, currentPage);
 
-        const indexOfLastProduct = limit*currentPage;
+        const indexOfLastProduct = limit * currentPage;
         const indexOfFirstProduct = indexOfLastProduct - limit;
         const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
         return (
             <div className="container-fluid">
                 <div class="row">
+                    <HomeSlider/>
+                </div>
+                <div class="row">
                     <div class="col-sm-3">
                         <div class="category">
                             <div>Relative Catagory</div>
                         </div>
-                        
+
                         <Category className="category leftbar">
                             <h3 className="title">Categories</h3>
                             <ul>
@@ -317,7 +476,7 @@ class ProductsView extends Component {
                         <Category className="category leftbar">
                             <h3 class="title">Price</h3>
                             <div className="price">
-                                <input type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
+                                <input type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*"ú />
                                 <div>-</div>
                                 <input type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
                                 <button type="button" className="btn btn-primary btn-icon-only">
@@ -326,7 +485,7 @@ class ProductsView extends Component {
                             </div>
                         </Category>
 
-                         <Category className="category leftbar">
+                        <Category className="category leftbar">
                             <h3 className="title">Storage</h3>
                             <ul>
                                 <li><a href="#"> 64GB </a></li>
@@ -338,7 +497,7 @@ class ProductsView extends Component {
                             </ul>
                         </Category>
 
-                         <Category className="category leftbar">
+                        <Category className="category leftbar">
                             <h3 className="title">Color Family</h3>
                             <ul>
                                 <li><a href="#"> Black </a></li>
@@ -363,7 +522,7 @@ class ProductsView extends Component {
                                 <li><a href="#"> 4.1-4.5 Inch </a></li>
                             </ul>
                         </Category>
-                        
+
                     </div>
 
                     <div class="col-sm-9">
@@ -380,48 +539,48 @@ class ProductsView extends Component {
 
                                 <div className="view">View</div>
                                 <div>
-                                    <a href="#" class={"list " + (mode==="list"?'active':"")} onClick={()=>this.clickHandle("list")}>
+                                    <a href="#" class={"list " + (mode === "list" ? 'active' : "")} onClick={() => this.clickHandle("list")}>
                                         List
                                     </a>
-                                    <a href="#" class={"grid "+(mode==="grid"?'active':"")} onClick={()=>this.clickHandle("grid")}>
+                                    <a href="#" class={"grid " + (mode === "grid" ? 'active' : "")} onClick={() => this.clickHandle("grid")}>
                                         Grid
                                     </a>
                                 </div>
                             </Sorter>
                             <h3 className="title">Điện thoại di động</h3>
-                            
+
                         </div>
-                    
+
 
                         <div class="row">
                             {
-                                currentProducts.length>0?currentProducts.map((product, key)=>{
-                                    if(mode === "list"){
+                                currentProducts.length > 0 ? currentProducts.map((product, key) => {
+                                    if (mode === "list") {
                                         return (
                                             <div class="col-md-4" key={key}>
-                                                <ProductItem key={key} product={product}/>        
+                                                <ProductItem key={key} product={product} />
                                             </div>
                                         )
                                     }
-                                    if(mode === 'grid'){
+                                    if (mode === 'grid') {
                                         return (
                                             <div class="col-xs-12">
-                                                <ProductItemHorizonto key={key}/>
+                                                <ProductItemHorizonto key={key} />
                                             </div>
                                         )
                                     }
-                                    
-                                }):<p>Không tìm thấy sản phẩm nào</p>
+
+                                }) : <p>Không tìm thấy sản phẩm nào</p>
                             }
                         </div>
 
                         <div class="row text-right">
                             <ul class="pagination">
-                                <li onClick={()=>this.prevPage()}><span class="glyphicon glyphicon-chevron-left"></span></li>
-                                { 
-                                    pageList.map( (pageNum, key)=> this.renderPager(pageNum, key))
+                                <li onClick={() => this.prevPage()}><span class="glyphicon glyphicon-chevron-left"></span></li>
+                                {
+                                    pageList.map((pageNum, key) => this.renderPager(pageNum, key))
                                 }
-                                <li onClick={()=>this.nextPage()}><span class="glyphicon glyphicon-chevron-right"></span></li>
+                                <li onClick={() => this.nextPage()}><span class="glyphicon glyphicon-chevron-right"></span></li>
                             </ul>
                         </div>
                     </div>
