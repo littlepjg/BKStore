@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { formatDate } from '../../../helpers/formatDate';
+import { formatNumber } from '../../../helpers/formatNumber';
 
 import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import BillDetailRow from '../../../components/admin/bill/BillDetailRow';
@@ -139,9 +140,9 @@ class BillDetail extends Component {
                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <h4>Thông tin đơn hàng</h4>
                             <div className=" col-md-4">
-                                <p className="bill-info"><span className="title">Giá trị đơn hàng:</span> <span className="content">{billInfo.value} VNĐ</span></p>
-                                <p className="bill-info"><span className="title">Phí giao hàng:</span> <span className="content">{billInfo.shipFee} VNĐ</span></p>
-                                <p className="bill-info"><span className="title">Tổng cộng:</span> <span className="content">{billInfo.value + billInfo.shipFee} VNĐ</span></p>
+                                <p className="bill-info"><span className="title">Giá trị đơn hàng:</span> <span className="content">{formatNumber(billInfo.value)} VNĐ</span></p>
+                                <p className="bill-info"><span className="title">Phí giao hàng:</span> <span className="content">{formatNumber(billInfo.shipFee)} VNĐ</span></p>
+                                <p className="bill-info"><span className="title">Tổng cộng:</span> <span className="content">{formatNumber(billInfo.value + billInfo.shipFee)} VNĐ</span></p>
                             </div>
 
                             <div className="col-md-4 col-md-push-1">

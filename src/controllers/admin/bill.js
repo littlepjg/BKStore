@@ -8,6 +8,7 @@ route.get('/pages', (req, res) => {
     const limit = parseInt(req.query.limit);
     const searchValue = req.query.searchValue;
     const filter = JSON.parse(req.query.filter);
+    console.log(filter);
     bill_md.getBillAdminByPage(limit, pageNum, searchValue, filter).then(result => {
         const bills = result.data.map(r => ({
             id: r.id,
@@ -22,6 +23,7 @@ route.get('/pages', (req, res) => {
         }));
         res.json({ success: true, error: '', bills, pager: result.pager });
     }).catch(error => {
+        console.log(error);
         res.json({ success: false, error });
     });
 });

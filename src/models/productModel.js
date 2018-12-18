@@ -1,14 +1,6 @@
 const db = require('../common/knex');
 const { paginate } = require('../helpers/dbUtils');
 
-const getProviders = async () => {
-    return await db('providers').select();
-}
-
-const getProductTypes = async () => {
-    return await db('product_type').select();
-}
-
 const getProductAdminByPage = async (limit, pageNum, searchValue, filter) => {
     const whereClause = {};
     const { provider, product_type } = filter;
@@ -81,10 +73,30 @@ const deleteProduct = async (id) => {
     return await db('products').where({ id }).del();
 }
 
+const addProduct = async (product) => {
+    return await db.transaction(function (trx) {
+        return db.insert({
+            ...product.productInfo,
+            created_at: db.fn.now(),
+            updated_at: db.fn.now(),
+        }).into('products')
+            .transacting(trx)
+            .then(function (ids) {
+                product.attributeValues.forEach(p => {
+                    delete p['name'];
+                    p['product_id'] = ids[0];
+                    p['created_at'] = db.fn.now();
+                    p['updated_at'] = db.fn.now();
+                });
+                return db('attribute_values').insert(product.attributeValues).transacting(trx);
+            }).then(trx.commit)
+            .catch(trx.rollback);
+    })
+}
+
 module.exports = {
-    getProviders,
-    getProductTypes,
     getProductAdminByPage,
     getTopSellingProducts,
+    addProduct,
     deleteProduct,
 }

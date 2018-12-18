@@ -1,6 +1,20 @@
-const express = require("express");
+const express = require('express');
+// const multer = require('multer');
+// const path = require('path');
 const product_md = require('../../models/productModel');
 const route = express.Router();
+
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, '../../../upload/product/')
+//     },
+//     filename: function (req, file, cb) {
+//         console.log('file');
+//         cb(null, path.basename(file.originalname) + '-' + Date.now() + path.extname(file.originalname))
+//     }
+// });
+
+// const upload = multer({ storage }).array('photos');
 
 route.get('/pages', (req, res) => {
     const pageNum = parseInt(req.query.pageNum);
@@ -34,5 +48,16 @@ route.post('/delete', (req, res) => {
         res.json({ success: false, error });
     });
 });
+
+// route.post('/add', (req, res) => {
+//     console.log(req.body);
+//     upload(req, res, error => {
+//         if (error) {
+//             console.log(error);
+//         } else {
+//             console.log('upload file success');
+//         }
+//     });
+// });
 
 module.exports = route;
