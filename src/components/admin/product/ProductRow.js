@@ -50,7 +50,7 @@ class ProductRow extends Component {
                 <td>{productInfo.provider_name}</td>
                 <td>{productInfo.quantity + ""}</td>
                 <td>
-                    <NavLink to={`/admin/bill/detail/${1}`} className="btn btn-success">Chi tiết</NavLink>
+                    <a className="btn btn-success" data-toggle="modal" href='#edit-product'>Chi tiết</a>
                     <button className="btn btn-danger" onClick={() => this.deleteProduct(productInfo.id)}>Xóa</button>
                 </td>
             </tr>

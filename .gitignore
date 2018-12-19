@@ -12,6 +12,9 @@
 #test
 /vdemo
 
+#upload
+/upload/product
+
 #database
 /database/*.bak
 

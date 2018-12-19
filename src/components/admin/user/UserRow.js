@@ -5,6 +5,13 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../../actions/admin_user_action';
 
+const accountTypes = {
+    '1': 'Khách hàng',
+    '2': 'Admin',
+    '3': 'Thủ kho',
+    '4': 'Nhân viên giao hàng',
+};
+
 class UserRow extends Component {
     deleteUser(id) {
         const { pager: { currentPageNum, totalCount, limit, offset, prevPageNum }, searchValue } = this.props.user;
@@ -37,7 +44,7 @@ class UserRow extends Component {
     }
 
     render() {
-        const { id, full_name, email, address } = this.props.userInfo;
+        const { id, full_name, email, address, level } = this.props.userInfo;
         const pos = this.props.pos;
         return (
             <tr>
@@ -45,6 +52,7 @@ class UserRow extends Component {
                 <td>{full_name}</td>
                 <td>{email}</td>
                 <td>{address}</td>
+                <td>{accountTypes[level.toString()]}</td>
                 <td><button type="button" className="btn btn-danger" onClick={() => this.deleteUser(id)}>Xóa</button></td>
             </tr>
         );

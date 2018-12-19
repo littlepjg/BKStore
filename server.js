@@ -6,6 +6,16 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const multer = require('multer');
+const path = require('path');
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: function (req, file, callback) { callback(null, './upload/product'); },
+        filename: function (req, file, callback) { callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); }
+    }),
+});
+
+const product_md = require('./src/models/productModel');
 
 const app = express();
 
@@ -54,6 +64,37 @@ app.get('/', (req, res) => {
     res.write("<h1>Hi, my name is Tieu.</h1>");
     res.end();
     // res.sendFile(__dirname + '/build/index.html');
+});
+
+app.get('/photos/:type/:name', (req, res) => {
+    const { type, name } = req.params;
+    res.sendFile(__dirname + `/upload/${type}/${name}`);
+});
+
+app.post('/upload', upload.any(), (req, res) => {
+    const image = req.files.reduce((str, image, i) => {
+        return str + image.path + ',';
+    }, '');
+    console.log(image.slice(0, -1).split(','));
+    const product = {
+        productInfo: {
+            product_name: req.body.product_name,
+            product_images: image.slice(0, -1),
+            unit: 'VNĐ',
+            base_price: parseInt(req.body.price),
+            description: req.body.description,
+            quantity: parseInt(req.body.quantity),
+            product_type_id: parseInt(req.body.product_type_id),
+            provider_id: parseInt(req.body.provider),
+        },
+        attributeValues: JSON.parse(req.body.productAttribute),
+    };
+    product_md.addProduct(product).then(result => {
+        console.log(result);
+        res.json({ success: true, error: '' });
+    }).catch(error => {
+        res.json({ success: false, error });
+    });
 });
 
 const { host, port } = config.get('server');

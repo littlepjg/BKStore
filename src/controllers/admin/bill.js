@@ -23,6 +23,7 @@ route.get('/pages', (req, res) => {
         }));
         res.json({ success: true, error: '', bills, pager: result.pager });
     }).catch(error => {
+        console.log(error);
         res.json({ success: false, error });
     });
 });
