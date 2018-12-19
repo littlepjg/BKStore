@@ -90,22 +90,16 @@ class ShoppingCart extends Component {
                             <div class="col-sm-8 list_products">
                                 <h4>Danh sách sản phẩm</h4>
                                 <div className="row title_list">
-                                    <div className="col-sm-6">
-                                        <div class="checkbox-wrap">
-                                            <input type="checkbox" aria-checked="true" value="on" />
-                                            <span>CHỌN TẤT CẢ (2 SẢN PHẨM)</span>
-                                            <a href="#">
-                                                <i class="fa fa-trash"></i>
-                                                <span>XÓA</span>
-                                            </a>
-                                        </div>
+                                    <div class="checkbox-wrap">
+                                        <input type="checkbox" aria-checked="true" value="on" />
+                                        <span>CHỌN TẤT CẢ (2 SẢN PHẨM)</span>
+                                        <a href="#">
+                                            <i class="fa fa-trash"></i>
+                                            <span>XÓA</span>
+                                        </a>
                                     </div>
-                                    <div className="col-sm-3">
-                                        <div className="title_price">GIÁ</div>
-                                    </div>
-                                    <div className="col-sm-3">
-                                        <div className="title_count">sỐ LƯỢNG</div>
-                                    </div>
+                                    <div className="title_price">GIÁ</div>
+                                    <div className="title_count">sỐ LƯỢNG</div>
                                 </div>
                                 <br />
                                 <div className="row">
