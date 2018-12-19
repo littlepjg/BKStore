@@ -18,11 +18,10 @@ export function getPostsAdminByPage(limit, pageNum, searchValue, filter) {
                     payload: { pager, products, searchValue, filter, erorr: '' }
                 })
             } else {
-                dispatch(adPostError(error));
+                console.log("error admin_product_action: ", error);
             }
-        }).catch(err => {
-            console.log(err);
-            dispatch(adPostError(err));
+        }).catch(error => {
+            console.log("error admin_product_action: ", error);
         });
     }
 }

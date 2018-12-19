@@ -8,7 +8,7 @@ import * as actions from '../../../actions/admin_product_actions';
 
 class ProductRow extends Component {
     deleteProduct(id) {
-        const { parger: { currentPageNum, totalCount, limit, offset, prevPageNum }, searchValue, filter } = this.props.productList;
+        const { pager: { currentPageNum, totalCount, limit, offset, prevPageNum }, searchValue, filter } = this.props.productList;
         confirmAlert({
             title: 'Confirm to delete',
             message: 'Are you sure to delete this product.',
@@ -50,7 +50,7 @@ class ProductRow extends Component {
                 <td>{productInfo.provider_name}</td>
                 <td>{productInfo.quantity + ""}</td>
                 <td>
-                    <NavLink to={`/admin/bill/detail/${1}`} className="btn btn-success">Chi tiết</NavLink>
+                    <a className="btn btn-success" data-toggle="modal" href='#edit-product'>Chi tiết</a>
                     <button className="btn btn-danger" onClick={() => this.deleteProduct(productInfo.id)}>Xóa</button>
                 </td>
             </tr>

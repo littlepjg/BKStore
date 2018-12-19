@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+
+import { formatDate } from '../../../helpers/formatDate';
+import { formatNumber } from '../../../helpers/formatNumber';
 
 import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import BillDetailRow from '../../../components/admin/bill/BillDetailRow';
@@ -41,10 +45,33 @@ class BillDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            bill: {
+                customerInfo: {},
+                shiperInfo: {},
+                billInfo: {
+                    details: [],
+                },
+            },
             visible: false
         }
         this.handleVisibleProductImages = this.handleVisibleProductImages.bind(this);
         this.handleHideViewImages = this.handleHideViewImages.bind(this);
+    }
+
+    componentDidMount() {
+        const ROOT_URL = 'http://localhost:5000';
+        let id = parseInt(this.props.match.params.id);
+        console.log(id);
+        axios.get(`${ROOT_URL}/admin/bill/${id}/detail`).then(response => {
+            const { success, error } = response.data;
+            if (success) {
+                const { bill } = response.data;
+                console.log(bill);
+                this.setState({ bill });
+            }
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     handleVisibleProductImages() {
@@ -56,8 +83,7 @@ class BillDetail extends Component {
     }
 
     render() {
-        const bills = [1, 1, 1, 1, 1];
-        const { visible } = this.state;
+        const { bill: { customerInfo, shiperInfo, billInfo }, visible } = this.state;
 
         return (
             <Container>
@@ -74,16 +100,16 @@ class BillDetail extends Component {
                                 <h4>Thông tin khách hàng</h4>
                                 <div className="row detail">
                                     <div className="col-xs-12 col-sm-6">
-                                        <p><span className="title">Mã KH:</span> <span className="content">KH001</span></p>
+                                        <p><span className="title">Mã KH:</span> <span className="content">{customerInfo.id}</span></p>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <p><span className="title">Họ tên:</span> <span className="content">Nguyễn Thị Hoa</span></p>
+                                        <p><span className="title">Họ tên:</span> <span className="content">{customerInfo.name}</span></p>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <p><span className="title">Số điện thoại:</span> <span className="content">0123456789</span></p>
+                                        <p><span className="title">Số điện thoại:</span> <span className="content">{customerInfo.phoneNumber}</span></p>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <p><span className="title">Địa chỉ nhận:</span> <span className="content">Tiền Yên, Hoài Đức, Hà Nội</span></p>
+                                        <p><span className="title">Địa chỉ nhận:</span> <span className="content">{customerInfo.destinationAddress}</span></p>
                                     </div>
                                 </div>
                             </ContainerInfo>
@@ -93,16 +119,16 @@ class BillDetail extends Component {
                                 <h4>Thông tin nhân viên</h4>
                                 <div className="row detail">
                                     <div className="col-xs-12 col-sm-6">
-                                        <p><span className="title">Mã NV:</span> <span className="content">SP001</span></p>
+                                        <p><span className="title">Mã NV:</span> <span className="content">{shiperInfo.id}</span></p>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <p><span className="title">Họ tên:</span> <span className="content">Phạm Văn Duy</span></p>
+                                        <p><span className="title">Họ tên:</span> <span className="content">{shiperInfo.name}</span></p>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <p><span className="title">Số điện thoại:</span> <span className="content">0123456789</span></p>
+                                        <p><span className="title">Số điện thoại:</span> <span className="content">{shiperInfo.phoneNumber}</span></p>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <p><span className="title">Địa chỉ:</span> <span className="content">Tiền Yên, Hoài Đức, Hà Nội</span></p>
+                                        <p><span className="title">Địa chỉ:</span> <span className="content">{shiperInfo.address}</span></p>
                                     </div>
                                 </div>
                             </ContainerInfo>
@@ -113,9 +139,16 @@ class BillDetail extends Component {
                     <div className="row">
                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <h4>Thông tin đơn hàng</h4>
-                            <p className="bill-info"><span className="title">Giá trị đơn hàng:</span> <span className="content">500000 VNĐ</span></p>
-                            <p className="bill-info"><span className="title">Phí giao hàng:</span> <span className="content">50000 VNĐ</span></p>
-                            <p className="bill-info"><span className="title">Tổng cộng:</span> <span className="content">550000 VNĐ</span></p>
+                            <div className=" col-md-4">
+                                <p className="bill-info"><span className="title">Giá trị đơn hàng:</span> <span className="content">{formatNumber(billInfo.value)} VNĐ</span></p>
+                                <p className="bill-info"><span className="title">Phí giao hàng:</span> <span className="content">{formatNumber(billInfo.shipFee)} VNĐ</span></p>
+                                <p className="bill-info"><span className="title">Tổng cộng:</span> <span className="content">{formatNumber(billInfo.value + billInfo.shipFee)} VNĐ</span></p>
+                            </div>
+
+                            <div className="col-md-4 col-md-push-1">
+                                <p><span className="title">Ngày đặt:</span> <span className="content">{formatDate(billInfo.bookDate)}</span></p>
+                                <p><span className="title">Ngày giao:</span> <span className="content">{formatDate(billInfo.deliveryDate)}</span></p>
+                            </div>
                         </div>
                     </div>
 
@@ -129,14 +162,14 @@ class BillDetail extends Component {
                                     <th>Mã SP</th>
                                     <th>Tên SP</th>
                                     <th>Đơn giá</th>
-                                    <th>Đơn vị</th>
                                     <th>Số lượng</th>
                                     <th>Đã nhận</th>
                                     <th>Hoạt động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {bills.map((bill, index) => <BillDetailRow key={index} handleVisibleProductImages={this.handleVisibleProductImages} />)}
+                                {billInfo.details.map((detail, index) => <BillDetailRow key={index} pos={index + 1} detail={detail}
+                                    handleVisibleProductImages={this.handleVisibleProductImages} />)}
                             </tbody>
                         </table>
                     </div>

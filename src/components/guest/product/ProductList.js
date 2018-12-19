@@ -19,7 +19,7 @@ class ProductList extends Component {
     constructor() {
         super();
         this.state = {
-            products: ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0","0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",],
+            products: ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",],
             currentPage: 1,
             limitPage: 4,
         }
@@ -27,7 +27,7 @@ class ProductList extends Component {
     }
     handlerClick(pageNum) {
         console.log(pageNum);
-        
+
         this.setState({
             currentPage: pageNum,
         })
@@ -37,31 +37,31 @@ class ProductList extends Component {
 
         if (typeof pageNum === 'number') {
             return pageNum !== currentPage
-                ? (<li key={key} id={pageNum} onClick={()=> this.handlerClick(pageNum)}><a href="#">{pageNum}</a></li>)
-                : (<li key={key} id={pageNum} onClick={()=> this.handlerClick(pageNum)} className="active"><a href="#">{pageNum}</a></li>);
+                ? (<li key={key} id={pageNum} onClick={() => this.handlerClick(pageNum)}><a href="#">{pageNum}</a></li>)
+                : (<li key={key} id={pageNum} onClick={() => this.handlerClick(pageNum)} className="active"><a href="#">{pageNum}</a></li>);
         }
-        return <li key={key} id={pageNum} onClick={()=> this.handlerClick(pageNum)} className="disabled"><a href="#">{pageNum}</a></li>;
+        return <li key={key} id={pageNum} onClick={() => this.handlerClick(pageNum)} className="disabled"><a href="#">{pageNum}</a></li>;
     }
     pagination(countPages, currentPage) {
-        let c = currentPage>0?currentPage:1,
-         last = countPages, 
-         delta = 2, 
-         left = c - delta,
-         right = c + delta + 1,
-         temp = 0,
-         range=[],
-         rangeWithDots = [];
+        let c = currentPage > 0 ? currentPage : 1,
+            last = countPages,
+            delta = 2,
+            left = c - delta,
+            right = c + delta + 1,
+            temp = 0,
+            range = [],
+            rangeWithDots = [];
 
-         for(let i = 1; i <= last; i++){
-            if( i === 1 || i === last || (i >= left && i < right)) range.push(i);
-         }
+        for (let i = 1; i <= last; i++) {
+            if (i === 1 || i === last || (i >= left && i < right)) range.push(i);
+        }
 
         for (const i of range) {
-            if(temp){
+            if (temp) {
                 //check push 2, n-1
-                if(i - temp === 2){
-                    rangeWithDots.push(temp+1);
-                }else if(i - temp !== 1){
+                if (i - temp === 2) {
+                    rangeWithDots.push(temp + 1);
+                } else if (i - temp !== 1) {
                     //i-l > 2
                     rangeWithDots.push('...');
                 }
@@ -77,23 +77,23 @@ class ProductList extends Component {
 
         return rangeWithDots;
     }
-    nextPage(){
-        const {currentPage, limitPage, products} = this.state;
+    nextPage() {
+        const { currentPage, limitPage, products } = this.state;
         const countPages = Math.ceil(products.length / limitPage);
 
-        if(currentPage < countPages){
+        if (currentPage < countPages) {
             this.setState({
-                currentPage: currentPage+1
+                currentPage: currentPage + 1
             });
         }
     }
 
-    prevPage(){
-        const {currentPage} = this.state;
+    prevPage() {
+        const { currentPage } = this.state;
 
-        if(currentPage > 1){
+        if (currentPage > 1) {
             this.setState({
-                currentPage: currentPage-1
+                currentPage: currentPage - 1
             });
         }
     }
@@ -120,13 +120,15 @@ class ProductList extends Component {
         return (
             <Container className="products-list">
                 <h3 className="title"><strong> {this.props.productListName}</strong></h3>
-                <ul className="pagination">
-                    <li className="left" onClick={()=>this.prevPage()}><span className="glyphicon glyphicon-chevron-left"></span></li>
-                    {
-                        this.pagination(countPages, currentPage).map( (pageNum, key) => this.pageItem(pageNum, key))
-                    }
-                    <li className="right" onClick={()=>this.nextPage()}><span className="glyphicon glyphicon-chevron-right"></span></li>
-                </ul>
+                <div class="row">
+                    <ul className="pagination">
+                        <li className="left" onClick={() => this.prevPage()}><span className="glyphicon glyphicon-chevron-left"></span></li>
+                        {
+                            this.pagination(countPages, currentPage).map((pageNum, key) => this.pageItem(pageNum, key))
+                        }
+                        <li className="right" onClick={() => this.nextPage()}><span className="glyphicon glyphicon-chevron-right"></span></li>
+                    </ul>
+                </div>
                 <div className="row">
                     {renderProducts}
                 </div>

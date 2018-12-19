@@ -29,12 +29,12 @@ class BottomHeader extends Component {
     render() {
         return (
             <Container className="bottom-header" data-spm="menu">
-                <a className="lzd-menu-labels-item" href="//pages.lazada.vn/wow/i/vn/LandingPage/lazmall?wh_weex=true&wx_navbar_transparent=true&scm=1003.4.icms-zebra-5000379-2586391.OTHER_5655892627_2825852">
+                <a className="lzd-menu-labels-item" href="/home/productlist/1">
                     <i className="lzd-site-nav-menu-iconfont lzd-menu-labels-item-icon">
                     </i>
                     <span className="lzd-menu-labels-item-text">Điện thoại</span>
                 </a>
-                <a className="lzd-menu-labels-item" href="//pages.lazada.vn/wow/i/vn/LandingPage/global?wh_weex=true&wx_navbar_transparent=true&scm=1003.4.icms-zebra-5000379-2586391.OTHER_5655892628_2825852">
+                <a className="lzd-menu-labels-item" href="/home/productlist/2">
                     <i className="lzd-site-nav-menu-iconfont lzd-menu-labels-item-icon"></i>
                     <span className="lzd-menu-labels-item-text">Máy tính</span>
                 </a>

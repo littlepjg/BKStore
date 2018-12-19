@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import logo from './products-01.png';
+import product01 from './products-01.png';
 
 const Container = styled.div`
     border: 1px solid #e1e1e1;
@@ -95,7 +95,7 @@ class ProductItem extends Component {
         return (
             <Container className="products">
                 <div className="thumbnail">
-                    <a href="product/detail"><img src="/upload/products-01.png" alt="Product Name" /></a>
+                    <a href="/product/detail/:01"><img src={""} alt="Product Name" /></a>
                 </div>
                 <div className="productname">Iphone 5s Gold 32 Gb 2013</div>
                 <h4 className="price">$451.00</h4>

@@ -7,6 +7,9 @@ const helper = require('../helpers/helper');
 
 const route = express.Router();
 
+route.use("/favorite", require(__dirname + "/user/favorite.js"));
+route.use("/cart", require(__dirname + "/user/cart.js"));
+
 route.get('/', (req, res) => {
     res.writeHead(200, { "Content-type": "text/html" });
     res.write("<h1>This is User page.</h1>");
@@ -15,14 +18,10 @@ route.get('/', (req, res) => {
 
 route.post("/register", (req, res) => {
     let user = req.body;
-
     user.passwd = helper.hashPassword(user.passwd);
-    user.created_at = new Date();
-    user.updated_at = new Date();
 
     // id, full_name, email, phone_number, address, level
     user_md.addUser(user).then(user => {
-        console.log('user: ', user);
         user_md.getUserById(user[0]).then(user => {
             res.json({
                 success: true,
@@ -51,7 +50,6 @@ route.post("/register", (req, res) => {
         }
     });
 });
-
 
 // LocalStrategy expects to find credentials in parameters named username and password
 const localOptions = { usernameField: 'email', passwordField: 'passwd' };

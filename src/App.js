@@ -12,7 +12,8 @@ import './App.css';
 // admin layout
 import AdminLayout from './layouts/AdminLayout';
 import DashBoard from './pages/admin/DashBoard';
-import User from './pages/admin/User';
+import User from './pages/admin/user/User';
+import CUUser from './pages/admin/user/CUUser';
 import Post from './pages/admin/post/Post';
 import CUPost from './pages/admin/post/CUPost';
 import RevenueStatistic from './pages/admin/statistical/RevenueStatistic';
@@ -34,8 +35,10 @@ import ProductFavorite from './pages/guest/ProductFavorite';
 import UserOrder from './pages/guest/UserOrder';
 import SearchProduct from './pages/guest/SearchProduct';
 import HomePage from './pages/guest/HomePage';
+import ProductDetailList from './pages/guest/ProductDetailList';
 import ShoppingCart from './pages/guest/ShoppingCart';
 import BillDetail from './pages/admin/bill/BillDetail';
+const Home = () => <h3>Home</h3>;
 
 class App extends Component {
   render() {
@@ -70,6 +73,13 @@ class App extends Component {
           <Route exact path="/admin/users" render={props => level && level === 2 ? (
             <AdminLayout>
               <User {...props} />
+            </AdminLayout>
+          ) : (
+              redirectToLogin(props)
+            )} />
+          <Route exact path="/admin/users/new" render={props => level && level === 2 ? (
+            <AdminLayout>
+              <CUUser {...props} />
             </AdminLayout>
           ) : (
               redirectToLogin(props)
@@ -123,7 +133,7 @@ class App extends Component {
           ) : (
               redirectToLogin(props)
             )} />
-          <Route exact path="/admin/bill/detail/:id" render={props => level && level === 2 ? (
+          <Route exact path="/admin/bill/:id/detail" render={props => level && level === 2 ? (
             <AdminLayout>
               <BillDetail {...props} />
             </AdminLayout>
@@ -195,6 +205,12 @@ class App extends Component {
           <Route exact path="/product/detail/:id" render={props => (
             <GuestLayout>
               <ProductDetail {...props} />
+            </GuestLayout>
+          )} />
+
+          <Route exact path="/home/productlist/:product_type_id" render={(props)=>(
+            <GuestLayout >
+              <ProductDetailList {...props}/>
             </GuestLayout>
           )} />
 
