@@ -175,6 +175,17 @@ class ProductList extends Component {
                     {/* table products */}
                     <div className="table-responsive" style={{ marginTop: 35 }}>
                         <table className="table table-bordered table-hover table-striped">
+                            <colgroup>
+                                <col style={{ width: '3%' }} />
+                                <col style={{ width: '6%' }} />
+                                <col style={{ width: '35%' }} />
+                                <col style={{ width: '8%' }} />
+                                <col style={{ width: '6%' }} />
+                                <col style={{ width: '8%' }} />
+                                <col style={{ width: '10%' }} />
+                                <col style={{ width: '8%' }} />
+                                <col style={{ width: '15%' }} />
+                            </colgroup>
                             <thead>
                                 <tr>
                                     <th>STT</th>
@@ -197,6 +208,38 @@ class ProductList extends Component {
                     <Pagination currentPage={pager.currentPageNum} total={pager.totalCount} noPerPage={pager.limit}
                         getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
                 </WhitePanel>
+
+                <div className="modal fade" id="edit-product">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 className="modal-title">Cập nhật</h4>
+                            </div>
+                            <div className="modal-body">
+
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label htmlFor="quantity">Số lượng</label>
+                                        <input type="number" className="form-control" id="quantity" name="quantity"
+                                            defaultValue="0" min="0" />
+                                    </div>
+
+                                    <div className="col-md-6">
+                                        <label htmlFor="price">Price</label>
+                                        <input type="text" className="form-control" id="price" name="base_price" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-default" data-dismiss="modal">Đóng</button>
+                                <button type="button" className="btn btn-primary">Cập nhật</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         )
     }

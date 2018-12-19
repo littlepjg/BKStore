@@ -89,11 +89,32 @@ const getProductListByProductTypeId = async(product_type_id)=>{
         'providers.name as provider_name',
         'product_type.name as product_type_name',
     );
+  
+const addProduct = async (product) => {
+    return await db.transaction(function (trx) {
+        return db.insert({
+            ...product.productInfo,
+            created_at: db.fn.now(),
+            updated_at: db.fn.now(),
+        }).into('products')
+            .transacting(trx)
+            .then(function (ids) {
+                product.attributeValues.forEach(p => {
+                    delete p['name'];
+                    p['product_id'] = ids[0];
+                    p['created_at'] = db.fn.now();
+                    p['updated_at'] = db.fn.now();
+                });
+                return db('attribute_values').insert(product.attributeValues).transacting(trx);
+            }).then(trx.commit)
+            .catch(trx.rollback);
+    })
 }
 
 module.exports = {
     getProductAdminByPage,
     getTopSellingProducts,
+    addProduct,
     deleteProduct,
     getProductListByProductTypeId,
 }

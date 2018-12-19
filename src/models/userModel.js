@@ -25,7 +25,7 @@ const getUserById = async (id) => {
 }
 
 const getUserByPage = async (limit, pageNum, searchValue) => {
-    const builder = db('users').where({ level: 1 });
+    const builder = db('users').where('level', '!=', 2);
     if (searchValue) {
         builder.andWhere('email', 'like', `%${searchValue}%`);
     }

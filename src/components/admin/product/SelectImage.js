@@ -18,31 +18,16 @@ const Container = styled.div`
 class SelectImage extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            files: []
-        }
         this.handleSelectImage = this.handleSelectImage.bind(this);
-        this.deleteImage = this.deleteImage.bind(this);
-    }
-
-    deleteImage(index) {
-        this.setState(({ files }) => {
-            files.splice(index, 1);
-            return { files }
-        })
     }
 
     handleSelectImage(e) {
-        let { files } = this.state;
         let fileSelected = e.target.files;
-        Object.keys(fileSelected).forEach(key => {
-            files.push(fileSelected[key]);
-        });
-        this.setState({ files });
+        this.props.handleSelectImage(fileSelected);
     }
 
     render() {
-        const { files } = this.state;
+        const { images, handleRemoveImage } = this.props;
 
         return (
             <Container className="col-md-6">
@@ -51,7 +36,7 @@ class SelectImage extends Component {
                 <input type="file" multiple accept="image/*" id="upload-photo" onChange={this.handleSelectImage} />
                 <h3>Overview image</h3>
                 <div className="row">
-                    {files.map((file, index) => <ItemImageAdd key={index} file={file} pos={index} deleteImage={this.deleteImage} />)}
+                    {images.map((img, index) => <ItemImageAdd key={index} image={img} pos={index} handleRemoveImage={handleRemoveImage} />)}
                 </div>
             </Container>
         );

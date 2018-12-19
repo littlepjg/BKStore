@@ -167,41 +167,47 @@ footer .contact a:hover {
   width: 40px;
   width: 40px;
 }
-#profile{
+
+#profile {
   padding-bottom: 40px;
 }
-.info_account{
+
+.info_account {
   background-color: white;
   padding: 10px;
   height: 360px;
   box-shadow: 0px 0px 2px 2px #E6E6E6;
   margin-bottom: 10px;
 }
-.table_order{
+
+.table_order {
   background-color: white;
   padding: 10px;
   box-shadow: 0px 0px 2px 2px #E6E6E6;
   margin: 12px;
 }
 
-#favorites .glyphicon{
+#favorites .glyphicon {
   font-size: 30px;
   opacity: 0.8;
   margin: auto;
 }
-#favorites .row .btn-buying{
+
+#favorites .row .btn-buying {
   background-color: white;
   color: black;
   border: 2px solid #1a76b3;
 }
-#favorites .list_favorites{
-  margin-bottom: 20px;
-}
-#favorites .offer_products{
+
+#favorites .list_favorites {
   margin-bottom: 20px;
 }
 
-.add_all{
+#favorites .offer_products {
+  margin-bottom: 20px;
+}
+
+.add_all {
   padding: 20px 0px;
   display: flex;
   justify-content: flex-end;
