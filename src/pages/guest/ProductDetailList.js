@@ -7,22 +7,23 @@ import BottomHeader from '../../components/guest/BottomHeader';
 import axios from 'axios';
 
 class ProductDetailList extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            product_type_id: props.match.params.product_type_id,
+            product_type_id: '',
             products: [],
         }
     }
-    componentDidMount(){
+    componentWillMount() {
         const ROOT_URL = 'http://localhost:5000';
         const product_type_id = this.props.match.params.product_type_id;
         // get provider
-        axios.get(`${ROOT_URL}/guest/productlist`,{product_type_id}).then(response => {
+        axios.get(`${ROOT_URL}/guest/productlist/${product_type_id}`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { products } = response.data;
                 this.setState({
+                    product_type_id,
                     products
                 });
             } else {
@@ -34,18 +35,15 @@ class ProductDetailList extends Component {
     }
 
     render() {
-        console.log(this.state.product_type_id);
-        console.log(this.state.products);
-        
-        
+        const { products } = this.state;
         return (
             <div className="container-fluid">
                 <div class="row">
-                    <BottomHeader/>
+                    <BottomHeader />
                 </div>
-                
+
                 <BreadCrumb />
-                <ProductsView products={this.state.products}/>
+                <ProductsView products={products} />
                 <BrandList />
             </div>
         );

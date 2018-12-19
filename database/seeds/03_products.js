@@ -48,6 +48,7 @@ exports.seed = function (knex, Promise) {
           id: 4,
           product_name: 'điện thoại điện thoại điện thoại - điện thoại Nokia E72 PN4',
           product_images: 'https://media3.scdn.vn/img2/2018/7_16/lORH2H_simg_de2fe0_500x500_maxb.jpg,https://media3.scdn.vn/img2/2018/7_16/lJgl9L_simg_de2fe0_500x500_maxb.png,https://media3.scdn.vn/img2/2018/7_16/8qiQ6j_simg_de2fe0_500x500_maxb.png, https://media3.scdn.vn/img2/2018/7_16/nHBFso_simg_de2fe0_500x500_maxb.png, https://media3.scdn.vn/img2/2018/7_16/2SZlDX_simg_de2fe0_500x500_maxb.png',
+          unit: 'VNĐ',
           base_price: 2990000,
           description: 'Thông số kỹ thuật :Thông số kỹ thuật :Điện thoại Samsung Galaxy A6 ( 2018 )Màn hình: Super AMOLED, 5.6", HD+Hệ điều hành: Android 8.0 (Oreo) Camera sau: 16 MP Camera trước: 16 MP CPU: Exynos 7870 8 nhân 64-bit RAM: 3 GB Bộ nhớ trong: 32 GB Thẻ nhớ: MicroSD, hỗ trợ tối đa 256 GB Thẻ SIM: 2 Nano SIM, Hỗ trợ 4G  Dung lượng pin: 3000 mAh Bộ sản phẩm bao gồm : Hộp , thân máy , sạc , sách hướng dẫn sử dụng ...',
           quantity: 15,
