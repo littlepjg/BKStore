@@ -73,23 +73,23 @@ const deleteProduct = async (id) => {
     return await db('products').where({ id }).del();
 }
 
-const getProductListByProductTypeId = async(product_type_id)=>{
+const getProductListByProductTypeId = async (product_type_id) => {
     return await db('providers')
-    .where('id', product_type_id)
-    .join('products', 'providers.id', 'products.provider_id')
-    .join('product_type', 'products.product_type_id', 'product_type.id')
-    .select(
-        'products.id',
-        'products.product_name',
-        'products.product_images',
-        'products.base_price',
-        'products.unit',
-        'products.description',
-        'products.quantity',
-        'providers.name as provider_name',
-        'product_type.name as product_type_name',
-    );
-  
+        .where('id', product_type_id)
+        .join('products', 'providers.id', 'products.provider_id')
+        .join('product_type', 'products.product_type_id', 'product_type.id')
+        .select(
+            'products.id',
+            'products.product_name',
+            'products.product_images',
+            'products.base_price',
+            'products.unit',
+            'products.description',
+            'products.quantity',
+            'providers.name as provider_name',
+            'product_type.name as product_type_name',
+        );
+}
 const addProduct = async (product) => {
     return await db.transaction(function (trx) {
         return db.insert({
