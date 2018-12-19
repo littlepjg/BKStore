@@ -208,7 +208,7 @@ class App extends Component {
             </GuestLayout>
           )} />
 
-          <Route exact path="/home/productlist/:type_product_id" render={(props)=>(
+          <Route exact path="/home/productlist/:product_type_id" render={(props)=>(
             <GuestLayout >
               <ProductDetailList {...props}/>
             </GuestLayout>

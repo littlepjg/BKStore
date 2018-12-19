@@ -73,19 +73,21 @@ const deleteProduct = async (id) => {
     return await db('products').where({ id }).del();
 }
 
-const getProductListByIdProvider = (provider_id)=>{
+const getProductListByProductTypeId = async(product_type_id)=>{
     return await db('providers')
-    .where('id', provider_id)
+    .where('id', product_type_id)
     .join('products', 'providers.id', 'products.provider_id')
-    .join()
+    .join('product_type', 'products.product_type_id', 'product_type.id')
     .select(
-        'providers.name',
         'products.id',
-        'product_name',
-        'product_images',
-        'base_price',
-        'description',
-        'quantity'
+        'products.product_name',
+        'products.product_images',
+        'products.base_price',
+        'products.unit',
+        'products.description',
+        'products.quantity',
+        'providers.name as provider_name',
+        'product_type.name as product_type_name',
     );
 }
 
@@ -93,5 +95,5 @@ module.exports = {
     getProductAdminByPage,
     getTopSellingProducts,
     deleteProduct,
-    getProductListByIdProvider
+    getProductListByProductTypeId,
 }
