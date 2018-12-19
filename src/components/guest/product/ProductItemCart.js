@@ -45,13 +45,13 @@ const Container = styled.div`
     align-items: center;
 }
 #product_item_cart .price_count_cart .price{
-    width: 65%;
+    width: 60%;
     text-align: center;
     color: red;
     font-size: 20px;
 }
 #product_item_cart .price_count_cart .button_itemcart{
-    width: 35%;
+    width: 40%;
     display: flex;
     align-items: center;
     text-align: center;
