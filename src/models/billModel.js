@@ -123,6 +123,34 @@ const getBillDetailAdminById = async (id) => {
     }
 }
 
+const getBillByType = (status_order) => {
+    const builder = db('sale_bills')
+        .select(
+            'sale_bills.id',
+            'user1.full_name as customer_name',
+            'user2.full_name as shiper_name',
+            'sale_bills.destination_address',
+            'sale_bills.delivery_date',
+            'sale_bills.book_date',
+            'sale_bills.ship_fee',
+            db.raw('sum(sale_details.amount * sale_details.unit_price) as bill_value'),
+            'sale_bills.status_order',
+        ).innerJoin(
+            'users as user1',
+            'user1.id',
+            'sale_bills.customer_id'
+        ).leftJoin(
+            'users as user2',
+            'user2.id',
+            'sale_bills.shiper'
+        ).innerJoin(
+            'sale_details',
+            'sale_details.id',
+            'sale_bills.id'
+        ).where('sale_bills.status_order', status_order)
+        .groupBy('sale_bills.id');
+}
+
 module.exports = {
     getBillAdminByPage,
     getBillDetailAdminById,
