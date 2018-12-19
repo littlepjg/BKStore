@@ -30,7 +30,7 @@ route.post('/add', (req, res) => {
     });
 });
 
-route.post('delete', (req, res) => {
+route.post('/delete', (req, res) => {
     const { user_id, product_id } = req.body;
 
     user_md.deleteProductFavorite(user_id, product_id).then(result => {
