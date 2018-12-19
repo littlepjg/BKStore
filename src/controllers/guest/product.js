@@ -2,7 +2,7 @@ const express = require("express");
 const product_md = require('../../models/productModel');
 const route = express.Router();
 
-route.get('/:product_type_id', (req, res) => {
+route.get('/list/:product_type_id', (req, res) => { 
     const product_type_id = parseInt(req.params.product_type_id);
 
     product_md.getProductListByProductTypeId(product_type_id).then(result => {
@@ -24,9 +24,12 @@ route.get('/:product_type_id', (req, res) => {
     });
 });
 
-route.get('/pages', (req, res)=>{
+route.get('/pages', (req, res) => {
+    console.log('controller');
+    
     const pageNum = parseInt(req.query.pageNum);
     const limit = parseInt(req.query.limit);
+
     const searchValue = req.query.searchValue;
     const filter = JSON.parse(req.query.filter);
 

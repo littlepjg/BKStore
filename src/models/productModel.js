@@ -121,7 +121,7 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     if (product_type) {
         whereClause['products.product_type_id'] = product_type;
     }
-    console.log("WhereClauseProductAmin: ", whereClause);
+    console.log("WhereClauseProductGuest: ", whereClause);
     const builder = db('products').select(
         'products.id',
         'products.product_name',
@@ -165,5 +165,5 @@ module.exports = {
     addProduct,
     deleteProduct,
     getProductListByProductTypeId,
-    getProductGuestByPage
+    getProductGuestByPage,
 }

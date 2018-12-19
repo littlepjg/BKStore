@@ -18,7 +18,7 @@ class ProductDetailList extends Component {
         const ROOT_URL = 'http://localhost:5000';
         const product_type_id = this.props.match.params.product_type_id;
         // get provider
-        axios.get(`${ROOT_URL}/guest/productlist/${product_type_id}`).then(response => {
+        axios.get(`${ROOT_URL}/guest/productlist/list/${product_type_id}`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { products } = response.data;
