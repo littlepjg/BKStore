@@ -2,11 +2,11 @@ import { GET_USERS, REST_AD_USER_ERROR } from './types';
 import axios from 'axios';
 import { adUserError, } from './admin_actions';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../common/constant';
 
 export function getUsersByPage(limit, pageNum, searchValue) {
     return function (dispatch) {
-        let api = `${ROOT_URL}/admin/user/pages`;
+        let api = `${SERVER_URL}:${PORT}/admin/user/pages`;
         const params = searchValue ? { limit, pageNum, searchValue } : { limit, pageNum };
         axios.get(api, {
             params

@@ -4,7 +4,9 @@ import ProductItem from './ProductItem';
 import pagination from './pagination/pageUtil';
 import axios from 'axios';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 const Container = styed.div`
     float: left;

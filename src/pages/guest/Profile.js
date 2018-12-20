@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 class Profile extends Component {
     constructor(props) {

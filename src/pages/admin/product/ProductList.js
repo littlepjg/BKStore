@@ -10,7 +10,9 @@ import { TitlePanel, WhitePanel, Label } from '../../../theme/Style';
 import ProductRow from '../../../components/admin/product/ProductRow';
 import Pagination from '../../../components/pagination/Pagination';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 const SearchForm = styled.form`
     max-width: 300px;

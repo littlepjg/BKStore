@@ -11,7 +11,7 @@ route.get('/', (req, res) => {
         const products = result.map(r => ({
             id: r.id,
             name: r.product_name,
-            images: r.product_images,
+            images: r.product_images.split(",")[0],
             description: r.description,
             price: r.base_price,
         }));
@@ -24,8 +24,9 @@ route.get('/', (req, res) => {
 route.get('/suggest', (req, res) => {
     user_md.getProductSuggest().then(result => {
         const productsuggest = result.map(r => ({
+            id: r.id,
             name: r.product_name,
-            images: r.product_images,
+            images: r.product_images.split(",")[0],
             price: r.base_price,
         }));
         res.json({ success: true, error: '', productsuggest });

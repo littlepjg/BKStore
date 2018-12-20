@@ -7,13 +7,15 @@ import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import BackButton from '../../../components/BackButton';
 import SelectImage from '../../../components/admin/product/SelectImage';
 
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
+
 const GenaralInfo = styled.div`
     .row {
         margin-bottom: 10px;
     }
 `;
-
-const ROOT_URL = 'http://localhost:5000';
 
 class AddProduct extends Component {
     constructor(props) {
