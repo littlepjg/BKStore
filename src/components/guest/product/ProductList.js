@@ -34,11 +34,10 @@ class ProductList extends Component {
         this.handlerClick = this.handlerClick.bind(this);
     }
     handlerClick(pageNum) {
-        console.log(pageNum);
+        const limit = this.state.limit;
+        const product_type_id = this.props.product_type_id;
 
-        this.setState({
-            currentPage: pageNum,
-        })
+        this.getProductGuest(limit, pageNum, {}, { product_type: product_type_id });
     }
     pageItem(pageNum, key) {
         const { currentPage } = this.state;
@@ -100,23 +99,23 @@ class ProductList extends Component {
         const pageNum = this.state.currentPage;
         const product_type_id = this.props.product_type_id;
 
-        console.log('product_type_id: ', product_type_id);
-        
-
         this.getProductGuest(limit, pageNum, {}, { product_type: product_type_id });
     }
 
     nextPage() {
         const { hasNext, limit, nextPageNum } = this.state;
+        const product_type_id = this.props.product_type_id;
         if (hasNext) {
-            this.getProductGuest(limit, nextPageNum, {}, { product_type: this.props.key });
+            this.getProductGuest(limit, nextPageNum, {}, { product_type: product_type_id });
         }
     }
 
     prevPage() {
         const { hasPrev, limit, prevPageNum } = this.state;
+        const product_type_id = this.props.product_type_id;
+
         if (hasPrev) {
-            this.getProductGuest(limit, prevPageNum, {}, { product_type: this.props.product_type_id });
+            this.getProductGuest(limit, prevPageNum, {}, { product_type: product_type_id });
         }
     }
     render() {
