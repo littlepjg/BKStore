@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import logo from './products-01.png';
+import { formatNumber } from '../../../helpers/formatNumber';
 
 const Container = styled.div`
 #product_item_cart{
-    height: 170px;
     box-shadow: 0px 0px 2px 2px #E6E6E6;
     margin-right: 15px;
     display: flex;
+    justify-content: space-between;
 }
 #product_item_cart .product_cart img{
     width: 90px;
@@ -17,7 +17,6 @@ const Container = styled.div`
 }
 #product_item_cart .product_cart{
     height: 100%;
-    width: 60%;
     display: flex;
     align-items: center;
 }
@@ -34,22 +33,23 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    height: 80%
+    height: 80%;
+    padding: 5px 15px;
+
+    .price{
+        color: #f57224;
+        font-size: 18px;
+    }
 }
 #product_item_cart .product_cart .info_product_cart .product_name{
     font-size: 15px;
+    font-weight: bold;
 }
 #product_item_cart .price_count_cart{
-    width: 40%;
-    display: flex;
-    align-items: center;
+    align-self: center;
+    padding: 5px;
 }
-#product_item_cart .price_count_cart .price{
-    width: 60%;
-    text-align: center;
-    color: red;
-    font-size: 20px;
-}
+
 #product_item_cart .price_count_cart .button_itemcart{
     width: 40%;
     display: flex;
@@ -96,6 +96,7 @@ class ProductItemCart extends Component {
                                     <div className="info_product_cart">
                                         <span className="product_name">{e.name}</span>
                                         <span className="producer">{e.description}</span>
+                                        <span className="price">{formatNumber(e.price)} VNĐ</span>
                                         <div>
                                             <span className="icon_heart" onClick={() => addProductFavorites(e.id)}>
                                                 <a href="#">
@@ -111,11 +112,10 @@ class ProductItemCart extends Component {
                                     </div>
                                 </div>
                                 <div className="price_count_cart">
-                                    <span className="price">{e.price}</span>
                                     <div className="button_itemcart">
-                                        <button type="button" class="btn btn-large btn-block btn-default" onClick={() => changeAmountProductCartSub(index)}>-</button>
+                                        <button type="button" className="btn btn-large btn-block btn-default" onClick={() => changeAmountProductCartSub(index)}>-</button>
                                         <span>{e.amount}</span>
-                                        <button type="button" class="btn btn-large btn-block btn-default" onClick={() => changeAmountProductCartPlus(index)}>+</button>
+                                        <button type="button" className="btn btn-large btn-block btn-default" onClick={() => changeAmountProductCartPlus(index)}>+</button>
                                     </div>
                                 </div>
                             </div>
