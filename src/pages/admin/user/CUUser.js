@@ -5,6 +5,10 @@ import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import MessageDialog from '../../../../src/components/dialog/MessageDialog';
 import BackButton from '../../../components/BackButton';
 
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
+
 const initState = {
     newUser: true,
     message: '',
@@ -43,7 +47,6 @@ class CUUser extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const ROOT_URL = 'http://localhost:5000';
         const { user } = this.state;
         if (!user.full_name || !user.email || !user.phone_number || !user.address) {
             this.setState({

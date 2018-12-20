@@ -12,3 +12,6 @@ export const AD_USER_ERROR = 'AD_USER_ERROR';
 export const REST_AD_USER_ERROR = 'REST_AD_USER_ERROR';
 export const GET_PRODUCTS_ADMIN = 'GET_PRODUCTS_ADMIN';
 export const GET_BILLS_ADMIN = 'GET_BILLS_ADMIN';
+
+//user
+export const GET_CART = 'GET_CART';

@@ -3,7 +3,9 @@ import styled from 'styled-components';
 
 import { formatNumber } from '../../../helpers/formatNumber';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 const Container = styled.div`
     display: flex;

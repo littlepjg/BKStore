@@ -2,12 +2,12 @@ import { GET_PRODUCTS_ADMIN } from './types';
 import axios from 'axios';
 import { adPostError } from './admin_actions';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../common/constant';
 
 export function getProductsAdminByPage(limit, pageNum, searchValue, filter) {
     return function (dispatch) {
         const params = searchValue ? { limit, pageNum, searchValue, filter } : { limit, pageNum, filter };
-        axios.get(`${ROOT_URL}/admin/product/pages`, {
+        axios.get(`${SERVER_URL}:${PORT}/admin/product/pages`, {
             params
         }).then(response => {
             const { success, error } = response.data;

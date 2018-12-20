@@ -2,11 +2,11 @@ import { GET_POSTS, RESET_AD_POST_ERROR } from './types';
 import axios from 'axios';
 import { adPostError } from './admin_actions';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../common/constant';
 
 export function getPostsByPage(limit, pageNum) {
     return function (dispatch) {
-        axios.get(`${ROOT_URL}/admin/post/pages`, {
+        axios.get(`${SERVER_URL}:${PORT}/admin/post/pages`, {
             params: { limit, pageNum }
         }).then(response => {
             const { success, error } = response.data;

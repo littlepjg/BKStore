@@ -1,5 +1,6 @@
 const db = require('../common/knex');
 const { paginate } = require('../helpers/dbUtils');
+const helper = require('../helpers/helper');
 
 const addUser = async (user) => {
     return await db('users')
@@ -65,11 +66,12 @@ const getProductFavorites = async (user_id) => {
 const getProductSuggest = async () => {
     return await db('products')
         .select(
+            'products.id',
             'products.product_name',
             'products.product_images',
             'products.base_price',
         )
-        .limit(5);
+        .limit(6);
 }
 
 const addProductFavorite = async (user_id, product_id) => {
@@ -190,6 +192,37 @@ const getUserBill = async (user_id) => {
     });
 }
 
+const updatePassword = async (user_id, old_password, new_password) => {
+    const password = await db('users')
+        .select('passwd')
+        .where({ id: user_id })
+        .first();
+    console.log('old: ', old_password)
+    console.log('compare', helper.comparePassword(old_password, password.passwd))
+    if (!helper.comparePassword(old_password, password.passwd)) {
+        return {
+            success: false,
+            error: 'mật khẩu không đúng'
+        }
+    } else {
+        const result = await db('users')
+            .update({
+                passwd: helper.hashPassword(new_password),
+                updated_at: db.fn.now(),
+            });
+    }
+}
+
+const updateProfile = async (user_id, valueUpdate) => {
+    return await db('users')
+        .update({
+            ...valueUpdate,
+            updated_at: db.fn.now(),
+        }).where({ id: user_id }).then(result => {
+            console.log(result);
+        });
+}
+
 module.exports = {
     addUser,
     getUserByEmail,
@@ -204,4 +237,6 @@ module.exports = {
     changeAmountProductCart,
     deleteProductCart,
     getUserBill,
+    updatePassword,
+    updateProfile,
 }

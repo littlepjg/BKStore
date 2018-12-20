@@ -4,7 +4,9 @@ import ProductItemFavorite from '../../components/guest/product/ProductItemFavor
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 class ProductFavorite extends Component {
     constructor(props) {
@@ -69,6 +71,25 @@ class ProductFavorite extends Component {
         });
     }
 
+    addProductFavorites = (index) => {
+        const { productsuggest } = this.state;
+        axios.post(`${ROOT_URL}/user/favorite/add`, {
+            user_id: 2,
+            product_id: productsuggest[index].id,
+        }).then(response => {
+            const { success, error } = response.data;
+            if (success) {
+                alert('Đã thêm sản phẩm vào danh sách yêu thích');
+                productsuggest.splice(index, 1);
+                this.setState({ productsuggest });
+            } else {
+                console.log("error: Xảy ra lỗi thêm dữ liệu vào cơ sở dữ liệu");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
     render() {
         const { products, productsuggest } = this.state;
         const count = products.length;
@@ -101,8 +122,8 @@ class ProductFavorite extends Component {
                         {
                             productsuggest.map((e, index) => {
                                 return (
-                                    <div className="col-xs-6 col-sm-4 col-md-2" key={index}>
-                                        <ProductItemSmall productsuggest={e} />
+                                    <div className="col-xs-6 col-sm-4 col-md-2">
+                                        <ProductItemSmall key={index} productsuggest={e} addProductFavorites={this.addProductFavorites} index={index} />
                                     </div>
                                 )
                             }

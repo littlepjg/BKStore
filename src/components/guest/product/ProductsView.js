@@ -10,6 +10,10 @@ import HomeSlider from '../HomeSlider';
 
 import axios from 'axios';
 
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
+
 const Category = styled.div`
     position: relative;
     margin: 15px 0;
@@ -231,8 +235,6 @@ class ProductsView extends Component {
     }
 
     getProductGuest(limit, pageNum, searchValue, filter) {
-        const ROOT_URL = 'http://localhost:5000';
-
         axios.get(`${ROOT_URL}/guest/productlist/pages`, {
             params: {
                 pageNum,
@@ -275,8 +277,6 @@ class ProductsView extends Component {
     }
 
     getProviderGuest(product_type_id) {
-        const ROOT_URL = 'http://localhost:5000';
-
         axios.get(`${ROOT_URL}/guest/provider`, {
             params: {
                 product_type_id
@@ -394,6 +394,8 @@ class ProductsView extends Component {
         const { mode } = this.state;
         const { products, totalCount, lastPageNum, currentPage, providers, attributes } = this.state;
         const pageList = pagination(lastPageNum, currentPage);
+
+        console.log('price: ', this.state.price_start, this.state.price_end);
 
         return (
             <div className="container-fluid">

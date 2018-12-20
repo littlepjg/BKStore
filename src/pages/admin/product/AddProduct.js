@@ -7,13 +7,15 @@ import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import BackButton from '../../../components/BackButton';
 import SelectImage from '../../../components/admin/product/SelectImage';
 
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
+
 const GenaralInfo = styled.div`
     .row {
         margin-bottom: 10px;
     }
 `;
-
-const ROOT_URL = 'http://localhost:5000';
 
 class AddProduct extends Component {
     constructor(props) {
@@ -280,7 +282,18 @@ class AddProduct extends Component {
         axios.post(`${ROOT_URL}/upload`, formData).then(response => {
             const { success, error } = response.data;
             if (success) {
-                console.log('success');
+                this.setState({
+                    productInfo: {
+                        product_name: '',
+                        product_type_id: 0,
+                        quantity: 0,
+                        productTypeAttributes: [],
+                        price: 0,
+                        provider: 0,
+                        description: '',
+                        images: [],
+                    }
+                })
             } else {
                 console.log("error: Them product that bai");
             }

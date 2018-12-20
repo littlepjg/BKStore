@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { formatNumber } from '../../../helpers/formatNumber';
+
 const Container = styled.div`
 .products_item_favorite{
     display:flex;
@@ -13,6 +15,7 @@ const Container = styled.div`
 }
 .products_item_favorite .info_item_favorite{
     display:flex;
+    max-width: 70%;
 }
 .products_item_favorite .info_item_favorite_image{
     width: 105px;
@@ -70,15 +73,15 @@ class ProductItemFavorite extends Component {
                         <div key={index} id={index} className="products_item_favorite">
                             <div className="info_item_favorite">
                                 <div class="info_item_favorite_image">
-                                    <a href="#"><img src={e.images} alt="ảnh" /></a>
+                                    <a href="/product/detail/1"><img src={e.images} alt="ảnh" /></a>
                                 </div>
                                 <div class="info_item_favorite_describe">
-                                    <p class="name">{e.name}</p>
+                                    <a href="/product/detail/1"><p class="name">{e.name}</p></a>
                                     <p class="describe">{e.description}</p>
                                     <i class="fa fa-trash pf-delete" onClick={() => this.props.deleteProductFavorites(index)}></i>
                                 </div>
                             </div>
-                            <p className="price_item_favorite">{e.price}</p>
+                            <p className="price_item_favorite">{formatNumber(e.price)} VNĐ</p>
                             <div className="button_add">
                                 <img src="//laz-img-cdn.alicdn.com/tfs/TB1iUYumfDH8KJjy1XcXXcpdXXa-144-64.png" width="72" height="32" />
                             </div>
