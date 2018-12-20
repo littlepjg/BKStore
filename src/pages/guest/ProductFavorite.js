@@ -97,50 +97,17 @@ class ProductFavorite extends Component {
                 </div>
                 <div className="container offer_products">
                     <h4>Sản phẩm đề cử</h4>
-                    <div className="row">
+                    <div className="row" style={{ display: 'flex', flexWrap: 'wrap' }}>
                         {
                             productsuggest.map((e, index) => {
                                 return (
-                                    <div className="col-sm-2" key={index}>
+                                    <div className="col-xs-6 col-sm-4 col-md-2" key={index}>
                                         <ProductItemSmall productsuggest={e} />
                                     </div>
                                 )
                             }
                             )
                         }
-                        {/* <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div>
-                        <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div>
-                        <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div>
-                        <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div>
-                        <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div>
-                        <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div>
-                        <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div>
-                        <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div>
-                        <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div>
-                        <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div>
-                        <div className="col-sm-2">
-                            <ProductItemSmall />
-                        </div> */}
                     </div>
                 </div>
             </div>
