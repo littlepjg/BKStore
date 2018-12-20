@@ -81,75 +81,47 @@ class ProductItemCart extends Component {
         super(props);
     }
     render() {
+        const { products, addProductFavorites, deleteProductCart, changeAmountProductCartSub, changeAmountProductCartPlus, totalPrice } = this.props;
         return (
             <Container>
-                <div id="product_item_cart">
-                    <div className="product_cart">
-                        <div className="checkbox_image">
-                            <input type="checkbox" aria-checked="true" value="on" />
-                            <img src={logo} alt="ảnh sản phẩm" />
-                        </div>
-                        <div className="info_product_cart">
-                            <span className="product_name">Nhớt tổng hợp cao cấp Mobil 1 SAE 0W40 Full Sythetic 1L (nhập khẩu USA)</span>
-                            <span className="producer">Nhà sản xuất</span>
-                            <div>
-                                <span className="icon_heart">
-                                    <a>
-                                        <i className="fa fa-heart-o"></i>
-                                    </a>
-                                </span>
-                                <span className="icon_trash">
-                                    <a href="#">
-                                        <i className="fa fa-trash"></i>
-                                    </a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="price_count_cart">
-                        <span className="price">200.000 đ</span>
-                        <div className="button_itemcart">
-                            <button type="button" class="btn btn-large btn-block btn-default">-</button>
-                            <span>1</span>
-                            <button type="button" class="btn btn-large btn-block btn-default">+</button>
-                        </div>
-                    </div>
-
-
-
-                    {/* <div className="container">
-                        <div className="col-sm-8">
-                            <div className="col-sm-6">
-                                <div className="product">
-                                    <input type="checkbox" aria-checked="true" value="on" />
-                                    <img src="" alt="ảnh sản phẩm" />
-                                    <div className="info_product">
-                                        <span className="product_name">Nhớt tổng hợp cao cấp Mobil 1 SAE 0W40 Full Sythetic 1L (nhập khẩu USA)</span>
-                                        <span className="producer">Nhà sản xuất</span>
-                                        <span className="icon_heart">
-                                            <a>
-                                                <i className="fa fa-heart-o"></i>
-                                            </a>
-                                        </span>
-                                        <span className="icon_trash">
-                                            <a href="#">
-                                                <i className="fa fa-trash"></i>
-                                            </a>
-                                        </span>
+                {
+                    products.map((e, index) => {
+                        return (
+                            <div id="product_item_cart" key={index}>
+                                <div className="product_cart">
+                                    <div className="checkbox_image">
+                                        <input type="checkbox" aria-checked="true" value="on" onChange={() => totalPrice(index)} />
+                                        <img src={e.images} alt="ảnh" />
+                                    </div>
+                                    <div className="info_product_cart">
+                                        <span className="product_name">{e.name}</span>
+                                        <span className="producer">{e.description}</span>
+                                        <div>
+                                            <span className="icon_heart" onClick={() => addProductFavorites(e.id)}>
+                                                <a href="#">
+                                                    <i className="fa fa-heart-o"></i>
+                                                </a>
+                                            </span>
+                                            <span className="icon_trash" onClick={() => deleteProductCart(index)}>
+                                                <a href="#">
+                                                    <i className="fa fa-trash"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="price_count_cart">
+                                    <span className="price">{e.price}</span>
+                                    <div className="button_itemcart">
+                                        <button type="button" class="btn btn-large btn-block btn-default" onClick={() => changeAmountProductCartSub(index)}>-</button>
+                                        <span>{e.amount}</span>
+                                        <button type="button" class="btn btn-large btn-block btn-default" onClick={() => changeAmountProductCartPlus(index)}>+</button>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-3">
-                                <span className="price">200.000 đ</span>
-                            </div>
-                            <div className="col-sm-3">
-                                <button type="button" class="btn btn-large btn-block btn-default">-</button>
-                                <span>1</span>
-                                <button type="button" class="btn btn-large btn-block btn-default">+</button>
-                            </div>
-                        </div>
-                    </div> */}
-                </div>
+                        )
+                    })
+                }
             </Container>
         )
     }

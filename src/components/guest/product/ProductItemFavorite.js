@@ -71,10 +71,10 @@ class ProductItemFavorite extends Component {
                         <div key={index} id={index} className="products_item_favorite">
                             <div className="info_item_favorite">
                                 <div class="info_item_favorite_image">
-                                    <a href="#"><img src={e.images} alt="ảnh" /></a>
+                                    <a href="/product/detail/1"><img src={e.images} alt="ảnh" /></a>
                                 </div>
                                 <div class="info_item_favorite_describe">
-                                    <p class="name">{e.name}</p>
+                                    <a href="/product/detail/1"><p class="name">{e.name}</p></a>
                                     <p class="describe">{e.description}</p>
                                     <i class="fa fa-trash" onClick={() => this.props.deleteProductFavorites(index)}></i>
                                 </div>

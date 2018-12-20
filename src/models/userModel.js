@@ -53,11 +53,12 @@ const getProductFavorites = async (user_id) => {
 const getProductSuggest = async () => {
     return await db('products')
         .select(
+            'products.id',
             'products.product_name',
             'products.product_images',
             'products.base_price',
         )
-        .limit(5);
+        .limit(6);
 }
 
 const addProductFavorite = async (user_id, product_id) => {

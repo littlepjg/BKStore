@@ -82,18 +82,18 @@ const Container = styled.div`
 
 class ProductItemSmall extends Component {
     render() {
-        const { productsuggest } = this.props;
+        const { productsuggest, addProductFavorites, index } = this.props;
         return (
             <Container>
                 <div className="products_small text-center">
                     <div className="thumbnail">
-                        <NavLink to="/product/detail/1"><img src={productsuggest.img} alt="ảnh" /></NavLink>
+                        <NavLink to="/product/detail/1"><img src={productsuggest.images} alt="ảnh" /></NavLink>
                     </div>
                     <div className="productname">{productsuggest.name}</div>
                     <h4 className="price">{productsuggest.price}</h4>
                     <div className="button_group">
                         <button className="button add-cart" type="button">Add To Cart</button>
-                        <button className="button wishlist" type="button"><i className="fa fa-heart-o"></i></button>
+                        <button className="button wishlist" type="button" onClick={() => addProductFavorites(index)}><i className="fa fa-heart-o"></i></button>
                     </div>
                 </div>
             </Container>
