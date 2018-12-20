@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import logo from './products-01.png';
+const ROOT_URL = 'http://localhost:5000';
 
 const Container = styled.div`
 .products_small{
@@ -29,7 +29,6 @@ const Container = styled.div`
     margin-bottom: 0px;
 }
 .thumbnail img{
-    width: 80px;
     height: 130px;
 
 }
@@ -83,11 +82,12 @@ const Container = styled.div`
 class ProductItemSmall extends Component {
     render() {
         const { productsuggest } = this.props;
+        const image = productsuggest.images.split(',')[0];
         return (
             <Container>
                 <div className="products_small text-center">
                     <div className="thumbnail">
-                        <NavLink to="/product/detail/1"><img src={productsuggest.img} alt="ảnh" /></NavLink>
+                        <NavLink to="/product/detail/1"><img src={image.indexOf('upload') === 0 ? `${ROOT_URL}/photos/${image}` : image} alt="ảnh" /></NavLink>
                     </div>
                     <div className="productname">{productsuggest.name}</div>
                     <h4 className="price">{productsuggest.price}</h4>

@@ -4,6 +4,8 @@ import ProductItemFavorite from '../../components/guest/product/ProductItemFavor
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+const ROOT_URL = 'http://localhost:5000';
+
 class ProductFavorite extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +16,6 @@ class ProductFavorite extends Component {
     }
 
     componentWillMount() {
-        const ROOT_URL = 'http://localhost:5000';
         axios.get(`${ROOT_URL}/user/favorite`, {
             params: {
                 user_id: this.props.user_id,
@@ -35,7 +36,6 @@ class ProductFavorite extends Component {
         //get productsuggest
         axios.get(`${ROOT_URL}/user/favorite/suggest`).then(response => {
             const { success, error } = response.data;
-            console.log(response.data)
             if (success) {
                 const { productsuggest } = response.data;
                 this.setState({
@@ -51,8 +51,6 @@ class ProductFavorite extends Component {
 
     deleteProductFavorites = (index) => {
         const { products } = this.state;
-
-        const ROOT_URL = 'http://localhost:5000';
 
         axios.post(`${ROOT_URL}/user/favorite/delete`, {
             user_id: this.props.user_id,
@@ -76,13 +74,13 @@ class ProductFavorite extends Component {
         const count = products.length;
         return (
             <div id="favorites">
-                <div class="container list_favorites">
+                <div className="container list_favorites">
                     <h2>Danh sách yêu thích</h2>
                     <hr />
                     <h4>Sản phẩm yêu thích</h4>
                     {
-                        count === 0 && <div class="row text-center">
-                            <span class="glyphicon glyphicon-heart-empty"></span>
+                        count === 0 && <div className="row text-center">
+                            <span className="glyphicon glyphicon-heart-empty"></span>
                             <p>Chưa có danh mục yêu thích</p>
                             <p>Thêm sản phẩm vào danh sách yêu thích để hiển thị ở đây.</p>
                         </div>
@@ -93,19 +91,18 @@ class ProductFavorite extends Component {
                     <div className="add_all">
                         <a href="#">Thêm tất cả vào giỏ hàng</a>
                     </div>
-                    <div class="row text-center">
-                        <a href="/" class="btn btn-default btn-buying">Tiếp tục mua sắm</a>
+                    <div className="row text-center">
+                        <a href="/" className="btn btn-default btn-buying">Tiếp tục mua sắm</a>
                     </div>
                 </div>
-                <div class="container offer_products">
+                <div className="container offer_products">
                     <h4>Sản phẩm đề cử</h4>
-                    <div class="row">
+                    <div className="row">
                         {
                             productsuggest.map((e, index) => {
-                                console.log(e);
                                 return (
-                                    <div className="col-sm-2">
-                                        <ProductItemSmall key={index} productsuggest={e} />
+                                    <div className="col-sm-2" key={index}>
+                                        <ProductItemSmall productsuggest={e} />
                                     </div>
                                 )
                             }
