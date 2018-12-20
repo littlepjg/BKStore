@@ -49,29 +49,41 @@ const Container = styled.div`
 .list_products h4{
     font-weight: bold;
 }
-.title_list{
-    color: gray;
-    box-shadow: 0px 0px 2px 2px #E6E6E6;
-    padding: 15px 0px;
-    margin-right: 1px;
+
+.list_products .checkbox-wrap{
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
-.title_list a{
-    color: gray;
-}
-.title_list .checkbox-wrap{
+.list_products .title_price_count{
+    width: 40%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
-.title_list .checkbox-wrap input{
+.list_products .title_price_count .title_price{
+    width: 60%;
+    text-align: center;
+}
+.list_products .title_price_count .title_count{
+    width: 40%;
+    text-align: center;
+}
+.list_products .title_list{
+    display: flex;
+    height: 65px;
+    color: gray;
+    box-shadow: 0px 0px 2px 2px #E6E6E6;
+    margin-right: 0px;
+}
+.list_products .title_list .input_check{
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+.list_products .title_list .input_check input{
     width: 18px;
     height: 18px;
-}
-.title_price{
-    text-align: center;
-}
-.title_count{
-    text-align: center;
 }
 
 `
@@ -90,20 +102,18 @@ class ShoppingCart extends Component {
                             <div class="col-sm-8 list_products">
                                 <h4>Danh sách sản phẩm</h4>
                                 <div className="row title_list">
-                                    <div className="col-sm-6">
-                                        <div class="checkbox-wrap">
-                                            <input type="checkbox" aria-checked="true" value="on" />
-                                            <span>CHỌN TẤT CẢ (2 SẢN PHẨM)</span>
-                                            <a href="#">
-                                                <i class="fa fa-trash"></i>
-                                                <span>XÓA</span>
-                                            </a>
-                                        </div>
+                                    <div className="input_check">
+                                        <input type="checkbox" aria-checked="true" value="on" />
                                     </div>
-                                    <div className="col-sm-3">
+                                    <div class="checkbox-wrap">
+                                        <span>CHỌN TẤT CẢ (2 SẢN PHẨM)</span>
+                                        <a href="#">
+                                            <i class="fa fa-trash"></i>
+                                            <span>XÓA</span>
+                                        </a>
+                                    </div>
+                                    <div className="title_price_count">
                                         <div className="title_price">GIÁ</div>
-                                    </div>
-                                    <div className="col-sm-3">
                                         <div className="title_count">sỐ LƯỢNG</div>
                                     </div>
                                 </div>

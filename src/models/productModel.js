@@ -109,7 +109,15 @@ const addProduct = async (product) => {
                 return db('attribute_values').insert(product.attributeValues).transacting(trx);
             }).then(trx.commit)
             .catch(trx.rollback);
-    })
+    });
+}
+
+const updateProduct = (id, valueUpdate) => {
+    return db('products')
+        .update({
+            ...valueUpdate,
+            updated_at: db.fn.now(),
+        }).where({ id });
 }
 
 const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
@@ -180,6 +188,7 @@ module.exports = {
     getProductAdminByPage,
     getTopSellingProducts,
     addProduct,
+    updateProduct,
     deleteProduct,
     getProductListByProductTypeId,
     getProductGuestByPage,

@@ -4,7 +4,7 @@ import { adPostError } from './admin_actions';
 
 const ROOT_URL = 'http://localhost:5000';
 
-export function getPostsAdminByPage(limit, pageNum, searchValue, filter) {
+export function getProductsAdminByPage(limit, pageNum, searchValue, filter) {
     return function (dispatch) {
         const params = searchValue ? { limit, pageNum, searchValue, filter } : { limit, pageNum, filter };
         axios.get(`${ROOT_URL}/admin/product/pages`, {

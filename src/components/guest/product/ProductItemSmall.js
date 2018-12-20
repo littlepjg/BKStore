@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import logo from './products-01.png';
+const ROOT_URL = 'http://localhost:5000';
 
 const Container = styled.div`
+height: 100%;
+
 .products_small{
     width: 100%
     border: 1px solid #e1e1e1;
@@ -29,12 +31,11 @@ const Container = styled.div`
     margin-bottom: 0px;
 }
 .thumbnail img{
-    width: 80px;
     height: 130px;
 
 }
 .productname{
-    font-size: 14px;
+    font-size: 12px;
     color: #333333;
 }
 .price {
@@ -82,14 +83,16 @@ const Container = styled.div`
 
 class ProductItemSmall extends Component {
     render() {
+        const { productsuggest } = this.props;
+        const image = productsuggest.images.split(',')[0];
         return (
             <Container>
                 <div className="products_small text-center">
                     <div className="thumbnail">
-                        <NavLink to="/product/detail/1"><img src={logo} alt="Product Name" /></NavLink>
+                        <NavLink to="/product/detail/1"><img src={image.indexOf('upload') === 0 ? `${ROOT_URL}/photos/${image}` : image} alt="ảnh" /></NavLink>
                     </div>
-                    <div className="productname">Iphone 5s Gold 32 Gb 2013</div>
-                    <h4 className="price">$451.00</h4>
+                    <div className="productname">{productsuggest.name}</div>
+                    <h4 className="price">{productsuggest.price}</h4>
                     <div className="button_group">
                         <button className="button add-cart" type="button">Add To Cart</button>
                         <button className="button wishlist" type="button"><i className="fa fa-heart-o"></i></button>
