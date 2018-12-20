@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import logo from './products-01.png';
-
 const Container = styled.div`
 .products_item_favorite{
     display:flex;

@@ -6,6 +6,8 @@ import { NavLink } from 'react-router-dom';
 const ROOT_URL = 'http://localhost:5000';
 
 const Container = styled.div`
+height: 100%;
+
 .products_small{
     width: 100%
     border: 1px solid #e1e1e1;
@@ -33,7 +35,7 @@ const Container = styled.div`
 
 }
 .productname{
-    font-size: 14px;
+    font-size: 12px;
     color: #333333;
 }
 .price {

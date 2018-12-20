@@ -450,7 +450,7 @@ class ProductsView extends Component {
                             </Sorter>
                             <h3 className="title">{product_type_id === 1 ? "Điện thoại di động" : product_type_id === 2 ? "Máy tính" : "Không tìm thấy danh mục sản phẩm"}</h3>
                         </div>
-                        <div class="row">
+                        <div class="row" style={{ display: 'flex', flexWrap: 'wrap' }}>
                             {
                                 totalCount > 0 ? products.map((product, key) => {
                                     if (mode === "list") {
