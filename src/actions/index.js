@@ -2,7 +2,9 @@ import axios from 'axios';
 import { alertMsg } from './admin_actions';
 import { AUTH_USER, UNAUTH_USER, AUTH_ERROR } from './types';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 export function signInUser({ email, passwd }) {
     return function (dispatch) {

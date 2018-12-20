@@ -6,6 +6,10 @@ import { formatNumber } from '../../helpers/formatNumber';
 import { TitlePanel, WhitePanel } from '../../theme/Style';
 import TopProductItem from '../../components/admin/product/TopProductItem';
 
+import { SERVER_URL, PORT } from '../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
+
 const Card = styled.div`
     color: rgba(0, 0, 0, 0.87);
     width: 100%;
@@ -79,8 +83,6 @@ class DashBoard extends Component {
     }
 
     componentDidMount() {
-        const ROOT_URL = 'http://localhost:5000';
-
         // get common info
         axios.get(`${ROOT_URL}/admin/dashboard`).then(response => {
             const { success, error } = response.data;
