@@ -37,6 +37,18 @@ const deleteUserById = async (id) => {
 }
 
 const getProductFavorites = async (user_id) => {
+    console.log(db('products')
+        .select(
+            'products.id',
+            'products.product_name',
+            'products.product_images',
+            'products.description',
+            'products.base_price',
+        ).innerJoin(
+            'favorites',
+            'favorites.product_id',
+            'products.id',
+        ).where('favorites.customer_id', user_id).toString());
     return await db('products')
         .select(
             'products.id',
