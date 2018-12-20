@@ -215,7 +215,7 @@ class ProductsView extends Component {
             providers: [],
             products: [],
             currentPage: 1,
-            limit: 30,
+            limit: 9,
             totalCount: '',
             hasPrev: '',
             hasNext: '',
@@ -346,6 +346,14 @@ class ProductsView extends Component {
         this.getProductGuest(limit, currentPage, {}, { provider, product_type: product_type_id });
     }
 
+    handleChange(e){
+        this.setState({[e.target.name]: e.target.value})
+    }
+
+    handleSubmit(){
+        const{limit, currentPage, price_start, price_end, product_type_id} = this.state;
+        this.getProductGuest(limit, currentPage, {price_between:[price_start, price_end]}, {product_type: product_type_id})
+    }
     render() {
         const product_type_id = Number(this.props.product_type_id);
 
@@ -353,6 +361,8 @@ class ProductsView extends Component {
         const { products, totalCount, lastPageNum, currentPage, providers } = this.state;
         const pageList = pagination(lastPageNum, currentPage);
 
+        console.log('price: ',this.state.price_start, this.state.price_end);
+        
         return (
             <div className="container-fluid">
                 <div class="row">
@@ -378,12 +388,12 @@ class ProductsView extends Component {
                         <Category className="category leftbar">
                             <h3 class="title">Price</h3>
                             <div className="price">
-                                <input type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" ú />
-                                <div>-</div>
-                                <input type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
-                                <button type="button" className="btn btn-primary btn-icon-only">
-                                    Go
-                                </button>
+                                <form>
+                                    <input onChange={e=>this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
+                                    <div>-</div>
+                                    <input onChange={e=>this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
+                                    <button onClick={()=>this.handleSubmit()} type="button" className="btn btn-primary btn-icon-only">Go</button>
+                                </form>
                             </div>
                         </Category>
 
@@ -398,33 +408,6 @@ class ProductsView extends Component {
                                 <li><a href="#"> 1GB </a></li>
                             </ul>
                         </Category>
-
-                        <Category className="category leftbar">
-                            <h3 className="title">Color Family</h3>
-                            <ul>
-                                <li><a href="#"> Black </a></li>
-                                <li><a href="#"> Gold </a></li>
-                                <li><a href="#"> Red </a></li>
-                                <li><a href="#"> Yellow </a></li>
-                                <li><a href="#"> White </a></li>
-                                <li><a href="#"> Blue </a></li>
-                                <li><a href="#"> Pink </a></li>
-                                <li><a href="#"> Grey </a></li>
-                            </ul>
-                        </Category>
-
-                        <Category className="category leftbar">
-                            <h3 className="title">Phone Screen size</h3>
-                            <ul>
-                                <li><a href="#"> 4.6-5 Inch </a></li>
-                                <li><a href="#"> More than 5.6 Inch </a></li>
-                                <li><a href="#"> 5.1-5.5 Inch </a></li>
-                                <li><a href="#"> 3.6-4 Inch </a></li>
-                                <li><a href="#"> Less than 3.5 Inch </a></li>
-                                <li><a href="#"> 4.1-4.5 Inch </a></li>
-                            </ul>
-                        </Category>
-
                     </div>
 
                     <div class="col-sm-9">

@@ -86,6 +86,14 @@ const removeProductTypeAttribute = async (product_type_id, category_attribute_id
         }).del();
 }
 
+const getAttributeValueBy = async (product_type_id, category_name)=>{
+    return await db('product_attributes')
+    .innerJoin('category_attributes', 'product_attributes.category_id', 'category_attributes.id')
+    .innerJoin('attribute_values',)
+    .where('product_attributes.product_type_id', product_type_id)
+    .where()
+}
+
 module.exports = {
     getProviders,
     getProductTypes,
@@ -96,4 +104,5 @@ module.exports = {
     addProductAttribute,
     addProductTypeAttribute,
     removeProductTypeAttribute,
+    getAttributeValueBy,
 }
