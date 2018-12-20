@@ -4,7 +4,7 @@ const user_md = require('../../models/userModel');
 const route = express.Router();
 
 route.get('/', (req, res) => {
-    const user_id = parseInt(req.params.user_id);
+    const user_id = parseInt(req.query.user_id);
 
     user_md.getProductFavorites(user_id).then(result => {
         const products = result.map(r => ({
@@ -20,6 +20,23 @@ route.get('/', (req, res) => {
     });
 });
 
+route.get('/suggest', (req, res) => {
+    user_md.getProductSuggest().then(result => {
+        console.log(result);
+
+        const productsuggest = result.map(r => ({
+            name: r.product_name,
+            images: r.product_images,
+            price: r.base_price,
+        }));
+        res.json({ success: true, error: '', productsuggest });
+    }).catch(error => {
+        console.log(error);
+
+        res.json({ success: false, error });
+    });
+});
+
 route.post('/add', (req, res) => {
     const { user_id, product_id } = req.body;
 
@@ -30,7 +47,7 @@ route.post('/add', (req, res) => {
     });
 });
 
-route.post('delete', (req, res) => {
+route.post('/delete', (req, res) => {
     const { user_id, product_id } = req.body;
 
     user_md.deleteProductFavorite(user_id, product_id).then(result => {

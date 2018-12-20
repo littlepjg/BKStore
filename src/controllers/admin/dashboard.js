@@ -16,6 +16,7 @@ route.get('/top_product', (req, res) => {
     const limit = parseInt(req.query.limit);
 
     product_md.getTopSellingProducts(limit).then(results => {
+        console.log(results);
         const topSellingProducts = results.map(r => ({
             id: r.id,
             product_name: r.product_name,

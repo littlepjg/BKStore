@@ -74,10 +74,10 @@ const deleteProduct = async (id) => {
 }
 
 const getProductListByProductTypeId = async (product_type_id) => {
-    return await db('providers')
-        .where('id', product_type_id)
-        .join('products', 'providers.id', 'products.provider_id')
-        .join('product_type', 'products.product_type_id', 'product_type.id')
+    return await db('product_type')
+        .where('product_type.id', product_type_id)
+        .join('products', 'product_type.id', 'products.product_type_id')
+        .join('providers', 'products.provider_id', 'providers.id')
         .select(
             'products.id',
             'products.product_name',
@@ -87,9 +87,10 @@ const getProductListByProductTypeId = async (product_type_id) => {
             'products.description',
             'products.quantity',
             'providers.name as provider_name',
-            'product_type.name as product_type_name',
+            'product_type.product_type_name as product_type_name',
         );
 }
+
 const addProduct = async (product) => {
     return await db.transaction(function (trx) {
         return db.insert({
@@ -111,10 +112,73 @@ const addProduct = async (product) => {
     })
 }
 
+const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
+    const whereClause = {};
+    const { provider, product_type } = filter;
+    const { base_price, search_value } = searchValue;
+
+    if (provider) {
+        whereClause['products.provider_id'] = provider;
+    }
+    if (product_type) {
+        whereClause['products.product_type_id'] = product_type;
+    }
+
+    console.log("WhereClauseProductGuest: ", whereClause);
+    console.log("SearchValue: ", searchValue);
+    
+    const builder = db('products').select(
+        'products.id',
+        'products.product_name',
+        'products.product_images',
+        'products.base_price',
+        'products.unit',
+        'products.description',
+        'products.quantity',
+        'providers.name as provider_name',
+        'product_type.product_type_name as product_type_name',
+    ).leftJoin(
+        'product_type',
+        'product_type.id',
+        'products.product_type_id'
+    ).leftJoin(
+        'providers',
+        'providers.id',
+        'products.provider_id'
+    );
+
+    if (searchValue && !whereClause) {
+        if (search_value)
+            builder.where('products.product_name', 'like', `%${search_value}%`);
+        if (base_price) {
+            builder.orderBy('products.base_price', base_price);
+        }
+    }
+    if (whereClause) {
+        builder.where(whereClause);
+        console.log('base price: ', searchValue.base_price);
+        if (searchValue) {
+            if (search_value)
+                builder.where('products.product_name', 'like', `%${search_value}%`);
+            if (base_price) {
+                
+                builder.orderBy('products.base_price', base_price);
+            }
+        }
+    }
+
+    return await paginate(
+        builder,
+        { limit, pageNum }
+    );
+}
+
+
 module.exports = {
     getProductAdminByPage,
     getTopSellingProducts,
     addProduct,
     deleteProduct,
     getProductListByProductTypeId,
+    getProductGuestByPage,
 }
