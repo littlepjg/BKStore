@@ -103,7 +103,7 @@ class ProductItem extends Component {
         return (
             <Container className="products">
                 <div className="thumbnail">
-                    <a href={"/product/detail/:"+id}><img src={product_image} alt="Product Name" /></a>
+                    <a href={"/product/detail/"+id}><img src={product_image} alt="Product Name" /></a>
                 </div>
                 <div className="productname">{product_name}</div>
                 <h4 className="price">{formatNumber(base_price)} { unit}</h4>
