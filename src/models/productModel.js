@@ -73,22 +73,22 @@ const deleteProduct = async (id) => {
     return await db('products').where({ id }).del();
 }
 
-const getProductListByProductTypeId = async(product_type_id)=>{
+const getProductListByProductTypeId = async (product_type_id) => {
     return await db('product_type')
-    .where('product_type.id', product_type_id)
-    .join('products', 'product_type.id', 'products.product_type_id')
-    .join('providers', 'products.provider_id', 'providers.id')
-    .select(
-        'products.id',
-        'products.product_name',
-        'products.product_images',
-        'products.base_price',
-        'products.unit',
-        'products.description',
-        'products.quantity',
-        'providers.name as provider_name',
-        'product_type.product_type_name as product_type_name',
-    );
+        .where('product_type.id', product_type_id)
+        .join('products', 'product_type.id', 'products.product_type_id')
+        .join('providers', 'products.provider_id', 'providers.id')
+        .select(
+            'products.id',
+            'products.product_name',
+            'products.product_images',
+            'products.base_price',
+            'products.unit',
+            'products.description',
+            'products.quantity',
+            'providers.name as provider_name',
+            'product_type.product_type_name as product_type_name',
+        );
 }
 
 const addProduct = async (product) => {
@@ -115,13 +115,18 @@ const addProduct = async (product) => {
 const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     const whereClause = {};
     const { provider, product_type } = filter;
+    const { base_price, search_value } = searchValue;
+
     if (provider) {
         whereClause['products.provider_id'] = provider;
     }
     if (product_type) {
         whereClause['products.product_type_id'] = product_type;
     }
+
     console.log("WhereClauseProductGuest: ", whereClause);
+    console.log("SearchValue: ", searchValue);
+    
     const builder = db('products').select(
         'products.id',
         'products.product_name',
@@ -143,12 +148,22 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     );
 
     if (searchValue && !whereClause) {
-        builder.where('products.product_name', 'like', `%${searchValue}%`);
+        if (search_value)
+            builder.where('products.product_name', 'like', `%${search_value}%`);
+        if (base_price) {
+            builder.orderBy('products.base_price', base_price);
+        }
     }
     if (whereClause) {
         builder.where(whereClause);
+        console.log('base price: ', searchValue.base_price);
         if (searchValue) {
-            builder.andWhere('products.product_name', 'like', `%${searchValue}%`);
+            if (search_value)
+                builder.where('products.product_name', 'like', `%${search_value}%`);
+            if (base_price) {
+                
+                builder.orderBy('products.base_price', base_price);
+            }
         }
     }
 

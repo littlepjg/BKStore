@@ -34,7 +34,7 @@ exports.seed = function (knex, Promise) {
           {
           id: 3,
           product_name: 'Điện thoại Huawei Y9 (2019)',
-          product_images: 'https://cdn.tgdd.vn/Products/Images/42/192313/huawei-y9-2019-blue-200-180x125.png, https://cdn.tgdd.vn/Products/Images/42/192313/huawei-y9-2019-black-200-180x125.png,https://cdn.tgdd.vn/Products/Images/42/192313/huawei-y9-2019-den-2-180x125.jpg,https://cdn.tgdd.vn/Products/Images/42/192313/huawei-y9-2019-den-6-180x125.jpg',
+          product_images: 'https://cdn.tgdd.vn/Products/Images/42/192313/huawei-y9-2019-blue-200.png, https://cdn.tgdd.vn/Products/Images/42/192313/huawei-y9-2019-black-200-180x125.png,https://cdn.tgdd.vn/Products/Images/42/192313/huawei-y9-2019-den-2.jpg,https://cdn.tgdd.vn/Products/Images/42/192313/huawei-y9-2019-den-6.jpg',
           unit: 'VNĐ',
           base_price: 2990000,
           description: 'Specifications of Huawei Y6 prime 2018 2GB 16GB 5.7" 1440x720P Snapdragon 425 CPU 13MP+8MP Camera Android 8.0 3000mAh',

@@ -253,7 +253,6 @@ class ProductsView extends Component {
                     }, 
                     products
                 } = response.data;
-                console.log('data',products);
                 
                 this.setState({
                     products,
@@ -272,8 +271,12 @@ class ProductsView extends Component {
         });
     }
 
-    componentWillMount(){
-        this.getProductGuest(30, 1, '', {product_type: 1});
+    componentDidMount(){
+        console.log('component will mount: ', this.props.product_type_id);
+        
+        const limit = this.state.limit;
+        const pageNum = this.state.currentPage;
+        this.getProductGuest(limit, pageNum, {}, {product_type: this.props.product_type_id});
     }
 
     nextPage() {
@@ -287,7 +290,7 @@ class ProductsView extends Component {
         // }
         const {hasNext, limit, nextPageNum} = this.state;
         if(hasNext){
-            this.getProductGuest(limit, nextPageNum, '', {product_type: 1});
+            this.getProductGuest(limit, nextPageNum, {}, {product_type: this.props.product_type_id});
         }
     }
 
@@ -301,7 +304,7 @@ class ProductsView extends Component {
         // }
         const {hasPrev, limit, prevPageNum} = this.state;
         if(hasPrev){
-            this.getProductGuest(limit, prevPageNum, '', {product_type: 1});
+            this.getProductGuest(limit, prevPageNum, {}, {product_type: this.props.product_type_id});
         }
     }
 
@@ -319,26 +322,30 @@ class ProductsView extends Component {
         // });
 
         const {limit} = this.state;
-        this.getProductGuest(limit, pageNum, '', {product_type: 1});
+        this.getProductGuest(limit, pageNum, {}, {product_type: this.props.product_type_id});
     }
 
     renderPager(pageNum, key) {
         const current = this.state.currentPage;
         if (typeof pageNum === 'number') {
-            return pageNum !== current ? <li key={key} onClick={() => this.handleClickItemPager(pageNum)}><a href="#">{pageNum}</a></li> : <li onClick={() => this.handleClickItemPager(pageNum)} className="active" key={key}><a href="#">{pageNum}</a></li>
+            return pageNum !== current ? <li key={key} onClick={() => this.handleClickItemPager(pageNum)}><a href="#/">{pageNum}</a></li> : <li onClick={() => this.handleClickItemPager(pageNum)} className="active" key={key}><a href="#">{pageNum}</a></li>
         }
         return <li onClick={() => this.handleClickItemPager(pageNum)} className="disabled" key={key}><a href="#">{pageNum}</a></li>;
     }
 
+    handleSortProducts(sort){
+        const {limit, pageNum} = this.state;
+        this.getProductGuest(limit, pageNum, {base_price: sort.target.value}, {product_type: this.props.product_type_id});
+    }
+
     render() {
-        console.log('products', this.state.products);
+        const product_type_id = Number(this.props.product_type_id);
         
         const { mode } = this.state;
-
         const { products, totalCount, lastPageNum, currentPage } = this.state;
-        // const countPage = Math.ceil(products.length / limit);
         const pageList = pagination(lastPageNum, currentPage);
-
+        
+        // const countPage = Math.ceil(products.length / limit);
         // const indexOfLastProduct = limit * currentPage;
         // const indexOfFirstProduct = indexOfLastProduct - limit;
         // const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -423,10 +430,9 @@ class ProductsView extends Component {
                             <Sorter class="sorter">
                                 <p>Sort by:</p>
                                 <div class="selection">
-                                    <select class="selectpicker">
-                                        <option>Popularity</option>
-                                        <option>Price low to hight</option>
-                                        <option>Price hight to low</option>
+                                    <select class="selectpicker" onChange={(e)=> this.handleSortProducts(e)}>
+                                        <option value="asc">Price low to hight</option>
+                                        <option value="desc">Price hight to low</option>
                                     </select>
                                 </div>
 
@@ -440,7 +446,7 @@ class ProductsView extends Component {
                                     </a>
                                 </div>
                             </Sorter>
-                            <h3 className="title">Điện thoại di động</h3>
+                            <h3 className="title">{product_type_id===1?"Điện thoại di động":product_type_id===2?"Máy tính":"Không tìm thấy danh mục sản phẩm"}</h3>
                         </div>
                         <div class="row">
                             {
@@ -455,7 +461,7 @@ class ProductsView extends Component {
                                     if (mode === 'grid') {
                                         return (
                                             <div class="col-xs-12">
-                                                <ProductItemHorizonto key={key} />
+                                                <ProductItemHorizonto key={key} product={product}/>
                                             </div>
                                         )
                                     }
