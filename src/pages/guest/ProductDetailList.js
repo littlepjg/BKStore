@@ -22,6 +22,9 @@ class ProductDetailList extends Component {
     }
 
     render() {
+        console.log(this.state.product_type_id);
+        console.log(this.state.products);
+      
         const { products, product_type_id } = this.state;
         return (
             <div className="container-fluid">

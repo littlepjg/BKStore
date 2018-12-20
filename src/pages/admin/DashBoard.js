@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { formatNumber } from '../../helpers/formatNumber';
 import { TitlePanel, WhitePanel } from '../../theme/Style';
+import TopProductItem from '../../components/admin/product/TopProductItem';
 
 const Card = styled.div`
     color: rgba(0, 0, 0, 0.87);
@@ -115,7 +116,6 @@ class DashBoard extends Component {
 
     render() {
         const { totalUser, totalPost, revenue, topSellingProducts } = this.state;
-        console.log("TOPSELLING: ", topSellingProducts);
         return (
             <div>
                 <TitlePanel>
@@ -160,6 +160,11 @@ class DashBoard extends Component {
 
                 <WhitePanel>
                     <h4>Top sản phẩm bán chạy</h4>
+                    {topSellingProducts.length > 0 && <div className="row">
+                        {topSellingProducts.map(p => (
+                            <TopProductItem key={p.id} product={p} />
+                        ))}
+                    </div>}
                 </WhitePanel>
             </div>
         );
