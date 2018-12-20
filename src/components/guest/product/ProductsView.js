@@ -215,7 +215,7 @@ class ProductsView extends Component {
             providers: [],
             products: [],
             currentPage: 1,
-            limit: 30,
+            limit: 9,
             totalCount: '',
             hasPrev: '',
             hasNext: '',
@@ -392,7 +392,7 @@ class ProductsView extends Component {
                                     <input onChange={e=>this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
                                     <div>-</div>
                                     <input onChange={e=>this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
-                                    <button onClick={()=>this.handleSubmit()} type="submit" className="btn btn-primary btn-icon-only">Go</button>
+                                    <button onClick={()=>this.handleSubmit()} type="button" className="btn btn-primary btn-icon-only">Go</button>
                                 </form>
                             </div>
                         </Category>
