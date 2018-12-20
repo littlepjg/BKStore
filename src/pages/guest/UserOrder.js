@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 
 import UserBill from '../../components/guest/bill/UserBill';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 const Container = styled.div`
     margin-top: 20px;

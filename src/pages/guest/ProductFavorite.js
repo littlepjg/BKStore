@@ -4,7 +4,9 @@ import ProductItemFavorite from '../../components/guest/product/ProductItemFavor
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 class ProductFavorite extends Component {
     constructor(props) {
@@ -71,8 +73,6 @@ class ProductFavorite extends Component {
 
     addProductFavorites = (index) => {
         const { productsuggest } = this.state;
-        const ROOT_URL = 'http://localhost:5000';
-        // this.props.user_id
         axios.post(`${ROOT_URL}/user/favorite/add`, {
             user_id: 2,
             product_id: productsuggest[index].id,

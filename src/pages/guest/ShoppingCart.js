@@ -4,6 +4,10 @@ import ProductItemCart from '../../components/guest/product/ProductItemCart';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+import { SERVER_URL, PORT } from '../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
+
 const Container = styled.div`
 #shopping_cart .info_cart{
     position: relative;
@@ -115,8 +119,6 @@ class ShoppingCart extends Component {
     }
 
     componentWillMount() {
-        const ROOT_URL = 'http://localhost:5000';
-
         axios.get(`${ROOT_URL}/user/cart`, {
             params: {
                 user_id: this.props.user_id,
@@ -140,7 +142,6 @@ class ShoppingCart extends Component {
     }
 
     addProductFavorites = (product_id) => {
-        const ROOT_URL = 'http://localhost:5000';
         // this.props.user_id
         axios.post(`${ROOT_URL}/user/favorite/add`, {
             user_id: 2,
@@ -160,8 +161,6 @@ class ShoppingCart extends Component {
     deleteProductCart = (index) => {
         const { products } = this.state;
         if (window.confirm('Bạn có muốn xóa sản phẩm khỏi giỏ hàng không?')) {
-            const ROOT_URL = 'http://localhost:5000';
-
             axios.post(`${ROOT_URL}/user/cart/delete`, {
                 user_id: this.props.user_id,
                 product_id: products[index].id,
@@ -193,7 +192,6 @@ class ShoppingCart extends Component {
             } : e;
         })
         this.setState({ products: products_sub });
-        const ROOT_URL = 'http://localhost:5000';
 
         axios.post(`${ROOT_URL}/user/cart/change`, {
             user_id: this.props.user_id,
@@ -224,7 +222,6 @@ class ShoppingCart extends Component {
             } : e;
         })
         this.setState({ products: products_plus });
-        const ROOT_URL = 'http://localhost:5000';
 
         axios.post(`${ROOT_URL}/user/cart/change`, {
             user_id: this.props.user_id,

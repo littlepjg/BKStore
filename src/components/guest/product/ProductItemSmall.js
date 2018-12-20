@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-const ROOT_URL = 'http://localhost:5000';
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 const Container = styled.div`
 height: 100%;
@@ -85,7 +87,7 @@ class ProductItemSmall extends Component {
     render() {
         const { productsuggest, addProductFavorites, index } = this.props;
         const image = productsuggest.images.split(',')[0];
-      
+
         return (
             <Container>
                 <div className="products_small text-center">

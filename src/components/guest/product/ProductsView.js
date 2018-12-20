@@ -10,6 +10,10 @@ import HomeSlider from '../HomeSlider';
 
 import axios from 'axios';
 
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
+
 const Category = styled.div`
     position: relative;
     margin: 15px 0;
@@ -230,8 +234,6 @@ class ProductsView extends Component {
     }
 
     getProductGuest(limit, pageNum, searchValue, filter) {
-        const ROOT_URL = 'http://localhost:5000';
-
         axios.get(`${ROOT_URL}/guest/productlist/pages`, {
             params: {
                 pageNum,
@@ -274,8 +276,6 @@ class ProductsView extends Component {
     }
 
     getProviderGuest(product_type_id) {
-        const ROOT_URL = 'http://localhost:5000';
-
         axios.get(`${ROOT_URL}/guest/provider`, {
             params: {
                 product_type_id
@@ -346,13 +346,13 @@ class ProductsView extends Component {
         this.getProductGuest(limit, currentPage, {}, { provider, product_type: product_type_id });
     }
 
-    handleChange(e){
-        this.setState({[e.target.name]: e.target.value})
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
-    handleSubmit(){
-        const{limit, currentPage, price_start, price_end, product_type_id} = this.state;
-        this.getProductGuest(limit, currentPage, {price_between:[price_start, price_end]}, {product_type: product_type_id})
+    handleSubmit() {
+        const { limit, currentPage, price_start, price_end, product_type_id } = this.state;
+        this.getProductGuest(limit, currentPage, { price_between: [price_start, price_end] }, { product_type: product_type_id })
     }
     render() {
         const product_type_id = Number(this.props.product_type_id);
@@ -361,8 +361,8 @@ class ProductsView extends Component {
         const { products, totalCount, lastPageNum, currentPage, providers } = this.state;
         const pageList = pagination(lastPageNum, currentPage);
 
-        console.log('price: ',this.state.price_start, this.state.price_end);
-        
+        console.log('price: ', this.state.price_start, this.state.price_end);
+
         return (
             <div className="container-fluid">
                 <div class="row">
@@ -389,10 +389,10 @@ class ProductsView extends Component {
                             <h3 class="title">Price</h3>
                             <div className="price">
                                 <form>
-                                    <input onChange={e=>this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
+                                    <input onChange={e => this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
                                     <div>-</div>
-                                    <input onChange={e=>this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
-                                    <button onClick={()=>this.handleSubmit()} type="button" className="btn btn-primary btn-icon-only">Go</button>
+                                    <input onChange={e => this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
+                                    <button onClick={() => this.handleSubmit()} type="button" className="btn btn-primary btn-icon-only">Go</button>
                                 </form>
                             </div>
                         </Category>
