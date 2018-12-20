@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const product_md = require('../../models/productModel');
 const route = express.Router();
 
@@ -30,6 +30,17 @@ route.post('/delete', (req, res) => {
 
     product_md.deleteProduct(id).then(result => {
         res.json({ success: true, error: '', status: 'Xóa thành công' });
+    }).catch(error => {
+        res.json({ success: false, error });
+    });
+});
+
+route.post('/update', (req, res) => {
+    const { id, base_price, quantity } = req.body;
+
+    product_md.updateProduct(id, { base_price, quantity }).then(result => {
+        console.log(result);
+        res.json({ success: true, error: '', result });
     }).catch(error => {
         res.json({ success: false, error });
     });

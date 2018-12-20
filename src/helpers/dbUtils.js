@@ -37,6 +37,11 @@ async function paginate(
         .clearSelect()
         .count('* as count')
         .first();
+    console.log(builder
+        .clone()
+        .clearSelect()
+        .count('* as count')
+        .first().toString());
 
     const totalCount = total.count;
     const totalPage = Math.ceil(totalCount / limit);

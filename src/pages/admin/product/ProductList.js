@@ -10,6 +10,8 @@ import { TitlePanel, WhitePanel, Label } from '../../../theme/Style';
 import ProductRow from '../../../components/admin/product/ProductRow';
 import Pagination from '../../../components/pagination/Pagination';
 
+const ROOT_URL = 'http://localhost:5000';
+
 const SearchForm = styled.form`
     max-width: 300px;
     display: flex;
@@ -30,18 +32,19 @@ class ProductList extends Component {
         this.state = {
             searchValue: '',
             providers: [{ id: 1, name: "Sam sung" }, { id: 2, name: "Oppo" }],
-            productTypes: [{ id: 1, name: "Điện thoại" }, { id: 2, name: "Máy tính" }]
+            productTypes: [{ id: 1, name: "Điện thoại" }, { id: 2, name: "Máy tính" }],
+            productEditId: 0,
         }
         this.handleChangeProductNum = this.handleChangeProductNum.bind(this);
         this.handleChangeFilter = this.handleChangeFilter.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getPrevPage = this.getPrevPage.bind(this);
         this.getNextPage = this.getNextPage.bind(this);
+        this.handleEditProduct = this.handleEditProduct.bind(this);
+        this.handleUpdateProduct = this.handleUpdateProduct.bind(this);
     }
 
     componentDidMount() {
-        const ROOT_URL = 'http://localhost:5000';
-
         // get provider
         axios.get(`${ROOT_URL}/admin/provider`).then(response => {
             const { success, error } = response.data;
@@ -73,39 +76,68 @@ class ProductList extends Component {
         });
 
         const { pager: { limit, currentPageNum }, searchValue, filter } = this.props.productList;
-        this.props.getPostsAdminByPage(limit, currentPageNum, searchValue, filter);
+        this.props.getProductsAdminByPage(limit, currentPageNum, searchValue, filter);
     }
 
     handleChangeFilter(e) {
         const { searchValue, filter, pager: { limit } } = this.props.productList;
         filter[e.target.name] = parseInt(e.target.value);
-        this.props.getPostsAdminByPage(limit, 1, searchValue, filter);
+        this.props.getProductsAdminByPage(limit, 1, searchValue, filter);
     }
 
     handleChangeProductNum(e) {
         const limit = parseInt(e.target.value);
         const { searchValue, filter } = this.props.productList;
-        this.props.getPostsAdminByPage(limit, 1, searchValue, filter);
+        this.props.getProductsAdminByPage(limit, 1, searchValue, filter);
     }
 
     handleSubmit(e) {
         e.preventDefault();
         const { filter, pager: { limit } } = this.props.productList;
-        this.props.getPostsAdminByPage(limit, 1, this.state.searchValue, filter);
+        this.props.getProductsAdminByPage(limit, 1, this.state.searchValue, filter);
     }
 
     getPrevPage() {
         const { pager: { limit, prevPageNum }, searchValue, filter } = this.props.productList;
-        this.props.getPostsAdminByPage(limit, prevPageNum, searchValue, filter);
+        this.props.getProductsAdminByPage(limit, prevPageNum, searchValue, filter);
     }
 
     getNextPage() {
         const { pager: { limit, nextPageNum }, searchValue, filter } = this.props.productList;
-        this.props.getPostsAdminByPage(limit, nextPageNum, searchValue, filter);
+        this.props.getProductsAdminByPage(limit, nextPageNum, searchValue, filter);
+    }
+
+    handleEditProduct(product) {
+        this.setState({ productEditId: product.id });
+        this.peQuantity.value = product.quantity;
+        this.peBasePrice.value = product.base_price;
+    }
+
+    handleUpdateProduct() {
+        const { productEditId } = this.state;
+        const base_price = parseInt(this.peBasePrice.value);
+        const quantity = parseInt(this.peQuantity.value);
+
+        if (productEditId && base_price && quantity) {
+            axios.post(`${ROOT_URL}/admin/product/update`, {
+                id: productEditId,
+                base_price,
+                quantity,
+            }).then(response => {
+                console.log(response.data);
+                if (response.data.success) {
+                    const { pager: { limit, currentPageNum }, searchValue, filter } = this.props.productList;
+                    this.props.getProductsAdminByPage(limit, currentPageNum, searchValue, filter);
+                    document.getElementById('close-model').click();
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        }
     }
 
     render() {
-        const { searchValue, providers, productTypes } = this.state;
+        const { searchValue, providers, productTypes, productEditId } = this.state;
         const { products, pager, filter, error } = this.props.productList;
 
         return (
@@ -175,6 +207,17 @@ class ProductList extends Component {
                     {/* table products */}
                     <div className="table-responsive" style={{ marginTop: 35 }}>
                         <table className="table table-bordered table-hover table-striped">
+                            <colgroup>
+                                <col style={{ width: '3%' }} />
+                                <col style={{ width: '6%' }} />
+                                <col style={{ width: '35%' }} />
+                                <col style={{ width: '8%' }} />
+                                <col style={{ width: '6%' }} />
+                                <col style={{ width: '8%' }} />
+                                <col style={{ width: '10%' }} />
+                                <col style={{ width: '8%' }} />
+                                <col style={{ width: '15%' }} />
+                            </colgroup>
                             <thead>
                                 <tr>
                                     <th>STT</th>
@@ -189,7 +232,8 @@ class ProductList extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {products.map((product, index) => <ProductRow key={product.id} pos={pager.offset + index + 1} productInfo={product} />)}
+                                {products.map((product, index) => <ProductRow key={product.id} pos={pager.offset + index + 1}
+                                    productInfo={product} handleEditProduct={this.handleEditProduct} />)}
                             </tbody>
                         </table>
                     </div>
@@ -197,6 +241,39 @@ class ProductList extends Component {
                     <Pagination currentPage={pager.currentPageNum} total={pager.totalCount} noPerPage={pager.limit}
                         getPrevPage={this.getPrevPage} getNextPage={this.getNextPage} />
                 </WhitePanel>
+
+                <div className="modal fade" id="edit-product">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 className="modal-title">Cập nhật</h4>
+                            </div>
+                            <div className="modal-body">
+
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label htmlFor="quantity">Số lượng</label>
+                                        <input type="number" className="form-control" id="quantity" name="quantity"
+                                            defaultValue="0" min="0" ref={e => this.peQuantity = e} />
+                                    </div>
+
+                                    <div className="col-md-6">
+                                        <label htmlFor="price">Price</label>
+                                        <input type="text" className="form-control" id="price" name="base_price"
+                                            defaultValue="0" ref={e => this.peBasePrice = e} />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-default" id="close-model" data-dismiss="modal">Đóng</button>
+                                <button type="button" className="btn btn-primary" onClick={this.handleUpdateProduct}>Cập nhật</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         )
     }

@@ -1,14 +1,6 @@
 const db = require('../common/knex');
 const { paginate } = require('../helpers/dbUtils');
 
-const getProviders = async () => {
-    return await db('providers').select();
-}
-
-const getProductTypes = async () => {
-    return await db('product_type').select();
-}
-
 const getProductAdminByPage = async (limit, pageNum, searchValue, filter) => {
     const whereClause = {};
     const { provider, product_type } = filter;
@@ -81,10 +73,121 @@ const deleteProduct = async (id) => {
     return await db('products').where({ id }).del();
 }
 
+const getProductListByProductTypeId = async (product_type_id) => {
+    return await db('product_type')
+        .where('product_type.id', product_type_id)
+        .join('products', 'product_type.id', 'products.product_type_id')
+        .join('providers', 'products.provider_id', 'providers.id')
+        .select(
+            'products.id',
+            'products.product_name',
+            'products.product_images',
+            'products.base_price',
+            'products.unit',
+            'products.description',
+            'products.quantity',
+            'providers.name as provider_name',
+            'product_type.product_type_name as product_type_name',
+        );
+}
+
+const addProduct = async (product) => {
+    return await db.transaction(function (trx) {
+        return db.insert({
+            ...product.productInfo,
+            created_at: db.fn.now(),
+            updated_at: db.fn.now(),
+        }).into('products')
+            .transacting(trx)
+            .then(function (ids) {
+                product.attributeValues.forEach(p => {
+                    delete p['name'];
+                    p['product_id'] = ids[0];
+                    p['created_at'] = db.fn.now();
+                    p['updated_at'] = db.fn.now();
+                });
+                return db('attribute_values').insert(product.attributeValues).transacting(trx);
+            }).then(trx.commit)
+            .catch(trx.rollback);
+    });
+}
+
+const updateProduct = (id, valueUpdate) => {
+    return db('products')
+        .update({
+            ...valueUpdate,
+            updated_at: db.fn.now(),
+        }).where({ id });
+}
+
+const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
+    const whereClause = {};
+    const { provider, product_type } = filter;
+    const { base_price, search_value } = searchValue;
+
+    if (provider) {
+        whereClause['products.provider_id'] = provider;
+    }
+    if (product_type) {
+        whereClause['products.product_type_id'] = product_type;
+    }
+
+    console.log("WhereClauseProductGuest: ", whereClause);
+    console.log("SearchValue: ", searchValue);
+
+    const builder = db('products').select(
+        'products.id',
+        'products.product_name',
+        'products.product_images',
+        'products.base_price',
+        'products.unit',
+        'products.description',
+        'products.quantity',
+        'providers.name as provider_name',
+        'providers.id as provider_id',
+        'product_type.product_type_name as product_type_name',
+    ).leftJoin(
+        'product_type',
+        'product_type.id',
+        'products.product_type_id'
+    ).leftJoin(
+        'providers',
+        'providers.id',
+        'products.provider_id'
+    );
+
+    if (searchValue && !whereClause) {
+        if (search_value)
+            builder.where('products.product_name', 'like', `%${search_value}%`);
+        if (base_price) {
+            builder.orderBy('products.base_price', base_price);
+        }
+    }
+    if (whereClause) {
+        builder.where(whereClause);
+        if (searchValue) {
+            if (search_value)
+                builder.where('products.product_name', 'like', `%${search_value}%`);
+            if (base_price) {
+
+                builder.orderBy('products.base_price', base_price);
+            }
+        }
+    }
+
+    return await paginate(
+        builder,
+        { limit, pageNum }
+    );
+}
+
+
 module.exports = {
-    getProviders,
-    getProductTypes,
     getProductAdminByPage,
     getTopSellingProducts,
+    addProduct,
+    updateProduct,
     deleteProduct,
+    getProductListByProductTypeId,
+    getProductGuestByPage,
 }

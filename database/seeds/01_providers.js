@@ -12,6 +12,7 @@ exports.seed = function (knex, Promise) {
           { id: 5, name: 'APPLE', logo: '//vn-live-03.slatic.net/original/9593a960fd8c7805479ff31fa0fcc137.jpg', created_at: knex.fn.now(), updated_at: knex.fn.now() },
           { id: 6, name: 'DELL', logo: 'https://salt.tikicdn.com/media/upload/2018/03/08/e6dff77a2b297ab9bef501be3e0ba3c2.jpg', created_at: knex.fn.now(), updated_at: knex.fn.now() },
           { id: 7, name: 'ASUS', logo: 'https://salt.tikicdn.com/media/upload/2018/03/08/20e77724eec1e14f3a883c57201201af.jpg', created_at: knex.fn.now(), updated_at: knex.fn.now() },
+          { id: 8, name: 'HUAWEI', logo: 'https://vn-test-11.slatic.net/shop/4122dfa243483b77c96b00713e4f64c4.png', created_at: knex.fn.now(), updated_at: knex.fn.now() },
         ]);
       })
     });

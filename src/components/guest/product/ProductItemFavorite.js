@@ -16,13 +16,22 @@ const Container = styled.div`
 .products_item_favorite .info_item_favorite{
     display:flex;
 }
+.products_item_favorite .info_item_favorite_image{
+    width: 105px;
+    height: 100px;
+}
 .products_item_favorite .info_item_favorite_image img{
-    width: 65px;
-    height: 95px;
+    width: 105px;
+    height: 100px;
 }
 
 .products_item_favorite .info_item_favorite_describe{
     margin-left: 20px;
+    max-width: 800px;
+}
+
+.products_item_favorite .info_item_favorite_describe .fa-trash{
+    font-size: 24px;
 }
 
 .products_item_favorite .info_item_favorite_describe .name{
@@ -47,30 +56,36 @@ const Container = styled.div`
 .products_item_favorite .add{
     height: 50%;
 }
+.info_item_favorite_describe .fa-trash{
+    color: gray;
+    opacity: 0.7;
+}
 `;
 
 class ProductItemFavorite extends Component {
     render() {
         return (
             <Container>
-                <div className="products_item_favorite">
-                    <div className="info_item_favorite">
-                        <div class="info_item_favorite_image">
-                            <a href="#"><img src={logo} alt="ảnh sản phẩm" /></a>
+                {this.props.products.map((e, index) => {
+                    return (
+                        <div key={index} id={index} className="products_item_favorite">
+                            <div className="info_item_favorite">
+                                <div class="info_item_favorite_image">
+                                    <a href="#"><img src={e.images} alt="ảnh" /></a>
+                                </div>
+                                <div class="info_item_favorite_describe">
+                                    <p class="name">{e.name}</p>
+                                    <p class="describe">{e.description}</p>
+                                    <i class="fa fa-trash" onClick={() => this.props.deleteProductFavorites(index)}></i>
+                                </div>
+                            </div>
+                            <p className="price_item_favorite">{e.price}</p>
+                            <div className="button_add">
+                                <img src="//laz-img-cdn.alicdn.com/tfs/TB1iUYumfDH8KJjy1XcXXcpdXXa-144-64.png" width="72" height="32" />
+                            </div>
                         </div>
-                        <div class="info_item_favorite_describe">
-                            <p class="name">MacBook Air 13.3-inch, 1.6 GHz Intel core i5 2015</p>
-                            <p class="describe">Màu: bạc</p>
-                            <a href="#">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
-                        </div>
-                    </div>
-                    <p className="price_item_favorite">2.000.000 đ</p>
-                    <div className="button_add">
-                        <button type="button" class="btn btn-success add"><i class="glyphicon glyphicon-shopping-cart"></i></button>
-                    </div>
-                </div>
+                    )
+                })}
             </Container>
         );
     }

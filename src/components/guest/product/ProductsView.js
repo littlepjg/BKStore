@@ -6,6 +6,9 @@ import list from './list-icon.png';
 import ProductItem from './ProductItem';
 import pagination from './pagination/pageUtil';
 import ProductItemHorizonto from './ProductItemHorizonto';
+import HomeSlider from '../HomeSlider';
+
+import axios from 'axios';
 
 const Category = styled.div`
     position: relative;
@@ -205,35 +208,20 @@ const Sorter = styled.div`
 `;
 
 class ProductsView extends Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
             mode: 'list',
-
-            products: [
-                {
-                    id:'1',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-            ],
+            providers: [],
+            products: [],
             currentPage: 1,
             limit: 30,
+            totalCount: '',
+            hasPrev: '',
+            hasNext: '',
+            prevPageNum: '',
+            nextPageNum: '',
+            lastPageNum: '',
         }
         this.clickHandle = this.clickHandle.bind(this);
         this.handleClickItemPager = this.handleClickItemPager.bind(this);
@@ -241,83 +229,156 @@ class ProductsView extends Component {
         this.prevPage = this.prevPage.bind(this);
     }
 
-    nextPage() {
-        const { currentPage, limit, products } = this.state;
-        const countPages = Math.ceil(products.length / limit);
+    getProductGuest(limit, pageNum, searchValue, filter) {
+        const ROOT_URL = 'http://localhost:5000';
 
-        if (currentPage < countPages) {
-            this.setState({
-                currentPage: currentPage + 1
-            });
+        axios.get(`${ROOT_URL}/guest/productlist/pages`, {
+            params: {
+                pageNum,
+                limit,
+                searchValue,
+                filter,
+            }
+        }).then(response => {
+            const { success, error } = response.data;
+
+            if (success) {
+                const {
+                    pager: {
+                        totalCount,
+                        hasPrev,
+                        hasNext,
+                        prevPageNum,
+                        nextPageNum,
+                        lastPageNum
+                    },
+                    products
+                } = response.data;
+
+                this.setState({
+                    products,
+                    totalCount,
+                    currentPage: pageNum,
+                    hasPrev,
+                    hasNext,
+                    prevPageNum,
+                    nextPageNum,
+                    lastPageNum,
+                });
+            } else {
+                console.log("error: Dữ liệu provider trống");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    getProviderGuest(product_type_id) {
+        const ROOT_URL = 'http://localhost:5000';
+
+        axios.get(`${ROOT_URL}/guest/provider`, {
+            params: {
+                product_type_id
+            }
+        }).then(response => {
+            const { success, error } = response.data;
+
+            if (success) {
+                const { providers } = response.data;
+
+                this.setState({ providers });
+            } else {
+                console.log("error: Dữ liệu provider trống");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    componentDidMount() {
+        const limit = this.state.limit;
+        const pageNum = this.state.currentPage;
+        const product_type_id = this.props.product_type_id;
+        this.getProductGuest(limit, pageNum, {}, { product_type: this.props.product_type_id });
+        this.getProviderGuest(product_type_id);
+    }
+
+    nextPage() {
+        const { hasNext, limit, nextPageNum } = this.state;
+        if (hasNext) {
+            this.getProductGuest(limit, nextPageNum, {}, { product_type: this.props.product_type_id });
         }
     }
 
     prevPage() {
-        const { currentPage } = this.state;
-
-        if (currentPage > 1) {
-            this.setState({
-                currentPage: currentPage - 1
-            });
+        const { hasPrev, limit, prevPageNum } = this.state;
+        if (hasPrev) {
+            this.getProductGuest(limit, prevPageNum, {}, { product_type: this.props.product_type_id });
         }
     }
 
-    clickHandle(mode){
+    clickHandle(mode) {
         this.setState({
             mode: mode.trim()
         });
     }
 
-    handleClickItemPager(pageNum){
-        console.log(pageNum);
-        
-        this.setState({
-            currentPage: pageNum,
-        });
+    handleClickItemPager(pageNum) {
+        const { limit } = this.state;
+        this.getProductGuest(limit, pageNum, {}, { product_type: this.props.product_type_id });
     }
-    renderPager(pageNum, key){
+
+    renderPager(pageNum, key) {
         const current = this.state.currentPage;
         if (typeof pageNum === 'number') {
-            return pageNum !== current ? <li key={key} onClick={() => this.handleClickItemPager(pageNum)}><a href="#">{pageNum}</a></li> : <li onClick={() => this.handleClickItemPager(pageNum)} className="active" key={key}><a href="#">{pageNum}</a></li>
+            return pageNum !== current ? <li key={key} onClick={() => this.handleClickItemPager(pageNum)}><a href="#/">{pageNum}</a></li> : <li onClick={() => this.handleClickItemPager(pageNum)} className="active" key={key}><a href="#">{pageNum}</a></li>
         }
         return <li onClick={() => this.handleClickItemPager(pageNum)} className="disabled" key={key}><a href="#">{pageNum}</a></li>;
     }
 
+    handleSortProducts(sort) {
+        const { limit, currentPage } = this.state;
+        this.getProductGuest(limit, currentPage, { base_price: sort.target.value }, { product_type: this.props.product_type_id });
+    }
+
+    handlerSortProvider(provider) {
+        const { limit, currentPage, product_type_id } = this.state;
+        this.getProductGuest(limit, currentPage, {}, { provider, product_type: product_type_id });
+    }
+
     render() {
-        const {mode} = this.state;
+        const product_type_id = Number(this.props.product_type_id);
 
-        const {products, currentPage, limit} = this.state;
-        const countPage = Math.ceil(products.length / limit);
-        const pageList = pagination(countPage, currentPage);
-
-        const indexOfLastProduct = limit*currentPage;
-        const indexOfFirstProduct = indexOfLastProduct - limit;
-        const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+        const { mode } = this.state;
+        const { products, totalCount, lastPageNum, currentPage, providers } = this.state;
+        const pageList = pagination(lastPageNum, currentPage);
 
         return (
             <div className="container-fluid">
+                <div class="row">
+                    <HomeSlider />
+                </div>
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="category">
                             <div>Relative Catagory</div>
                         </div>
-                        
+
                         <Category className="category leftbar">
                             <h3 className="title">Categories</h3>
                             <ul>
-                                <li><a href="#"> Samsung </a></li>
-                                <li><a href="#">Apple</a></li>
-                                <li><a href="#">Xiaomi</a></li>
-                                <li><a href="#">ASUS</a></li>
-                                <li><a href="#">SONY</a></li>
-                                <li><a href="#">WIKO</a></li>
+                                {
+                                    providers.map((provider, key) => (
+                                        <li onClick={() => this.handlerSortProvider(provider.id)} key={key}><a href="#"> {provider.name} </a></li>
+                                    ))
+                                }
                             </ul>
                         </Category>
 
                         <Category className="category leftbar">
                             <h3 class="title">Price</h3>
                             <div className="price">
-                                <input type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
+                                <input type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" ú />
                                 <div>-</div>
                                 <input type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
                                 <button type="button" className="btn btn-primary btn-icon-only">
@@ -326,7 +387,7 @@ class ProductsView extends Component {
                             </div>
                         </Category>
 
-                         <Category className="category leftbar">
+                        <Category className="category leftbar">
                             <h3 className="title">Storage</h3>
                             <ul>
                                 <li><a href="#"> 64GB </a></li>
@@ -338,7 +399,7 @@ class ProductsView extends Component {
                             </ul>
                         </Category>
 
-                         <Category className="category leftbar">
+                        <Category className="category leftbar">
                             <h3 className="title">Color Family</h3>
                             <ul>
                                 <li><a href="#"> Black </a></li>
@@ -363,7 +424,7 @@ class ProductsView extends Component {
                                 <li><a href="#"> 4.1-4.5 Inch </a></li>
                             </ul>
                         </Category>
-                        
+
                     </div>
 
                     <div class="col-sm-9">
@@ -371,57 +432,53 @@ class ProductsView extends Component {
                             <Sorter class="sorter">
                                 <p>Sort by:</p>
                                 <div class="selection">
-                                    <select class="selectpicker">
-                                        <option>Popularity</option>
-                                        <option>Price low to hight</option>
-                                        <option>Price hight to low</option>
+                                    <select class="selectpicker" onChange={(e) => this.handleSortProducts(e)}>
+                                        <option value="asc">Price low to hight</option>
+                                        <option value="desc">Price hight to low</option>
                                     </select>
                                 </div>
 
                                 <div className="view">View</div>
                                 <div>
-                                    <a href="#" class={"list " + (mode==="list"?'active':"")} onClick={()=>this.clickHandle("list")}>
+                                    <a href="#" class={"list " + (mode === "list" ? 'active' : "")} onClick={() => this.clickHandle("list")}>
                                         List
                                     </a>
-                                    <a href="#" class={"grid "+(mode==="grid"?'active':"")} onClick={()=>this.clickHandle("grid")}>
+                                    <a href="#" class={"grid " + (mode === "grid" ? 'active' : "")} onClick={() => this.clickHandle("grid")}>
                                         Grid
                                     </a>
                                 </div>
                             </Sorter>
-                            <h3 className="title">Điện thoại di động</h3>
-                            
+                            <h3 className="title">{product_type_id === 1 ? "Điện thoại di động" : product_type_id === 2 ? "Máy tính" : "Không tìm thấy danh mục sản phẩm"}</h3>
                         </div>
-                    
-
                         <div class="row">
                             {
-                                currentProducts.length>0?currentProducts.map((product, key)=>{
-                                    if(mode === "list"){
+                                totalCount > 0 ? products.map((product, key) => {
+                                    if (mode === "list") {
                                         return (
                                             <div class="col-md-4" key={key}>
-                                                <ProductItem key={key} product={product}/>        
+                                                <ProductItem key={key} product={product} />
                                             </div>
                                         )
                                     }
-                                    if(mode === 'grid'){
+                                    if (mode === 'grid') {
                                         return (
                                             <div class="col-xs-12">
-                                                <ProductItemHorizonto key={key}/>
+                                                <ProductItemHorizonto key={key} product={product} />
                                             </div>
                                         )
                                     }
-                                    
-                                }):<p>Không tìm thấy sản phẩm nào</p>
+
+                                }) : <p>Không tìm thấy sản phẩm nào</p>
                             }
                         </div>
 
                         <div class="row text-right">
                             <ul class="pagination">
-                                <li onClick={()=>this.prevPage()}><span class="glyphicon glyphicon-chevron-left"></span></li>
-                                { 
-                                    pageList.map( (pageNum, key)=> this.renderPager(pageNum, key))
+                                <li onClick={() => this.prevPage()}><span class="glyphicon glyphicon-chevron-left"></span></li>
+                                {
+                                    pageList.map((pageNum, key) => this.renderPager(pageNum, key))
                                 }
-                                <li onClick={()=>this.nextPage()}><span class="glyphicon glyphicon-chevron-right"></span></li>
+                                <li onClick={() => this.nextPage()}><span class="glyphicon glyphicon-chevron-right"></span></li>
                             </ul>
                         </div>
                     </div>

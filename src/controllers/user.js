@@ -7,6 +7,10 @@ const helper = require('../helpers/helper');
 
 const route = express.Router();
 
+route.use("/favorite", require(__dirname + "/user/favorite.js"));
+route.use("/cart", require(__dirname + "/user/cart.js"));
+route.use("/bill", require(__dirname + "/user/bill.js"));
+
 route.get('/', (req, res) => {
     res.writeHead(200, { "Content-type": "text/html" });
     res.write("<h1>This is User page.</h1>");
@@ -47,7 +51,6 @@ route.post("/register", (req, res) => {
         }
     });
 });
-
 
 // LocalStrategy expects to find credentials in parameters named username and password
 const localOptions = { usernameField: 'email', passwordField: 'passwd' };

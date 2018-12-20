@@ -4,7 +4,6 @@ import BottomHeader from '../../components/guest/BottomHeader';
 import ProductList from '../../components/guest/product/ProductList';
 import HomeSlider from '../../components/guest/HomeSlider';
 import BrandList from '../../components/guest/brand/BrandList';
-import ProductItemHorizonto from '../../components/guest/product/ProductItemHorizonto';
 
 class HomePage extends Component {
     constructor(props) {
@@ -33,12 +32,12 @@ class HomePage extends Component {
 
                 <div className="row">
                     <div className="col">
-                        <ProductList key={1} productListName="Điện thoại di động" />
+                        <ProductList key={1} product_type_id={1} productListName="Điện thoại di động" />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col">
-                        <ProductList key={2} productListName="Máy tính Laptop" />
+                        <ProductList key={2} product_type_id={2} productListName="Máy tính Laptop" />
                     </div>
                 </div>
                 <BrandList />

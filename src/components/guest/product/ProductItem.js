@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
 
-import product01 from './products-01.png';
+import {formatNumber} from '../../../helpers/formatNumber';
 
 const Container = styled.div`
     border: 1px solid #e1e1e1;
@@ -30,6 +29,12 @@ const Container = styled.div`
         height: 230px;
         border: none;
         text-align: center;
+
+        a>img, >img {
+            width: 65%;
+            margin-right: auto;
+            margin-left: auto;
+        }
     }
     
     .productname {
@@ -92,13 +97,16 @@ const Container = styled.div`
 
 class ProductItem extends Component {
     render() {
+        const {id, product_name, product_images, base_price, unit} = this.props.product;
+        const product_image = product_images.split(',')[0];
+        
         return (
             <Container className="products">
                 <div className="thumbnail">
-                    <a href="/product/detail/:01"><img src={product01} alt="Product Name" /></a>
+                    <a href={"/product/detail/:"+id}><img src={product_image} alt="Product Name" /></a>
                 </div>
-                <div className="productname">Iphone 5s Gold 32 Gb 2013</div>
-                <h4 className="price">$451.00</h4>
+                <div className="productname">{product_name}</div>
+                <h4 className="price">{formatNumber(base_price)} { unit}</h4>
                 <div className="button_group">
                     <button className="button add-cart" type="button">Add To Cart</button>
                     <button className="button wishlist" type="button"><i className="fa fa-heart-o"></i></button>
