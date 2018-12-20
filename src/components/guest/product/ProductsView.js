@@ -258,6 +258,7 @@ class ProductsView extends Component {
                 this.setState({
                     products,
                     totalCount,
+                    currentPage: pageNum,
                     hasPrev,
                     hasNext,
                     prevPageNum,
@@ -303,14 +304,6 @@ class ProductsView extends Component {
     }
 
     nextPage() {
-        // const { currentPage, limit, products } = this.state;
-        // const countPages = Math.ceil(products.length / limit);
-
-        // if (currentPage < countPages) {
-        //     this.setState({
-        //         currentPage: currentPage + 1
-        //     });
-        // }
         const { hasNext, limit, nextPageNum } = this.state;
         if (hasNext) {
             this.getProductGuest(limit, nextPageNum, {}, { product_type: this.props.product_type_id });
@@ -318,13 +311,6 @@ class ProductsView extends Component {
     }
 
     prevPage() {
-        // const { currentPage } = this.state;
-
-        // if (currentPage > 1) {
-        //     this.setState({
-        //         currentPage: currentPage - 1
-        //     });
-        // }
         const { hasPrev, limit, prevPageNum } = this.state;
         if (hasPrev) {
             this.getProductGuest(limit, prevPageNum, {}, { product_type: this.props.product_type_id });
@@ -338,12 +324,6 @@ class ProductsView extends Component {
     }
 
     handleClickItemPager(pageNum) {
-        // console.log(pageNum);
-
-        // this.setState({
-        //     currentPage: pageNum,
-        // });
-
         const { limit } = this.state;
         this.getProductGuest(limit, pageNum, {}, { product_type: this.props.product_type_id });
     }
@@ -361,9 +341,9 @@ class ProductsView extends Component {
         this.getProductGuest(limit, currentPage, { base_price: sort.target.value }, { product_type: this.props.product_type_id });
     }
 
-    handlerSortProvider(provider){
-        const {limit, currentPage, product_type_id} = this.state;
-        this.getProductGuest(limit, currentPage, {}, {provider, product_type: product_type_id});
+    handlerSortProvider(provider) {
+        const { limit, currentPage, product_type_id } = this.state;
+        this.getProductGuest(limit, currentPage, {}, { provider, product_type: product_type_id });
     }
 
     render() {
@@ -372,11 +352,6 @@ class ProductsView extends Component {
         const { mode } = this.state;
         const { products, totalCount, lastPageNum, currentPage, providers } = this.state;
         const pageList = pagination(lastPageNum, currentPage);
-
-        // const countPage = Math.ceil(products.length / limit);
-        // const indexOfLastProduct = limit * currentPage;
-        // const indexOfFirstProduct = indexOfLastProduct - limit;
-        // const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
         return (
             <div className="container-fluid">
@@ -393,8 +368,8 @@ class ProductsView extends Component {
                             <h3 className="title">Categories</h3>
                             <ul>
                                 {
-                                    providers.map((provider, key)=>(
-                                        <li onClick={()=>this.handlerSortProvider(provider.id)}key={key} provider={provider}><a href="#"> {provider.name} </a></li>
+                                    providers.map((provider, key) => (
+                                        <li onClick={() => this.handlerSortProvider(provider.id)} key={key}><a href="#"> {provider.name} </a></li>
                                     ))
                                 }
                             </ul>
