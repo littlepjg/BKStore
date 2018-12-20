@@ -83,8 +83,9 @@ height: 100%;
 
 class ProductItemSmall extends Component {
     render() {
-        const { productsuggest } = this.props;
+        const { productsuggest, addProductFavorites, index } = this.props;
         const image = productsuggest.images.split(',')[0];
+      
         return (
             <Container>
                 <div className="products_small text-center">
@@ -95,7 +96,7 @@ class ProductItemSmall extends Component {
                     <h4 className="price">{productsuggest.price}</h4>
                     <div className="button_group">
                         <button className="button add-cart" type="button">Add To Cart</button>
-                        <button className="button wishlist" type="button"><i className="fa fa-heart-o"></i></button>
+                        <button className="button wishlist" type="button" onClick={() => addProductFavorites(index)}><i className="fa fa-heart-o"></i></button>
                     </div>
                 </div>
             </Container>
