@@ -1,102 +1,168 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+
+const ROOT_URL = 'http://localhost:5000';
 
 class Profile extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            userInfo: {
+                email: '',
+                fullName: '',
+                phoneNumber: '',
+                address: '',
+            },
+            password: {
+                oldPassword: '',
+                newPassword: '',
+                confirmPassword: '',
+            }
+        }
+
+        this.handleUpdatePassword = this.handleUpdatePassword.bind(this);
+        this.handleChangeInputPassword = this.handleChangeInputPassword.bind(this);
+        this.handleChangeInputProfile = this.handleChangeInputProfile.bind(this);
+        this.handleUpdateProfile = this.handleUpdateProfile.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({
+            userInfo: {
+                email: this.props.user.email,
+                fullName: this.props.user.full_name,
+                phoneNumber: this.props.user.phone_number,
+                address: this.props.user.address,
+            }
+        });
+    }
+
+    handleChangeInputPassword(e) {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState(prevState => {
+            return {
+                password: {
+                    ...prevState.password,
+                    [name]: value,
+                }
+            }
+        });
+    }
+
+    handleChangeInputProfile(e) {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState(prevState => {
+            return {
+                userInfo: {
+                    ...prevState.userInfo,
+                    [name]: value,
+                }
+            }
+        });
+    }
+
+
+    handleUpdateProfile() {
+        const { email, fullName, address, phoneNumber } = this.state.userInfo;
+        if (email && fullName && address) {
+            axios.post(`${ROOT_URL}/user/update-profile`, {
+                user_id: this.props.user.id,
+                email,
+                full_name: fullName,
+                phone_number: phoneNumber
+            }).then(response => {
+                if (response.data.success) {
+                    console.log('cap nhat thanh cong');
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+    }
+
+    handleUpdatePassword() {
+        const { oldPassword, newPassword } = this.state.password;
+        if (oldPassword && newPassword) {
+            axios.post(`${ROOT_URL}/user/update-password`, {
+                user_id: this.props.user.id,
+                old_password: oldPassword,
+                new_password: newPassword,
+            }).then(response => {
+                if (response.data.success) {
+                    this.setState({
+                        password: {
+                            oldPassword: '',
+                            newPassword: '',
+                            confirmPassword: '',
+                        }
+                    })
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        }
     }
 
     render() {
+        const { userInfo, password } = this.state;
+
         return (
             <div id="profile">
                 <div className="container">
                     <h2>Quản lý tài khoản</h2>
                     <hr />
                     <div class="account_manage">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="info_account">
                                 <h4>Thông tin cá nhân</h4>
-                                <label for="email">Email:</label>
-                                <input type="email" name="email" id="inputemail" class="form-control" value="" title="" placeholder="Email" />
-
-                                <label for="name">Họ và tên:</label>
-                                <input type="text" name="name" class="form-control" placeholder="Họ và tên" />
-
-                                <label for="birthday">Ngày sinh:</label>
-                                <div class="form-group">
-                                    <div class='input-group date' id='datetimepicker1'>
-                                        <input type='text' name="birthday" class="form-control" placeholder="Ngày sinh" />
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
+                                <div className="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="email" name="email" class="form-control" placeholder="Email"
+                                        value={userInfo.email} onChange={this.handleChangeInputProfile} />
                                 </div>
-                                <label>Giới tính:</label>
-                                <div class="form-group">
-                                    <label class="radio-inline"> <input type="radio" name="gender" checked="checked" />Nam</label>
-                                    <label class="radio-inline"><input type="radio" name="gender" />Nữ</label>
+
+                                <div className="form-group">
+                                    <label for="name">Họ và tên:</label>
+                                    <input type="text" name="fullName" class="form-control" placeholder="Họ và tên"
+                                        value={userInfo.fullName} onChange={this.handleChangeInputProfile} />
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="birthday">Số điện thoại:</label>
+                                    <input type="text" class="form-control" name="phoneNumber" placeholder="Input field"
+                                        value={userInfo.phoneNumber} onChange={this.handleChangeInputProfile} />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="birthday">Địa chỉ:</label>
+                                    <input type="text" class="form-control" name="address" placeholder="Input field"
+                                        value={userInfo.address} onChange={this.handleChangeInputProfile} />
+                                </div>
+
+                                <button type="button" class="btn btn-primary" style={{ marginTop: 15 }}
+                                    onClick={this.handleUpdateProfile}>Cập nhật thông tin</button>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="info_account">
-                                <h4>Địa chỉ</h4>
-                                <label for="address">Địa chỉ cư trú:</label>
-                                <input type="text" name="address" class="form-control" value="" />
-                                <label for="destination_address">Địa chỉ giao hàng:</label>
-                                <input type="text" name="destination_address" class="form-control" value="" />
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="info_account">
                                 <h4>Mật khẩu</h4>
                                 <label for="password">Mật khẩu:</label>
-                                <input type="password" name="password" class="form-control" value="" />
+                                <input type="password" name="oldPassword" class="form-control"
+                                    value={password.oldPassword} onChange={this.handleChangeInputPassword} />
                                 <label for="new_password">Mật khẩu mới:</label>
-                                <input type="password" name="new_password" class="form-control" value="" />
+                                <input type="password" name="newPassword" class="form-control"
+                                    value={password.newPassword} onChange={this.handleChangeInputPassword} />
                                 <label for="re_new_password">Nhập lại:</label>
-                                <input type="password" name="re_new_password" class="form-control" value="" />
+                                <input type="password" name="confirmPassword" class="form-control"
+                                    value={password.confirmPassword} onChange={this.handleChangeInputPassword} />
+                                <button type="button" class="btn btn-primary" style={{ marginTop: 15 }}
+                                    onClick={this.handleUpdatePassword} disabled={password.newPassword !== password.confirmPassword}
+                                >Cập nhật mật khẩu</button>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-10"></div>
-                            <div class="col-sm-2">
-                                <button type="button" class="btn btn-primary">Cập nhật thay đổi</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table_order">
-                        <h4>Đơn hàng gần đây</h4>
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Mã đơn hàng</th>
-                                    <th>Ngày đặt hàng</th>
-                                    <th>Sản phẩm</th>
-                                    <th>Tổng cộng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>0001</td>
-                                    <td>17/08/2018</td>
-                                    <td>
-                                        <div className="product">
-                                            <img src="https://vn-live-02.slatic.net/p/7/giay-sneaker-thoi-trang-nam-zapas-gs068-den-hang-phan-phoi-chinh-thuc-6844-6687215-699c60183c52fdbabd89890074c17ca1-catalog.jpg" alt="ảnh sản phẩm" />
-                                        </div>
-                                    </td>
-                                    <td>89.000 đ</td>
-                                </tr>
-                                <tr>
-                                    <td>0002</td>
-                                    <td>21/10/2018</td>
-                                    <td>
-                                        <div className="product">
-                                            <img src="https://vn-live-02.slatic.net/p/7/ao-khoac-nam-kaki-classic-gmk-den-6739-99143751-55482486ce7530fd96fbbeba04c59a4e-catalog.jpg" alt="ảnh sản phẩm" />
-                                        </div>
-                                    </td>
-                                    <td>127.000 đ</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
@@ -104,4 +170,10 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+function mapStateToProps(state) {
+    return {
+        user: state.auth.user
+    }
+}
+
+export default connect(mapStateToProps)(Profile);

@@ -8,6 +8,7 @@ import * as actions from '../../../actions/admin_product_actions';
 
 class ProductRow extends Component {
     deleteProduct(id) {
+        console.log('id: ', id);
         const { pager: { currentPageNum, totalCount, limit, offset, prevPageNum }, searchValue, filter } = this.props.productList;
         confirmAlert({
             title: 'Confirm to delete',
@@ -18,6 +19,7 @@ class ProductRow extends Component {
                     onClick: () => {
                         axios.post(`/admin/product/delete`, { id }).then(response => {
                             const { success, error } = response.data;
+                            console.log('response.data', response.data);
                             if (success) {
                                 if (currentPageNum > 1 && offset + 1 === totalCount) {
                                     this.props.getProductsAdminByPage(limit, prevPageNum, searchValue, filter);
