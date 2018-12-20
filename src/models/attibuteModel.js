@@ -88,10 +88,16 @@ const removeProductTypeAttribute = async (product_type_id, category_attribute_id
 
 const getAttributeValueBy = async (product_type_id, category_name)=>{
     return await db('product_attributes')
-    .innerJoin('category_attributes', 'product_attributes.category_id', 'category_attributes.id')
-    .innerJoin('attribute_values',)
+    .innerJoin('category_attributes', 'product_attributes.category_attribute_id', 'category_attributes.id')
+    .innerJoin('attribute_values','product_attributes.id', 'attribute_values.product_attribute_id')
     .where('product_attributes.product_type_id', product_type_id)
-    .where()
+    .where('category_attributes.category_name', category_name)
+    .distinct(
+        'attribute_values.product_attribute_id',
+        'attribute_values.value'
+    )
+    .select()
+    .orderBy('attribute_values.value', 'desc');
 }
 
 module.exports = {

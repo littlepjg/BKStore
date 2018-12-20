@@ -4,7 +4,6 @@ const route = express.Router();
 
 route.get('/', function(req, res){
     const product_type_id = parseInt(req.query.product_type_id);
-    console.log('provider:',product_type_id);
 
     provider_md.getProvidersByProducType(product_type_id).then(result=>{
         const providers = result.map(provider => ({

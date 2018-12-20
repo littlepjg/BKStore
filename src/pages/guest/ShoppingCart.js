@@ -4,11 +4,15 @@ import ProductItemCart from '../../components/guest/product/ProductItemCart';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+import { formatNumber } from '../../helpers/formatNumber';
 import { SERVER_URL, PORT } from '../../common/constant';
 
 const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 const Container = styled.div`
+
+margin-bottom: 50px;
+
 #shopping_cart .info_cart{
     position: relative;
     margin-bottom: 30px;
@@ -118,29 +122,6 @@ class ShoppingCart extends Component {
         }
     }
 
-    componentWillMount() {
-        axios.get(`${ROOT_URL}/user/cart`, {
-            params: {
-                user_id: this.props.user_id,
-            }
-        }).then(response => {
-            const { success, error } = response.data;
-            console.log(response.data);
-
-            if (success) {
-                const { products } = response.data;
-                console.log(products);
-                this.setState({
-                    products
-                });
-            } else {
-                console.log("error: Dữ liệu carts trống");
-            }
-        }).catch(err => {
-            console.log(err);
-        });
-    }
-
     addProductFavorites = (product_id) => {
         // this.props.user_id
         axios.post(`${ROOT_URL}/user/favorite/add`, {
@@ -167,8 +148,8 @@ class ShoppingCart extends Component {
             }).then(response => {
                 const { success, error } = response.data;
                 if (success) {
-                    products.splice(index, 1);
-                    this.setState({ products });
+                    // products.splice(index, 1);
+                    // this.setState({ products });
                     console.log('success');
                 } else {
                     console.log("error: Xoa san pham khoi gio hang that bai");
@@ -253,31 +234,32 @@ class ShoppingCart extends Component {
     }
 
     render() {
-        const { products, total } = this.state;
+        const { products } = this.props.cart;
+        const total = products.reduce((s, p) => s + p.amount * p.price, 0);
         const count = products.length;
         return (
             <Container>
                 {
                     count === 0 && <div className="container no_products_cart">
                         <p>Không có sản phẩm nào trong giỏ hàng</p>
-                        <a href="/" class="btn btn-default btn-buying">Tiếp tục mua sắm</a>
+                        <a href="/" className="btn btn-default btn-buying">Tiếp tục mua sắm</a>
                     </div>
                 }
                 {
                     count !== 0 && <div id="shopping_cart">
-                        <div class="container">
+                        <div className="container">
                             <h2>Giỏ hàng của tôi</h2>
-                            <div class="row">
-                                <div class="col-sm-8 list_products">
+                            <div className="row">
+                                <div className="col-sm-8 list_products">
                                     <h4>Danh sách sản phẩm</h4>
                                     <div className="row title_list">
                                         <div className="input_check">
                                             <input type="checkbox" aria-checked="true" value="on" />
                                         </div>
-                                        <div class="checkbox-wrap">
+                                        <div className="checkbox-wrap">
                                             <span>CHỌN TẤT CẢ (0 SẢN PHẨM)</span>
                                             <a href="#">
-                                                <i class="fa fa-trash"></i>
+                                                <i className="fa fa-trash"></i>
                                                 <span>XÓA</span>
                                             </a>
                                         </div>
@@ -296,43 +278,72 @@ class ShoppingCart extends Component {
                                             totalPrice={this.totalPrice} />
                                     </div>
                                 </div>
-                                <div class="col-sm-4 info_cart">
+                                <div className="col-sm-4 info_cart">
                                     <h4>Thông tin đơn hàng</h4>
-                                    <div class="before_info_cost">
+                                    <div className="before_info_cost">
                                         <div>
-                                            <div class="info_left">Tạm tính</div>
-                                            <div class="info_right">{total}</div>
+                                            <div className="info_left">Tạm tính</div>
+                                            <div className="info_right">{formatNumber(total)}</div>
                                         </div>
                                         <div>
-                                            <div class="info_left">Phí giao hàng</div>
-                                            <div class="info_right">miễn phí</div>
+                                            <div className="info_left">Phí giao hàng</div>
+                                            <div className="info_right">miễn phí</div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <input type="text" class="info_left" />
-                                        <button type="button" class="btn btn-success info_right">Áp dụng</button>
-                                    </div>
-                                    <div class="after_info_cost">
+                                    <div className="after_info_cost">
                                         <div>
-                                            <div class="info_left">Tổng cộng</div>
-                                            <div class="info_right total_cost">{total}</div>
+                                            <div className="info_left">Tổng cộng</div>
+                                            <div className="info_right total_cost">{formatNumber(total)}</div>
                                         </div>
-                                        <div class="vat">Đã bao gồm VAT (nếu có)</div>
+                                        <div className="vat">Đã bao gồm VAT (nếu có)</div>
                                     </div>
-                                    <div class="div_button">
-                                        <button type="button" class="btn btn-info">XÁC NHẬN GIỎ HÀNG</button>
+                                    <div className="div_button">
+                                        <button type="button" className="btn btn-info" data-toggle="modal" href='#confirm-buy'>XÁC NHẬN GIỎ HÀNG</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 }
+
+                <div class="modal fade" id="confirm-buy">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">Xác nhận đơn hàng</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="" method="POST" role="form">
+                                    <div class="form-group">
+                                        <label for="">Họ tên: Trần Vân Trang</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Địa chỉ nhận</label>
+                                        <input type="text" class="form-control" id="" placeholder="Địa chỉ nhận" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Số điện thoại</label>
+                                        <input type="text" class="form-control" id="" placeholder="Số điện thoại" />
+                                    </div>
+                                </form>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-primary">Xác nhận mua</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </Container>
         )
     }
 }
 function mapStateToProps(state) {
     return {
+        cart: state.user.cart,
         user_id: state.auth.user.id
     }
 }

@@ -122,7 +122,7 @@ const updateProduct = (id, valueUpdate) => {
 
 const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     const whereClause = {};
-    const { provider, product_type } = filter;
+    const { provider, product_type, category_value } = filter;
     const { base_price, search_value, price_between } = searchValue;
 
     if (provider) {
@@ -130,6 +130,9 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     }
     if (product_type) {
         whereClause['products.product_type_id'] = product_type;
+    }
+    if(category_value){
+        whereClause['attribute_values.value'] = category_value;
     }
 
     console.log("WhereClauseProductGuest: ", whereClause);
@@ -154,7 +157,8 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
         'providers',
         'providers.id',
         'products.provider_id'
-    );
+    )
+    .leftJoin('attribute_values', 'products.id', 'attribute_values.product_id');
 
     if (searchValue && !whereClause) {
         if (search_value)
