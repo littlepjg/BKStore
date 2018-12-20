@@ -136,6 +136,7 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
         'products.description',
         'products.quantity',
         'providers.name as provider_name',
+        'providers.id as provider_id',
         'product_type.product_type_name as product_type_name',
     ).leftJoin(
         'product_type',
@@ -156,7 +157,6 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     }
     if (whereClause) {
         builder.where(whereClause);
-        console.log('base price: ', searchValue.base_price);
         if (searchValue) {
             if (search_value)
                 builder.where('products.product_name', 'like', `%${search_value}%`);
