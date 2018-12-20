@@ -3,8 +3,8 @@ const user_md = require('../../models/userModel');
 
 const route = express.Router();
 
-route.get('/:user_id', (req, res) => {
-    const user_id = parseInt(req.params.user_id);
+route.get('/', (req, res) => {
+    const user_id = parseInt(req.query.user_id);
 
     user_md.getProductFavorites(user_id).then(result => {
         const products = result.map(r => ({
@@ -16,6 +16,23 @@ route.get('/:user_id', (req, res) => {
         }));
         res.json({ success: true, error: '', products });
     }).catch(error => {
+        res.json({ success: false, error });
+    });
+});
+
+route.get('/suggest', (req, res) => {
+    user_md.getProductSuggest().then(result => {
+        console.log(result);
+
+        const productsuggest = result.map(r => ({
+            name: r.product_name,
+            images: r.product_images,
+            price: r.base_price,
+        }));
+        res.json({ success: true, error: '', productsuggest });
+    }).catch(error => {
+        console.log(error);
+
         res.json({ success: false, error });
     });
 });

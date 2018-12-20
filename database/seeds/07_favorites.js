@@ -7,21 +7,21 @@ exports.seed = function (knex, Promise) {
         return knex('favorites').insert([
           {
             id: 1,
-            customer_id: 1,
+            customer_id: 2,
             product_id: 1,
             created_at: knex.fn.now(),
             updated_at: knex.fn.now()
           },
           {
             id: 2,
-            customer_id: 1,
+            customer_id: 2,
             product_id: 2,
             created_at: knex.fn.now(),
             updated_at: knex.fn.now()
           },
           {
             id: 3,
-            customer_id: 1,
+            customer_id: 2,
             product_id: 3,
             created_at: knex.fn.now(),
             updated_at: knex.fn.now()
