@@ -40,13 +40,13 @@ exports.seed = function (knex, Promise) {
           description: 'Specifications of Huawei Y6 prime 2018 2GB 16GB 5.7" 1440x720P Snapdragon 425 CPU 13MP+8MP Camera Android 8.0 3000mAh',
           quantity: 15,
           product_type_id: 1,
-          provider_id: 7,
+          provider_id: 8,
           created_at: knex.fn.now(),
           updated_at: knex.fn.now()
         },
         {
           id: 4,
-          product_name: 'điện thoại điện thoại điện thoại - điện thoại Nokia E72 PN4',
+          product_name: 'Diện thoại Nokia E72 PN4',
           product_images: 'https://media3.scdn.vn/img2/2018/7_16/lORH2H_simg_de2fe0_500x500_maxb.jpg,https://media3.scdn.vn/img2/2018/7_16/lJgl9L_simg_de2fe0_500x500_maxb.png,https://media3.scdn.vn/img2/2018/7_16/8qiQ6j_simg_de2fe0_500x500_maxb.png, https://media3.scdn.vn/img2/2018/7_16/nHBFso_simg_de2fe0_500x500_maxb.png, https://media3.scdn.vn/img2/2018/7_16/2SZlDX_simg_de2fe0_500x500_maxb.png',
           unit: 'VNĐ',
           base_price: 2990000,

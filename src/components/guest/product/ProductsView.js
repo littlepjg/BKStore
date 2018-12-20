@@ -212,11 +212,12 @@ class ProductsView extends Component {
         super();
         this.state = {
             mode: 'list',
+            providers: [],
             products: [],
             currentPage: 1,
             limit: 30,
             totalCount: '',
-            hasPrev:'',
+            hasPrev: '',
             hasNext: '',
             prevPageNum: '',
             nextPageNum: '',
@@ -228,32 +229,32 @@ class ProductsView extends Component {
         this.prevPage = this.prevPage.bind(this);
     }
 
-    getProductGuest(limit, pageNum, searchValue, filter){
+    getProductGuest(limit, pageNum, searchValue, filter) {
         const ROOT_URL = 'http://localhost:5000';
 
-        axios.get(`${ROOT_URL}/guest/productlist/pages`,{
-            params:{
+        axios.get(`${ROOT_URL}/guest/productlist/pages`, {
+            params: {
                 pageNum,
                 limit,
                 searchValue,
                 filter,
             }
-        }).then(response =>{
+        }).then(response => {
             const { success, error } = response.data;
-            
+
             if (success) {
                 const {
-                    pager:{
-                        totalCount, 
-                        hasPrev, 
-                        hasNext, 
-                        prevPageNum, 
-                        nextPageNum, 
+                    pager: {
+                        totalCount,
+                        hasPrev,
+                        hasNext,
+                        prevPageNum,
+                        nextPageNum,
                         lastPageNum
-                    }, 
+                    },
                     products
                 } = response.data;
-                
+
                 this.setState({
                     products,
                     totalCount,
@@ -262,21 +263,43 @@ class ProductsView extends Component {
                     prevPageNum,
                     nextPageNum,
                     lastPageNum,
-               });
+                });
             } else {
                 console.log("error: Dữ liệu provider trống");
             }
-        }).catch(err=>{
+        }).catch(err => {
             console.log(err);
         });
     }
 
-    componentDidMount(){
-        console.log('component will mount: ', this.props.product_type_id);
-        
+    getProviderGuest(product_type_id) {
+        const ROOT_URL = 'http://localhost:5000';
+
+        axios.get(`${ROOT_URL}/guest/provider`, {
+            params: {
+                product_type_id
+            }
+        }).then(response => {
+            const { success, error } = response.data;
+
+            if (success) {
+                const { providers } = response.data;
+
+                this.setState({ providers });
+            } else {
+                console.log("error: Dữ liệu provider trống");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    componentDidMount() {
         const limit = this.state.limit;
         const pageNum = this.state.currentPage;
-        this.getProductGuest(limit, pageNum, {}, {product_type: this.props.product_type_id});
+        const product_type_id = this.props.product_type_id;
+        this.getProductGuest(limit, pageNum, {}, { product_type: this.props.product_type_id });
+        this.getProviderGuest(product_type_id);
     }
 
     nextPage() {
@@ -288,9 +311,9 @@ class ProductsView extends Component {
         //         currentPage: currentPage + 1
         //     });
         // }
-        const {hasNext, limit, nextPageNum} = this.state;
-        if(hasNext){
-            this.getProductGuest(limit, nextPageNum, {}, {product_type: this.props.product_type_id});
+        const { hasNext, limit, nextPageNum } = this.state;
+        if (hasNext) {
+            this.getProductGuest(limit, nextPageNum, {}, { product_type: this.props.product_type_id });
         }
     }
 
@@ -302,9 +325,9 @@ class ProductsView extends Component {
         //         currentPage: currentPage - 1
         //     });
         // }
-        const {hasPrev, limit, prevPageNum} = this.state;
-        if(hasPrev){
-            this.getProductGuest(limit, prevPageNum, {}, {product_type: this.props.product_type_id});
+        const { hasPrev, limit, prevPageNum } = this.state;
+        if (hasPrev) {
+            this.getProductGuest(limit, prevPageNum, {}, { product_type: this.props.product_type_id });
         }
     }
 
@@ -321,8 +344,8 @@ class ProductsView extends Component {
         //     currentPage: pageNum,
         // });
 
-        const {limit} = this.state;
-        this.getProductGuest(limit, pageNum, {}, {product_type: this.props.product_type_id});
+        const { limit } = this.state;
+        this.getProductGuest(limit, pageNum, {}, { product_type: this.props.product_type_id });
     }
 
     renderPager(pageNum, key) {
@@ -333,18 +356,23 @@ class ProductsView extends Component {
         return <li onClick={() => this.handleClickItemPager(pageNum)} className="disabled" key={key}><a href="#">{pageNum}</a></li>;
     }
 
-    handleSortProducts(sort){
-        const {limit, pageNum} = this.state;
-        this.getProductGuest(limit, pageNum, {base_price: sort.target.value}, {product_type: this.props.product_type_id});
+    handleSortProducts(sort) {
+        const { limit, currentPage } = this.state;
+        this.getProductGuest(limit, currentPage, { base_price: sort.target.value }, { product_type: this.props.product_type_id });
+    }
+
+    handlerSortProvider(provider){
+        const {limit, currentPage, product_type_id} = this.state;
+        this.getProductGuest(limit, currentPage, {}, {provider, product_type: product_type_id});
     }
 
     render() {
         const product_type_id = Number(this.props.product_type_id);
-        
+
         const { mode } = this.state;
-        const { products, totalCount, lastPageNum, currentPage } = this.state;
+        const { products, totalCount, lastPageNum, currentPage, providers } = this.state;
         const pageList = pagination(lastPageNum, currentPage);
-        
+
         // const countPage = Math.ceil(products.length / limit);
         // const indexOfLastProduct = limit * currentPage;
         // const indexOfFirstProduct = indexOfLastProduct - limit;
@@ -364,12 +392,11 @@ class ProductsView extends Component {
                         <Category className="category leftbar">
                             <h3 className="title">Categories</h3>
                             <ul>
-                                <li><a href="#"> Samsung </a></li>
-                                <li><a href="#">Apple</a></li>
-                                <li><a href="#">Xiaomi</a></li>
-                                <li><a href="#">ASUS</a></li>
-                                <li><a href="#">SONY</a></li>
-                                <li><a href="#">WIKO</a></li>
+                                {
+                                    providers.map((provider, key)=>(
+                                        <li onClick={()=>this.handlerSortProvider(provider.id)}key={key} provider={provider}><a href="#"> {provider.name} </a></li>
+                                    ))
+                                }
                             </ul>
                         </Category>
 
@@ -430,7 +457,7 @@ class ProductsView extends Component {
                             <Sorter class="sorter">
                                 <p>Sort by:</p>
                                 <div class="selection">
-                                    <select class="selectpicker" onChange={(e)=> this.handleSortProducts(e)}>
+                                    <select class="selectpicker" onChange={(e) => this.handleSortProducts(e)}>
                                         <option value="asc">Price low to hight</option>
                                         <option value="desc">Price hight to low</option>
                                     </select>
@@ -446,7 +473,7 @@ class ProductsView extends Component {
                                     </a>
                                 </div>
                             </Sorter>
-                            <h3 className="title">{product_type_id===1?"Điện thoại di động":product_type_id===2?"Máy tính":"Không tìm thấy danh mục sản phẩm"}</h3>
+                            <h3 className="title">{product_type_id === 1 ? "Điện thoại di động" : product_type_id === 2 ? "Máy tính" : "Không tìm thấy danh mục sản phẩm"}</h3>
                         </div>
                         <div class="row">
                             {
@@ -461,7 +488,7 @@ class ProductsView extends Component {
                                     if (mode === 'grid') {
                                         return (
                                             <div class="col-xs-12">
-                                                <ProductItemHorizonto key={key} product={product}/>
+                                                <ProductItemHorizonto key={key} product={product} />
                                             </div>
                                         )
                                     }

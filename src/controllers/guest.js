@@ -2,6 +2,7 @@ const express = require("express");
 const route = express.Router();
 
 route.use("/productlist", require(__dirname + "/guest/product.js"));
+route.use('/provider', require(__dirname + "/guest/provider.js"));
 
 route.get('/', (req, res) => {
     res.writeHead(200, { "Content-type": "text/html" });

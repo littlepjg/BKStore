@@ -25,9 +25,6 @@ route.get('/list/:product_type_id', (req, res) => {
 });
 
 route.get('/pages', (req, res) => {
-    // console.log('controller');
-    console.log(req.params)
-
     const pageNum = parseInt(req.query.pageNum);
     const limit = parseInt(req.query.limit);
 
@@ -43,6 +40,7 @@ route.get('/pages', (req, res) => {
             unit: product.unit,
             description: product.description,
             quantity: product.quantity,
+            provider_id: product.provider_id,
             provider_name: product.product_name,
             product_type_name: product.product_type_name,
         }));
