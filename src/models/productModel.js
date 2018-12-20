@@ -115,7 +115,7 @@ const addProduct = async (product) => {
 const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     const whereClause = {};
     const { provider, product_type } = filter;
-    const { base_price, search_value } = searchValue;
+    const { base_price, search_value, price_between } = searchValue;
 
     if (provider) {
         whereClause['products.provider_id'] = provider;
@@ -126,7 +126,7 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
 
     console.log("WhereClauseProductGuest: ", whereClause);
     console.log("SearchValue: ", searchValue);
-    
+
     const builder = db('products').select(
         'products.id',
         'products.product_name',
@@ -161,10 +161,12 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
             if (search_value)
                 builder.where('products.product_name', 'like', `%${search_value}%`);
             if (base_price) {
-                
                 builder.orderBy('products.base_price', base_price);
             }
         }
+    }
+    if(price_between) {
+        builder.whereBetween('products.base_price', price_between);
     }
 
     return await paginate(
