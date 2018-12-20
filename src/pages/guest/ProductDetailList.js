@@ -10,34 +10,22 @@ class ProductDetailList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            product_type_id: props.match.params.product_type_id,
+            product_type_id: '',
             products: [],
         }
     }
-    componentDidMount() {
-        const ROOT_URL = 'http://localhost:5000';
+    componentWillMount() {
         const product_type_id = this.props.match.params.product_type_id;
-        // get provider
-        axios.get(`${ROOT_URL}/guest/productlist`, { product_type_id }).then(response => {
-            const { success, error } = response.data;
-            if (success) {
-                const { products } = response.data;
-                this.setState({
-                    products
-                });
-            } else {
-                console.log("error: Dữ liệu provider trống");
-            }
-        }).catch(err => {
-            console.log(err);
+        this.setState({
+            product_type_id,
         });
     }
 
     render() {
         console.log(this.state.product_type_id);
         console.log(this.state.products);
-
-
+      
+        const { products, product_type_id } = this.state;
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -45,7 +33,7 @@ class ProductDetailList extends Component {
                 </div>
 
                 <BreadCrumb />
-                <ProductsView products={this.state.products} />
+                <ProductsView product_type_id={product_type_id} />
                 <BrandList />
             </div>
         );
