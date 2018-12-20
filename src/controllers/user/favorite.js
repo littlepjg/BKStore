@@ -4,7 +4,7 @@ const user_md = require('../../models/userModel');
 const route = express.Router();
 
 route.get('/', (req, res) => {
-    const user_id = parseInt(req.params.user_id);
+    const user_id = parseInt(req.query.user_id);
 
     user_md.getProductFavorites(user_id).then(result => {
         const products = result.map(r => ({
