@@ -3,7 +3,7 @@ const user_md = require('../../models/userModel');
 
 const route = express.Router();
 
-route.get('/', (req, res) => {
+route.get('/:user_id', (req, res) => {
     const user_id = parseInt(req.params.user_id);
 
     user_md.getProductFavorites(user_id).then(result => {
@@ -30,7 +30,7 @@ route.post('/add', (req, res) => {
     });
 });
 
-route.post('delete', (req, res) => {
+route.post('/delete', (req, res) => {
     const { user_id, product_id } = req.body;
 
     user_md.deleteProductFavorite(user_id, product_id).then(result => {

@@ -1,13 +1,53 @@
 import React, { Component } from 'react';
 import ProductItemSmall from '../../components/guest/product/ProductItemSmall';
 import ProductItemFavorite from '../../components/guest/product/ProductItemFavorite';
+import axios from 'axios';
 
 class ProductFavorite extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            products: [],
+        }
+    }
+
+    componentWillMount() {
+        const ROOT_URL = 'http://localhost:5000';
+        // get provider
+        axios.get(`${ROOT_URL}/user/favorite/1`/*, { user_id }*/).then(response => {    //user id lay o dau
+            const { success, error } = response.data;
+            if (success) {
+                const { products } = response.data;
+                this.setState({
+                    products
+                });
+            } else {
+                console.log("error: Dữ liệu favorite trống");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    deleteProductFavorites = (index) => {
+        const { products } = this.state;
+        products.splice(index, 1);
+        this.setState({ products });
+
+        axios.post(`${ROOT_URL}/delete`, formData).then(response => {
+            const { success, error } = response.data;
+            if (success) {
+                console.log('success');
+            } else {
+                console.log("error: Them product that bai");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
     }
 
     render() {
+        const { products } = this.state;
         return (
             <div id="favorites">
                 <div class="container list_favorites">
@@ -20,9 +60,9 @@ class ProductFavorite extends Component {
                         <p>Thêm sản phẩm vào danh sách yêu thích để hiển thị ở đây.</p>
                     </div> */}
                     <div className="row">
-                        <ProductItemFavorite />
-                        <ProductItemFavorite />
-                        <ProductItemFavorite />
+                        <ProductItemFavorite products={products} deleteProductFavorites={this.deleteProductFavorites} />
+                        {/* <ProductItemFavorite />
+                        <ProductItemFavorite /> */}
                         <div className="add_all">
                             <a href="#">Thêm tất cả vào giỏ hàng</a>
                         </div>
