@@ -109,7 +109,15 @@ const addProduct = async (product) => {
                 return db('attribute_values').insert(product.attributeValues).transacting(trx);
             }).then(trx.commit)
             .catch(trx.rollback);
-    })
+    });
+}
+
+const updateProduct = (id, valueUpdate) => {
+    return db('products')
+        .update({
+            ...valueUpdate,
+            updated_at: db.fn.now(),
+        }).where({ id });
 }
 
 const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
@@ -126,7 +134,7 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
 
     console.log("WhereClauseProductGuest: ", whereClause);
     console.log("SearchValue: ", searchValue);
-    
+
     const builder = db('products').select(
         'products.id',
         'products.product_name',
@@ -136,6 +144,7 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
         'products.description',
         'products.quantity',
         'providers.name as provider_name',
+        'providers.id as provider_id',
         'product_type.product_type_name as product_type_name',
     ).leftJoin(
         'product_type',
@@ -156,12 +165,11 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     }
     if (whereClause) {
         builder.where(whereClause);
-        console.log('base price: ', searchValue.base_price);
         if (searchValue) {
             if (search_value)
                 builder.where('products.product_name', 'like', `%${search_value}%`);
             if (base_price) {
-                
+
                 builder.orderBy('products.base_price', base_price);
             }
         }
@@ -178,6 +186,7 @@ module.exports = {
     getProductAdminByPage,
     getTopSellingProducts,
     addProduct,
+    updateProduct,
     deleteProduct,
     getProductListByProductTypeId,
     getProductGuestByPage,

@@ -29,6 +29,12 @@ const Container = styled.div`
         height: 230px;
         border: none;
         text-align: center;
+
+        a>img, >img {
+            width: 65%;
+            margin-right: auto;
+            margin-left: auto;
+        }
     }
     
     .productname {
