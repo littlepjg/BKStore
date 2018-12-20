@@ -213,6 +213,7 @@ class ProductsView extends Component {
         this.state = {
             mode: 'list',
             providers: [],
+            attributes: [],
             products: [],
             currentPage: 1,
             limit: 9,
@@ -295,12 +296,40 @@ class ProductsView extends Component {
         });
     }
 
+    getAttributeGuest(product_type_id, category_name) {
+        const ROOT_URL = 'http://localhost:5000';
+
+        axios.get(`${ROOT_URL}/guest/attribute`, {
+            params: {
+                product_type_id,
+                category_name
+            }
+        }).then(response => {
+            const { success, error } = response.data;
+
+            if (success) {
+                const { attributes } = response.data;
+                this.setState({ attributes });
+            } else {
+                console.log("error: Dữ liệu provider trống");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
     componentDidMount() {
         const limit = this.state.limit;
         const pageNum = this.state.currentPage;
         const product_type_id = this.props.product_type_id;
         this.getProductGuest(limit, pageNum, {}, { product_type: this.props.product_type_id });
         this.getProviderGuest(product_type_id);
+    }
+    
+    componentWillMount(){
+        const product_type_id = this.props.product_type_id;
+        const category = 'storage';
+        this.getAttributeGuest(product_type_id, category);
     }
 
     nextPage() {
@@ -346,23 +375,26 @@ class ProductsView extends Component {
         this.getProductGuest(limit, currentPage, {}, { provider, product_type: product_type_id });
     }
 
-    handleChange(e){
-        this.setState({[e.target.name]: e.target.value})
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
-    handleSubmit(){
-        const{limit, currentPage, price_start, price_end, product_type_id} = this.state;
-        this.getProductGuest(limit, currentPage, {price_between:[price_start, price_end]}, {product_type: product_type_id})
+    handleSubmit() {
+        const { limit, currentPage, price_start, price_end, product_type_id } = this.state;
+        this.getProductGuest(limit, currentPage, { price_between: [price_start, price_end] }, { product_type: product_type_id })
+    }
+
+    handleSortStorage(storage){
+        const { limit, currentPage, product_type_id } = this.state;
+        this.getProductGuest(limit, currentPage, {}, {product_type: product_type_id, category_value: storage});
     }
     render() {
         const product_type_id = Number(this.props.product_type_id);
 
         const { mode } = this.state;
-        const { products, totalCount, lastPageNum, currentPage, providers } = this.state;
+        const { products, totalCount, lastPageNum, currentPage, providers, attributes } = this.state;
         const pageList = pagination(lastPageNum, currentPage);
 
-        console.log('price: ',this.state.price_start, this.state.price_end);
-        
         return (
             <div className="container-fluid">
                 <div class="row">
@@ -378,7 +410,7 @@ class ProductsView extends Component {
                             <h3 className="title">Categories</h3>
                             <ul>
                                 {
-                                    providers.map((provider, key) => (
+                                    providers .map((provider, key) => (
                                         <li onClick={() => this.handlerSortProvider(provider.id)} key={key}><a href="#"> {provider.name} </a></li>
                                     ))
                                 }
@@ -389,10 +421,10 @@ class ProductsView extends Component {
                             <h3 class="title">Price</h3>
                             <div className="price">
                                 <form>
-                                    <input onChange={e=>this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
+                                    <input onChange={e => this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
                                     <div>-</div>
-                                    <input onChange={e=>this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
-                                    <button onClick={()=>this.handleSubmit()} type="button" className="btn btn-primary btn-icon-only">Go</button>
+                                    <input onChange={e => this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
+                                    <button onClick={() => this.handleSubmit()} type="button" className="btn btn-primary btn-icon-only">Go</button>
                                 </form>
                             </div>
                         </Category>
@@ -400,12 +432,11 @@ class ProductsView extends Component {
                         <Category className="category leftbar">
                             <h3 className="title">Storage</h3>
                             <ul>
-                                <li><a href="#"> 64GB </a></li>
-                                <li><a href="#"> 4GB </a></li>
-                                <li><a href="#"> 8GB </a></li>
-                                <li><a href="#"> 16GB </a></li>
-                                <li><a href="#"> 32GB </a></li>
-                                <li><a href="#"> 1GB </a></li>
+                                {
+                                    attributes.map((attribute, key) => (
+                                        <li onClick={()=>this.handleSortStorage(attribute.value)}key={key}><a href="#"> {attribute.value} </a></li>
+                                    ))
+                                }
                             </ul>
                         </Category>
                     </div>
