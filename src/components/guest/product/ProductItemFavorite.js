@@ -56,9 +56,10 @@ const Container = styled.div`
 .products_item_favorite .add{
     height: 50%;
 }
-.info_item_favorite_describe .fa-trash{
+.info_item_favorite_describe .fa-trash.pf-delete{
     color: gray;
     opacity: 0.7;
+    cursor: pointer;
 }
 `;
 
@@ -76,7 +77,7 @@ class ProductItemFavorite extends Component {
                                 <div class="info_item_favorite_describe">
                                     <p class="name">{e.name}</p>
                                     <p class="describe">{e.description}</p>
-                                    <i class="fa fa-trash" onClick={() => this.props.deleteProductFavorites(index)}></i>
+                                    <i class="fa fa-trash pf-delete" onClick={() => this.props.deleteProductFavorites(index)}></i>
                                 </div>
                             </div>
                             <p className="price_item_favorite">{e.price}</p>
