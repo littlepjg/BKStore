@@ -50,6 +50,15 @@ const getProductFavorites = async (user_id) => {
             'products.id',
         ).where('favorites.customer_id', user_id);
 }
+const getProductSuggest = async () => {
+    return await db('products')
+        .select(
+            'products.product_name',
+            'products.product_images',
+            'products.base_price',
+        )
+        .limit(5);
+}
 
 const addProductFavorite = async (user_id, product_id) => {
     return await db('favorites')
@@ -176,6 +185,7 @@ module.exports = {
     getUserByPage,
     deleteUserById,
     getProductFavorites,
+    getProductSuggest,
     addProductFavorite,
     deleteProductFavorite,
     getUserCart,

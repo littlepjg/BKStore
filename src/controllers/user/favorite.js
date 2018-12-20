@@ -20,6 +20,23 @@ route.get('/', (req, res) => {
     });
 });
 
+route.get('/suggest', (req, res) => {
+    user_md.getProductSuggest().then(result => {
+        console.log(result);
+
+        const productsuggest = result.map(r => ({
+            name: r.product_name,
+            images: r.product_images,
+            price: r.base_price,
+        }));
+        res.json({ success: true, error: '', productsuggest });
+    }).catch(error => {
+        console.log(error);
+
+        res.json({ success: false, error });
+    });
+});
+
 route.post('/add', (req, res) => {
     const { user_id, product_id } = req.body;
 
