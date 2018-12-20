@@ -9,6 +9,7 @@ const route = express.Router();
 
 route.use("/favorite", require(__dirname + "/user/favorite.js"));
 route.use("/cart", require(__dirname + "/user/cart.js"));
+route.use("/bill", require(__dirname + "/user/bill.js"));
 
 route.get('/', (req, res) => {
     res.writeHead(200, { "Content-type": "text/html" });

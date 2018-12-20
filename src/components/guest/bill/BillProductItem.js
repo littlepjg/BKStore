@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { formatNumber } from '../../../helpers/formatNumber';
+
+const ROOT_URL = 'http://localhost:5000';
+
 const Container = styled.div`
     display: flex;
     align-items: center;
@@ -9,26 +13,31 @@ const Container = styled.div`
     img {
         height: 90px;
         width: 90px;
+        margin-right: 15px;
     }
 
     div > h4 {
         margin: 0;
     }
 
-    div > p {
+    div > p.price {
         color: #f57224;
         margin-top: 5px;
+        font-size: 18px;
     }
 `;
 
 class BillProductItem extends Component {
     render() {
+        const { product } = this.props;
+        const image = product.product_images.split(',')[0];
         return (
             <Container className="col-md-6">
-                <img src="//vn-test-11.slatic.net/original/37bbbc9c8bf093781e0708af287730a7.jpg" alt="dddd" />
+                <img src={image.indexOf('upload') === 0 ? `${ROOT_URL}/photos/${image}` : image} alt="hinh san pham" />
                 <div>
-                    <h4>Samsung Galaxy A8 32GB RAM 4GB 5.6inch - Hãng phân phối chính thức</h4>
-                    <p>7.990.000 VNĐ</p>
+                    <h4>{product.product_name}</h4>
+                    <p className="price">{formatNumber(product.base_price)} VNĐ</p>
+                    <p>Số lượng: {product.amount}</p>
                 </div>
             </Container>
         );
