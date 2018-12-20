@@ -8,6 +8,7 @@ import * as actions from '../../../actions/admin_product_actions';
 
 class ProductRow extends Component {
     deleteProduct(id) {
+        console.log('id: ', id);
         const { pager: { currentPageNum, totalCount, limit, offset, prevPageNum }, searchValue, filter } = this.props.productList;
         confirmAlert({
             title: 'Confirm to delete',
@@ -18,11 +19,12 @@ class ProductRow extends Component {
                     onClick: () => {
                         axios.post(`/admin/product/delete`, { id }).then(response => {
                             const { success, error } = response.data;
+                            console.log('response.data', response.data);
                             if (success) {
                                 if (currentPageNum > 1 && offset + 1 === totalCount) {
-                                    this.props.getPostsAdminByPage(limit, prevPageNum, searchValue, filter);
+                                    this.props.getProductsAdminByPage(limit, prevPageNum, searchValue, filter);
                                 } else {
-                                    this.props.getPostsAdminByPage(limit, currentPageNum, searchValue, filter);
+                                    this.props.getProductsAdminByPage(limit, currentPageNum, searchValue, filter);
                                 }
                             }
                         }).catch(err => {
@@ -38,7 +40,7 @@ class ProductRow extends Component {
     }
 
     render() {
-        const { pos, productInfo } = this.props;
+        const { pos, productInfo, handleEditProduct } = this.props;
         return (
             <tr>
                 <td>{pos + ""}</td>
@@ -50,7 +52,8 @@ class ProductRow extends Component {
                 <td>{productInfo.provider_name}</td>
                 <td>{productInfo.quantity + ""}</td>
                 <td>
-                    <a className="btn btn-success" data-toggle="modal" href='#edit-product'>Chi tiết</a>
+                    <a className="btn btn-success" data-toggle="modal" href='#edit-product'
+                        onClick={() => handleEditProduct(productInfo)}>Chi tiết</a>
                     <button className="btn btn-danger" onClick={() => this.deleteProduct(productInfo.id)}>Xóa</button>
                 </td>
             </tr>

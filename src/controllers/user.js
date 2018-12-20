@@ -9,6 +9,7 @@ const route = express.Router();
 
 route.use("/favorite", require(__dirname + "/user/favorite.js"));
 route.use("/cart", require(__dirname + "/user/cart.js"));
+route.use("/bill", require(__dirname + "/user/bill.js"));
 
 route.get('/', (req, res) => {
     res.writeHead(200, { "Content-type": "text/html" });
@@ -95,6 +96,30 @@ route.post('/login', passport.authenticate('local', {
         user: req.user,
         error: ''
     })
+});
+
+route.post('/update-password', (req, res) => {
+    const { user_id, old_password, new_password } = req.body;
+
+    user_md.updatePassword(user_id, old_password, new_password).then(result => {
+        res.json({ success: true, result });
+    }).catch(error => {
+        res.json({ success: false, error });
+    });
+});
+
+route.post('/update-profile', (req, res) => {
+    const { user_id, email, full_name, phone_number } = req.body;
+
+    user_md.updateProfile(user_id, {
+        email,
+        full_name,
+        phone_number
+    }).then(result => {
+        res.json({ success: true, result });
+    }).catch(error => {
+        res.json({ success: false, error });
+    });
 });
 
 module.exports = route;

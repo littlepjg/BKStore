@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import styed from 'styled-components';
 import ProductItem from './ProductItem';
+import pagination from './pagination/pageUtil';
+import axios from 'axios';
+
+const ROOT_URL = 'http://localhost:5000';
 
 const Container = styed.div`
     float: left;
@@ -19,18 +23,23 @@ class ProductList extends Component {
     constructor() {
         super();
         this.state = {
-            products: ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",],
+            products: [],
             currentPage: 1,
-            limitPage: 4,
+            limit: 4,
+            totalCount: '',
+            hasPrev: '',
+            hasNext: '',
+            prevPageNum: '',
+            nextPageNum: '',
+            lastPageNum: '',
         }
         this.handlerClick = this.handlerClick.bind(this);
     }
     handlerClick(pageNum) {
-        console.log(pageNum);
+        const limit = this.state.limit;
+        const product_type_id = this.props.product_type_id;
 
-        this.setState({
-            currentPage: pageNum,
-        })
+        this.getProductGuest(limit, pageNum, {}, { product_type: product_type_id });
     }
     pageItem(pageNum, key) {
         const { currentPage } = this.state;
@@ -42,89 +51,91 @@ class ProductList extends Component {
         }
         return <li key={key} id={pageNum} onClick={() => this.handlerClick(pageNum)} className="disabled"><a href="#">{pageNum}</a></li>;
     }
-    pagination(countPages, currentPage) {
-        let c = currentPage > 0 ? currentPage : 1,
-            last = countPages,
-            delta = 2,
-            left = c - delta,
-            right = c + delta + 1,
-            temp = 0,
-            range = [],
-            rangeWithDots = [];
 
-        for (let i = 1; i <= last; i++) {
-            if (i === 1 || i === last || (i >= left && i < right)) range.push(i);
-        }
-
-        for (const i of range) {
-            if (temp) {
-                //check push 2, n-1
-                if (i - temp === 2) {
-                    rangeWithDots.push(temp + 1);
-                } else if (i - temp !== 1) {
-                    //i-l > 2
-                    rangeWithDots.push('...');
-                }
-
+    getProductGuest(limit, pageNum, searchValue, filter) {
+        axios.get(`${ROOT_URL}/guest/productlist/pages`, {
+            params: {
+                pageNum,
+                limit,
+                searchValue,
+                filter,
             }
-            rangeWithDots.push(i);
-            temp = i;
-        }
-        console.log('current', c);
-        console.log('count', countPages);
-        console.log('range', range);
-        console.log('rangewithdots', rangeWithDots);
+        }).then(response => {
+            const { success, error } = response.data;
 
-        return rangeWithDots;
+            if (success) {
+                const {
+                    pager: {
+                        totalCount,
+                        hasPrev,
+                        hasNext,
+                        prevPageNum,
+                        nextPageNum,
+                        lastPageNum
+                    },
+                    products
+                } = response.data;
+
+                this.setState({
+                    products,
+                    currentPage: pageNum,
+                    totalCount,
+                    hasPrev,
+                    hasNext,
+                    prevPageNum,
+                    nextPageNum,
+                    lastPageNum,
+                });
+            } else {
+                console.log("error: Dữ liệu provider trống");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
     }
-    nextPage() {
-        const { currentPage, limitPage, products } = this.state;
-        const countPages = Math.ceil(products.length / limitPage);
 
-        if (currentPage < countPages) {
-            this.setState({
-                currentPage: currentPage + 1
-            });
+    componentWillMount() {
+        const limit = this.state.limit;
+        const pageNum = this.state.currentPage;
+        const product_type_id = this.props.product_type_id;
+
+        this.getProductGuest(limit, pageNum, {}, { product_type: product_type_id });
+    }
+
+    nextPage() {
+        const { hasNext, limit, nextPageNum } = this.state;
+        const product_type_id = this.props.product_type_id;
+        if (hasNext) {
+            this.getProductGuest(limit, nextPageNum, {}, { product_type: product_type_id });
         }
     }
 
     prevPage() {
-        const { currentPage } = this.state;
+        const { hasPrev, limit, prevPageNum } = this.state;
+        const product_type_id = this.props.product_type_id;
 
-        if (currentPage > 1) {
-            this.setState({
-                currentPage: currentPage - 1
-            });
+        if (hasPrev) {
+            this.getProductGuest(limit, prevPageNum, {}, { product_type: product_type_id });
         }
     }
     render() {
-        const {
-            products,
-            currentPage,
-            limitPage,
-        } = this.state;
-
-        const indexOfLastProduct = currentPage * limitPage;
-        const indexOfFirstProduct = indexOfLastProduct - limitPage;
-        const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-
-        const renderProducts = currentProducts.map((product, index) => {
+        const { products, lastPageNum, currentPage } = this.state;
+        const renderProducts = products.map((product, index) => {
             return (
                 <div key={index} className="col-md-3">
-                    <ProductItem key={index} data={product} />
+                    <ProductItem key={index} product={product} />
                 </div>
             );
         });
-        const countPages = Math.ceil(products.length / limitPage);
-
+        const pageList = pagination(lastPageNum, currentPage);
         return (
             <Container className="products-list">
                 <h3 className="title"><strong> {this.props.productListName}</strong></h3>
-                <div class="row">
+                <div className="row">
                     <ul className="pagination">
                         <li className="left" onClick={() => this.prevPage()}><span className="glyphicon glyphicon-chevron-left"></span></li>
                         {
-                            this.pagination(countPages, currentPage).map((pageNum, key) => this.pageItem(pageNum, key))
+                            pageList.map((pageNum, key) => this.pageItem(pageNum, key))
                         }
                         <li className="right" onClick={() => this.nextPage()}><span className="glyphicon glyphicon-chevron-right"></span></li>
                     </ul>

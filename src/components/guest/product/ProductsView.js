@@ -8,6 +8,8 @@ import pagination from './pagination/pageUtil';
 import ProductItemHorizonto from './ProductItemHorizonto';
 import HomeSlider from '../HomeSlider';
 
+import axios from 'axios';
+
 const Category = styled.div`
     position: relative;
     margin: 15px 0;
@@ -210,186 +212,16 @@ class ProductsView extends Component {
         super();
         this.state = {
             mode: 'list',
-
-            products: [
-                {
-                    id: '1',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '2',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '3',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '4',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '5',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '6',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '7',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '8',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '9',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '10',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '11',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '12',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '13',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '14',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '15',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '16',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '17',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '18',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '19',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '20',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '21',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '22',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '23',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '24',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-                {
-                    id: '25',
-                    product_name: 'Huawei Y6 Prime 2018',
-                    product_images: 'https://vn-live-01.slatic.net/original/6ad93b40131769cdd5f5068a6c2f9301.jpg',
-                    quantily: '200',
-
-                },
-            ],
+            providers: [],
+            products: [],
             currentPage: 1,
-            limit: 30,
+            limit: 9,
+            totalCount: '',
+            hasPrev: '',
+            hasNext: '',
+            prevPageNum: '',
+            nextPageNum: '',
+            lastPageNum: '',
         }
         this.clickHandle = this.clickHandle.bind(this);
         this.handleClickItemPager = this.handleClickItemPager.bind(this);
@@ -397,24 +229,91 @@ class ProductsView extends Component {
         this.prevPage = this.prevPage.bind(this);
     }
 
-    nextPage() {
-        const { currentPage, limit, products } = this.state;
-        const countPages = Math.ceil(products.length / limit);
+    getProductGuest(limit, pageNum, searchValue, filter) {
+        const ROOT_URL = 'http://localhost:5000';
 
-        if (currentPage < countPages) {
-            this.setState({
-                currentPage: currentPage + 1
-            });
+        axios.get(`${ROOT_URL}/guest/productlist/pages`, {
+            params: {
+                pageNum,
+                limit,
+                searchValue,
+                filter,
+            }
+        }).then(response => {
+            const { success, error } = response.data;
+
+            if (success) {
+                const {
+                    pager: {
+                        totalCount,
+                        hasPrev,
+                        hasNext,
+                        prevPageNum,
+                        nextPageNum,
+                        lastPageNum
+                    },
+                    products
+                } = response.data;
+
+                this.setState({
+                    products,
+                    totalCount,
+                    currentPage: pageNum,
+                    hasPrev,
+                    hasNext,
+                    prevPageNum,
+                    nextPageNum,
+                    lastPageNum,
+                });
+            } else {
+                console.log("error: Dữ liệu provider trống");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    getProviderGuest(product_type_id) {
+        const ROOT_URL = 'http://localhost:5000';
+
+        axios.get(`${ROOT_URL}/guest/provider`, {
+            params: {
+                product_type_id
+            }
+        }).then(response => {
+            const { success, error } = response.data;
+
+            if (success) {
+                const { providers } = response.data;
+
+                this.setState({ providers });
+            } else {
+                console.log("error: Dữ liệu provider trống");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    componentDidMount() {
+        const limit = this.state.limit;
+        const pageNum = this.state.currentPage;
+        const product_type_id = this.props.product_type_id;
+        this.getProductGuest(limit, pageNum, {}, { product_type: this.props.product_type_id });
+        this.getProviderGuest(product_type_id);
+    }
+
+    nextPage() {
+        const { hasNext, limit, nextPageNum } = this.state;
+        if (hasNext) {
+            this.getProductGuest(limit, nextPageNum, {}, { product_type: this.props.product_type_id });
         }
     }
 
     prevPage() {
-        const { currentPage } = this.state;
-
-        if (currentPage > 1) {
-            this.setState({
-                currentPage: currentPage - 1
-            });
+        const { hasPrev, limit, prevPageNum } = this.state;
+        if (hasPrev) {
+            this.getProductGuest(limit, prevPageNum, {}, { product_type: this.props.product_type_id });
         }
     }
 
@@ -425,35 +324,49 @@ class ProductsView extends Component {
     }
 
     handleClickItemPager(pageNum) {
-        console.log(pageNum);
-
-        this.setState({
-            currentPage: pageNum,
-        });
+        const { limit } = this.state;
+        this.getProductGuest(limit, pageNum, {}, { product_type: this.props.product_type_id });
     }
+
     renderPager(pageNum, key) {
         const current = this.state.currentPage;
         if (typeof pageNum === 'number') {
-            return pageNum !== current ? <li key={key} onClick={() => this.handleClickItemPager(pageNum)}><a href="#">{pageNum}</a></li> : <li onClick={() => this.handleClickItemPager(pageNum)} className="active" key={key}><a href="#">{pageNum}</a></li>
+            return pageNum !== current ? <li key={key} onClick={() => this.handleClickItemPager(pageNum)}><a href="#/">{pageNum}</a></li> : <li onClick={() => this.handleClickItemPager(pageNum)} className="active" key={key}><a href="#">{pageNum}</a></li>
         }
         return <li onClick={() => this.handleClickItemPager(pageNum)} className="disabled" key={key}><a href="#">{pageNum}</a></li>;
     }
 
+    handleSortProducts(sort) {
+        const { limit, currentPage } = this.state;
+        this.getProductGuest(limit, currentPage, { base_price: sort.target.value }, { product_type: this.props.product_type_id });
+    }
+
+    handlerSortProvider(provider) {
+        const { limit, currentPage, product_type_id } = this.state;
+        this.getProductGuest(limit, currentPage, {}, { provider, product_type: product_type_id });
+    }
+
+    handleChange(e){
+        this.setState({[e.target.name]: e.target.value})
+    }
+
+    handleSubmit(){
+        const{limit, currentPage, price_start, price_end, product_type_id} = this.state;
+        this.getProductGuest(limit, currentPage, {price_between:[price_start, price_end]}, {product_type: product_type_id})
+    }
     render() {
+        const product_type_id = Number(this.props.product_type_id);
+
         const { mode } = this.state;
+        const { products, totalCount, lastPageNum, currentPage, providers } = this.state;
+        const pageList = pagination(lastPageNum, currentPage);
 
-        const { products, currentPage, limit } = this.state;
-        const countPage = Math.ceil(products.length / limit);
-        const pageList = pagination(countPage, currentPage);
-
-        const indexOfLastProduct = limit * currentPage;
-        const indexOfFirstProduct = indexOfLastProduct - limit;
-        const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-
+        console.log('price: ',this.state.price_start, this.state.price_end);
+        
         return (
             <div className="container-fluid">
                 <div class="row">
-                    <HomeSlider/>
+                    <HomeSlider />
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
@@ -464,24 +377,23 @@ class ProductsView extends Component {
                         <Category className="category leftbar">
                             <h3 className="title">Categories</h3>
                             <ul>
-                                <li><a href="#"> Samsung </a></li>
-                                <li><a href="#">Apple</a></li>
-                                <li><a href="#">Xiaomi</a></li>
-                                <li><a href="#">ASUS</a></li>
-                                <li><a href="#">SONY</a></li>
-                                <li><a href="#">WIKO</a></li>
+                                {
+                                    providers.map((provider, key) => (
+                                        <li onClick={() => this.handlerSortProvider(provider.id)} key={key}><a href="#"> {provider.name} </a></li>
+                                    ))
+                                }
                             </ul>
                         </Category>
 
                         <Category className="category leftbar">
                             <h3 class="title">Price</h3>
                             <div className="price">
-                                <input type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*"ú />
-                                <div>-</div>
-                                <input type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
-                                <button type="button" className="btn btn-primary btn-icon-only">
-                                    Go
-                                </button>
+                                <form>
+                                    <input onChange={e=>this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
+                                    <div>-</div>
+                                    <input onChange={e=>this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
+                                    <button onClick={()=>this.handleSubmit()} type="button" className="btn btn-primary btn-icon-only">Go</button>
+                                </form>
                             </div>
                         </Category>
 
@@ -496,33 +408,6 @@ class ProductsView extends Component {
                                 <li><a href="#"> 1GB </a></li>
                             </ul>
                         </Category>
-
-                        <Category className="category leftbar">
-                            <h3 className="title">Color Family</h3>
-                            <ul>
-                                <li><a href="#"> Black </a></li>
-                                <li><a href="#"> Gold </a></li>
-                                <li><a href="#"> Red </a></li>
-                                <li><a href="#"> Yellow </a></li>
-                                <li><a href="#"> White </a></li>
-                                <li><a href="#"> Blue </a></li>
-                                <li><a href="#"> Pink </a></li>
-                                <li><a href="#"> Grey </a></li>
-                            </ul>
-                        </Category>
-
-                        <Category className="category leftbar">
-                            <h3 className="title">Phone Screen size</h3>
-                            <ul>
-                                <li><a href="#"> 4.6-5 Inch </a></li>
-                                <li><a href="#"> More than 5.6 Inch </a></li>
-                                <li><a href="#"> 5.1-5.5 Inch </a></li>
-                                <li><a href="#"> 3.6-4 Inch </a></li>
-                                <li><a href="#"> Less than 3.5 Inch </a></li>
-                                <li><a href="#"> 4.1-4.5 Inch </a></li>
-                            </ul>
-                        </Category>
-
                     </div>
 
                     <div class="col-sm-9">
@@ -530,10 +415,9 @@ class ProductsView extends Component {
                             <Sorter class="sorter">
                                 <p>Sort by:</p>
                                 <div class="selection">
-                                    <select class="selectpicker">
-                                        <option>Popularity</option>
-                                        <option>Price low to hight</option>
-                                        <option>Price hight to low</option>
+                                    <select class="selectpicker" onChange={(e) => this.handleSortProducts(e)}>
+                                        <option value="asc">Price low to hight</option>
+                                        <option value="desc">Price hight to low</option>
                                     </select>
                                 </div>
 
@@ -547,14 +431,11 @@ class ProductsView extends Component {
                                     </a>
                                 </div>
                             </Sorter>
-                            <h3 className="title">Điện thoại di động</h3>
-
+                            <h3 className="title">{product_type_id === 1 ? "Điện thoại di động" : product_type_id === 2 ? "Máy tính" : "Không tìm thấy danh mục sản phẩm"}</h3>
                         </div>
-
-
-                        <div class="row">
+                        <div class="row" style={{ display: 'flex', flexWrap: 'wrap' }}>
                             {
-                                currentProducts.length > 0 ? currentProducts.map((product, key) => {
+                                totalCount > 0 ? products.map((product, key) => {
                                     if (mode === "list") {
                                         return (
                                             <div class="col-md-4" key={key}>
@@ -565,7 +446,7 @@ class ProductsView extends Component {
                                     if (mode === 'grid') {
                                         return (
                                             <div class="col-xs-12">
-                                                <ProductItemHorizonto key={key} />
+                                                <ProductItemHorizonto key={key} product={product} />
                                             </div>
                                         )
                                     }

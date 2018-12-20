@@ -7,6 +7,7 @@ route.get('/', (req, res) => {
     const user_id = parseInt(req.query.user_id);
 
     user_md.getProductFavorites(user_id).then(result => {
+        console.log(result);
         const products = result.map(r => ({
             id: r.id,
             name: r.product_name,
@@ -22,8 +23,6 @@ route.get('/', (req, res) => {
 
 route.get('/suggest', (req, res) => {
     user_md.getProductSuggest().then(result => {
-        console.log(result);
-
         const productsuggest = result.map(r => ({
             id: r.id,
             name: r.product_name,

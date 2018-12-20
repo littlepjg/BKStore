@@ -280,7 +280,18 @@ class AddProduct extends Component {
         axios.post(`${ROOT_URL}/upload`, formData).then(response => {
             const { success, error } = response.data;
             if (success) {
-                console.log('success');
+                this.setState({
+                    productInfo: {
+                        product_name: '',
+                        product_type_id: 0,
+                        quantity: 0,
+                        productTypeAttributes: [],
+                        price: 0,
+                        provider: 0,
+                        description: '',
+                        images: [],
+                    }
+                })
             } else {
                 console.log("error: Them product that bai");
             }

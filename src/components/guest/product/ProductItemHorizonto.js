@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import image01 from './products-01.png';
+import { formatNumber } from '../../../helpers/formatNumber';
 
 const Container = styled.div`
     border: 1px solid #e1e1e1;
@@ -95,18 +95,21 @@ const Container = styled.div`
 `;
 class ProductItemHorizonto extends Component {
     render() {
+        const {id, product_name, product_images, base_price, unit, description} = this.props.product;
+        const product_image = product_images.split(',')[0];
+
         return (
             <Container className="products">
                 <div className="thumbnail">
-                    <a href="/product/detail"><img src={image01} alt="Product Name" /></a>
+                <a href={"/product/detail/:"+id}><img src={product_image} alt="Product demo" /></a>
                 </div>
                 <div className="product-list-description">
-                    <div className="productname">Lincoln Corner Unit Products</div>
+                    <div className="productname">{product_name}</div>
                     
-                    <p>Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultri ces posuere cubilia curae. Proin lectus ipsum, gravida etds mattis vulputate, tristique ut lectus. Sed et lorem nunc...</p>
+                    <p>{description}</p>
                     <div className="list_bottom">
                         <div className="price">
-                            <span className="new_price">450.00<sup>$</sup></span>
+                            <span className="new_price">{formatNumber(base_price)}<sup>{unit}</sup></span>
                         </div>
                         <div className="button_group">
                             <button className="button">Add To Cart</button>

@@ -66,9 +66,9 @@ app.get('/', (req, res) => {
     // res.sendFile(__dirname + '/build/index.html');
 });
 
-app.get('/photos/:type/:name', (req, res) => {
-    const { type, name } = req.params;
-    res.sendFile(__dirname + `/upload/${type}/${name}`);
+app.get('/photos/:href', (req, res) => {
+    const { href } = req.params;
+    res.sendFile(__dirname + `/${href}`);
 });
 
 app.post('/upload', upload.any(), (req, res) => {

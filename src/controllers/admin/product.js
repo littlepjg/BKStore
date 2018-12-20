@@ -35,4 +35,15 @@ route.post('/delete', (req, res) => {
     });
 });
 
+route.post('/update', (req, res) => {
+    const { id, base_price, quantity } = req.body;
+
+    product_md.updateProduct(id, { base_price, quantity }).then(result => {
+        console.log(result);
+        res.json({ success: true, error: '', result });
+    }).catch(error => {
+        res.json({ success: false, error });
+    });
+});
+
 module.exports = route;
