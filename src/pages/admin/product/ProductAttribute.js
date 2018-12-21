@@ -5,12 +5,14 @@ import axios from 'axios';
 import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import ProductATRow from '../../../components/admin/product/ProductATRow';
 
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
+
 const TableContainer = styled.div`
     height: 350px;
     overflow-y: scroll;
 `;
-
-const ROOT_URL = 'http://localhost:5000';
 
 class ProductAttribute extends Component {
     constructor(props) {

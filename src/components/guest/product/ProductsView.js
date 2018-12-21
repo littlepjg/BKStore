@@ -10,6 +10,10 @@ import HomeSlider from '../HomeSlider';
 
 import axios from 'axios';
 
+import { SERVER_URL, PORT } from '../../../common/constant';
+
+const ROOT_URL = `${SERVER_URL}:${PORT}`;
+
 const Category = styled.div`
     position: relative;
     margin: 15px 0;
@@ -231,8 +235,6 @@ class ProductsView extends Component {
     }
 
     getProductGuest(limit, pageNum, searchValue, filter) {
-        const ROOT_URL = 'http://localhost:5000';
-
         axios.get(`${ROOT_URL}/guest/productlist/pages`, {
             params: {
                 pageNum,
@@ -275,8 +277,6 @@ class ProductsView extends Component {
     }
 
     getProviderGuest(product_type_id) {
-        const ROOT_URL = 'http://localhost:5000';
-
         axios.get(`${ROOT_URL}/guest/provider`, {
             params: {
                 product_type_id
@@ -325,8 +325,8 @@ class ProductsView extends Component {
         this.getProductGuest(limit, pageNum, {}, { product_type: this.props.product_type_id });
         this.getProviderGuest(product_type_id);
     }
-    
-    componentWillMount(){
+
+    componentWillMount() {
         const product_type_id = this.props.product_type_id;
         const category = 'storage';
         this.getAttributeGuest(product_type_id, category);
@@ -384,9 +384,9 @@ class ProductsView extends Component {
         this.getProductGuest(limit, currentPage, { price_between: [price_start, price_end] }, { product_type: product_type_id })
     }
 
-    handleSortStorage(storage){
+    handleSortStorage(storage) {
         const { limit, currentPage, product_type_id } = this.state;
-        this.getProductGuest(limit, currentPage, {}, {product_type: product_type_id, category_value: storage});
+        this.getProductGuest(limit, currentPage, {}, { product_type: product_type_id, category_value: storage });
     }
     render() {
         const product_type_id = Number(this.props.product_type_id);
@@ -394,6 +394,8 @@ class ProductsView extends Component {
         const { mode } = this.state;
         const { products, totalCount, lastPageNum, currentPage, providers, attributes } = this.state;
         const pageList = pagination(lastPageNum, currentPage);
+
+        console.log('price: ', this.state.price_start, this.state.price_end);
 
         return (
             <div className="container-fluid">
@@ -410,7 +412,7 @@ class ProductsView extends Component {
                             <h3 className="title">Categories</h3>
                             <ul>
                                 {
-                                    providers .map((provider, key) => (
+                                    providers.map((provider, key) => (
                                         <li onClick={() => this.handlerSortProvider(provider.id)} key={key}><a href="#"> {provider.name} </a></li>
                                     ))
                                 }
@@ -434,7 +436,7 @@ class ProductsView extends Component {
                             <ul>
                                 {
                                     attributes.map((attribute, key) => (
-                                        <li onClick={()=>this.handleSortStorage(attribute.value)}key={key}><a href="#"> {attribute.value} </a></li>
+                                        <li onClick={() => this.handleSortStorage(attribute.value)} key={key}><a href="#"> {attribute.value} </a></li>
                                     ))
                                 }
                             </ul>

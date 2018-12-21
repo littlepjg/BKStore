@@ -77,7 +77,7 @@ class ProductDetail extends Component {
     render() {
         const { currentImage } = this.state;
         const images = this.state.product.product_images;
-        console.log(images.split(','));
+        console.log(images);
 
         console.log('images:', this.state.product.product_images);
 
