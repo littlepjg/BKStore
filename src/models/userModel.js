@@ -223,6 +223,10 @@ const updateProfile = async (user_id, valueUpdate) => {
         });
 }
 
+const createBillFromCart = async (user_id) => {
+
+}
+
 module.exports = {
     addUser,
     getUserByEmail,
