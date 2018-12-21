@@ -125,7 +125,7 @@ class ShoppingCart extends Component {
     addProductFavorites = (product_id) => {
         // this.props.user_id
         axios.post(`${ROOT_URL}/user/favorite/add`, {
-            user_id: 2,
+            user_id: this.props.user.id,
             product_id: product_id,
         }).then(response => {
             const { success, error } = response.data;
@@ -143,7 +143,7 @@ class ShoppingCart extends Component {
         const { products } = this.state;
         if (window.confirm('Bạn có muốn xóa sản phẩm khỏi giỏ hàng không?')) {
             axios.post(`${ROOT_URL}/user/cart/delete`, {
-                user_id: this.props.user_id,
+                user_id: this.props.user.id,
                 product_id: products[index].id,
             }).then(response => {
                 const { success, error } = response.data;
@@ -175,7 +175,7 @@ class ShoppingCart extends Component {
         this.setState({ products: products_sub });
 
         axios.post(`${ROOT_URL}/user/cart/change`, {
-            user_id: this.props.user_id,
+            user_id: this.props.user.id,
             product_id: products[index].id,
             amount: products[index].amount,
         }).then(response => {
@@ -205,7 +205,7 @@ class ShoppingCart extends Component {
         this.setState({ products: products_plus });
 
         axios.post(`${ROOT_URL}/user/cart/change`, {
-            user_id: this.props.user_id,
+            user_id: this.props.user.id,
             product_id: products[index].id,
             amount: products[index].amount,
         }).then(response => {
@@ -316,15 +316,17 @@ class ShoppingCart extends Component {
                             <div class="modal-body">
                                 <form action="" method="POST" role="form">
                                     <div class="form-group">
-                                        <label for="">Họ tên: Trần Vân Trang</label>
+                                        <label for="">Họ tên: {this.props.user.full_name}</label>
                                     </div>
                                     <div class="form-group">
                                         <label for="">Địa chỉ nhận</label>
-                                        <input type="text" class="form-control" id="" placeholder="Địa chỉ nhận" />
+                                        <input type="text" class="form-control" placeholder="Địa chỉ nhận"
+                                            defaultValue={this.props.user.address} />
                                     </div>
                                     <div class="form-group">
                                         <label for="">Số điện thoại</label>
-                                        <input type="text" class="form-control" id="" placeholder="Số điện thoại" />
+                                        <input type="text" class="form-control" placeholder="Số điện thoại"
+                                            defaultValue={this.props.user.phone_number} />
                                     </div>
                                 </form>
 
@@ -344,7 +346,7 @@ class ShoppingCart extends Component {
 function mapStateToProps(state) {
     return {
         cart: state.user.cart,
-        user_id: state.auth.user.id
+        user: state.auth.user
     }
 }
 
