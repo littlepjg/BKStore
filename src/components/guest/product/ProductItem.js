@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import {formatNumber} from '../../../helpers/formatNumber';
+import { formatNumber } from '../../../helpers/formatNumber';
 
 const Container = styled.div`
     border: 1px solid #e1e1e1;
@@ -97,16 +97,16 @@ const Container = styled.div`
 
 class ProductItem extends Component {
     render() {
-        const {id, product_name, product_images, base_price, unit} = this.props.product;
+        const { id, product_name, product_images, base_price, unit } = this.props.product;
         const product_image = product_images.split(',')[0];
-        
+
         return (
             <Container className="products">
                 <div className="thumbnail">
-                    <a href={"/product/detail/"+id}><img src={product_image} alt="Product Name" /></a>
+                    <a href={"/product/detail/" + id}><img src={product_image} alt="Product Name" /></a>
                 </div>
                 <div className="productname">{product_name}</div>
-                <h4 className="price">{formatNumber(base_price)} { unit}</h4>
+                <h4 className="price">{formatNumber(base_price)} {unit}</h4>
                 <div className="button_group">
                     <button className="button add-cart" type="button">Add To Cart</button>
                     <button className="button wishlist" type="button"><i className="fa fa-heart-o"></i></button>

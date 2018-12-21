@@ -187,6 +187,20 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     );
 }
 
+const getProductById = async (product_id)=>{
+    return await db('products')
+        .where('products.id', product_id)
+        .select(
+            'products.id',
+            'products.product_name',
+            'products.product_images',
+            'products.unit',
+            'products.base_price',
+            'products.description',
+            'products.quantity',
+        )
+        .first();
+}
 
 module.exports = {
     getProductAdminByPage,
@@ -196,4 +210,5 @@ module.exports = {
     deleteProduct,
     getProductListByProductTypeId,
     getProductGuestByPage,
+    getProductById
 }

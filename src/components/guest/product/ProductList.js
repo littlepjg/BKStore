@@ -49,7 +49,7 @@ class ProductList extends Component {
         }
         return <li key={key} id={pageNum} onClick={() => this.handlerClick(pageNum)} className="disabled"><a href="#">{pageNum}</a></li>;
     }
-    
+
     getProductGuest(limit, pageNum, searchValue, filter) {
         const ROOT_URL = 'http://localhost:5000';
 
@@ -119,7 +119,7 @@ class ProductList extends Component {
         }
     }
     render() {
-        const {products, lastPageNum, currentPage} = this.state;
+        const { products, lastPageNum, currentPage } = this.state;
         const renderProducts = products.map((product, index) => {
             return (
                 <div key={index} className="col-md-3">

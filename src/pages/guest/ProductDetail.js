@@ -5,6 +5,8 @@ import ProductOverview from '../../components/guest/product/ProductOverview';
 import Thumbnails from '../../components/guest/product/Thumbnails';
 import { WhitePanel } from '../../theme/Style';
 
+import axios from 'axios';
+
 const description = () => {
     return (
         <div>
@@ -37,7 +39,9 @@ class ProductDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentImage: 0
+            currentImage: 0,
+            product: {},
+            product_id: ''
         }
         this.handleChangeImage = this.handleChangeImage.bind(this);
     }
@@ -46,9 +50,40 @@ class ProductDetail extends Component {
         this.setState({ currentImage: i });
     }
 
+    componentWillMount() {
+        const product_id = this.props.match.params.id;
+        const ROOT_URL = 'http://localhost:5000';
+
+        axios.get(`${ROOT_URL}/guest/productlist/detail`, {
+            params: {
+                product_id
+            }
+        }).then(response => {
+            const { success, error } = response.data;
+
+            if (success) {
+                const { product } = response.data;
+                this.setState({
+                    product,
+                    product_id
+                });
+            } else {
+                console.log("error: Dữ liệu provider trống");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
     render() {
         const { currentImage } = this.state;
-        console.log("currentImage: ", currentImage);
+        const images = this.state.product.product_images;
+        console.log(images.split(','));
+
+        console.log('images:', this.state.product.product_images);
+
+
+        // const images = product.product_images.split(',');
+
         return (
             <div className="container" style={{ marginBottom: "50px" }}>
                 <WhitePanel className="row white-panel">

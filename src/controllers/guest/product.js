@@ -51,4 +51,27 @@ route.get('/pages', (req, res) => {
     });
 });
 
+route.get('/detail', (req, res) => {
+    const product_id = parseInt(req.query.product_id);
+    console.log('product_id',product_id);
+    product_md.getProductById(product_id).then(result => {
+        console.log('result',result);
+        
+        const product = {
+            id: result.id,
+            product_images: result.product_images,
+            product_name: result.product_name,
+            product_unit: result.unit,
+            base_price: result.base_price,
+            description: result.description,
+            quantity: result.quantity,
+        };
+
+        res.json({ success: true, error: '', product });
+    }).catch(error => {
+        console.log("error: ", error);
+        res.json({ success: false, error: 'Có lỗi xảy ra với CSDL' })
+    });
+});
+
 module.exports = route;
