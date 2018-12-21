@@ -423,9 +423,11 @@ class ProductsView extends Component {
                             <h3 class="title">Price</h3>
                             <div className="price">
                                 <form>
-                                    <input onChange={e => this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
+                                    <input onChange={e => this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*"
+                                        style={{ width: '40%' }} />
                                     <div>-</div>
-                                    <input onChange={e => this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
+                                    <input onChange={e => this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*"
+                                        style={{ width: '40%' }} />
                                     <button onClick={() => this.handleSubmit()} type="button" className="btn btn-primary btn-icon-only">Go</button>
                                 </form>
                             </div>
@@ -471,7 +473,7 @@ class ProductsView extends Component {
                                 totalCount > 0 ? products.map((product, key) => {
                                     if (mode === "list") {
                                         return (
-                                            <div class="col-md-4" key={key}>
+                                            <div class="col-md-4 col-md-6 col-xs-12" key={key}>
                                                 <ProductItem key={key} product={product} />
                                             </div>
                                         )

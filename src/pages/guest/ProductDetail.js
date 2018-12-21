@@ -75,21 +75,15 @@ class ProductDetail extends Component {
         });
     }
     render() {
-        const { currentImage } = this.state;
-        const images = this.state.product.product_images;
-        console.log(images);
-
-        console.log('images:', this.state.product.product_images);
-
-
-        // const images = product.product_images.split(',');
+        const { currentImage, product } = this.state;
+        const images = String(product.product_images).split(',');
 
         return (
             <div className="container" style={{ marginBottom: "50px" }}>
                 <WhitePanel className="row white-panel">
                     <div className="col-sm-5 col-lg-4">
-                        <ImageZoom src={product.images[currentImage]} />
-                        <Thumbnails handleChangeImage={this.handleChangeImage} thumbnails={product.images} />
+                        <ImageZoom src={images[currentImage]} />
+                        <Thumbnails handleChangeImage={this.handleChangeImage} thumbnails={images} />
                     </div>
 
                     <div className="col-sm-7 col-lg-8">

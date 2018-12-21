@@ -21,30 +21,34 @@ const Container = styled.div`
     }
 
     .thumbnail {
-        float: left;
         position: relative;
         width: 100%;
         margin: 45px 0 5px 0;
-        padding: 0;
-        height: 230px;
+        padding: 10px;
+        height: auto;
         border: none;
         text-align: center;
+        margin: auto;
 
         a>img, >img {
             width: 65%;
+            height: auto;
             margin-right: auto;
             margin-left: auto;
         }
     }
     
     .productname {
-        float: left;
+        padding: 0px 10px 0px 10px;
         width: 100%;
         text-align: center;
         font-size: 16px;
         color: #2f2f2f;
         margin-bottom: 10px;
         color: #333333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .price {

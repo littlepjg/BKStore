@@ -61,7 +61,7 @@ route.get('/detail', (req, res) => {
             id: result.id,
             product_images: result.product_images,
             product_name: result.product_name,
-            product_unit: result.unit,
+            unit: result.unit,
             base_price: result.base_price,
             description: result.description,
             quantity: result.quantity,
