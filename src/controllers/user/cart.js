@@ -39,6 +39,12 @@ route.post('/delete', (req, res) => {
     }).catch(error => {
         res.json({ success: false, error });
     });
-})
+});
+
+route.post('/create-bill', (req, res) => {
+    const { user_id } = req.body;
+
+
+});
 
 module.exports = route;
