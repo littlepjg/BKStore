@@ -140,7 +140,8 @@ class ShoppingCart extends Component {
     }
 
     deleteProductCart = (index) => {
-        const { products } = this.state;
+        const { products } = this.props.cart;
+        console.log('deleteProduct: ', products[index]);
         if (window.confirm('Bạn có muốn xóa sản phẩm khỏi giỏ hàng không?')) {
             axios.post(`${ROOT_URL}/user/cart/delete`, {
                 user_id: this.props.user.id,
@@ -161,7 +162,7 @@ class ShoppingCart extends Component {
     }
 
     changeAmountProductCartSub = (index) => {
-        const { products } = this.state;
+        const { products } = this.props.cart;
         const products_sub = products.map((e, i) => {
             return (i === index) ? {
                 id: e.id,
@@ -191,7 +192,7 @@ class ShoppingCart extends Component {
     }
 
     changeAmountProductCartPlus = (index) => {
-        const { products } = this.state;
+        const { products } = this.props.cart;
         const products_plus = products.map((e, i) => {
             return (i === index) ? {
                 id: e.id,
