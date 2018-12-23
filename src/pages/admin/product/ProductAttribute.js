@@ -5,10 +5,6 @@ import axios from 'axios';
 import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import ProductATRow from '../../../components/admin/product/ProductATRow';
 
-import { SERVER_URL, PORT } from '../../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 const TableContainer = styled.div`
     height: 350px;
     overflow-y: scroll;
@@ -36,7 +32,7 @@ class ProductAttribute extends Component {
 
     componentDidMount() {
         // get product type
-        axios.get(`${ROOT_URL}/admin/product_type`).then(response => {
+        axios.get(`/api/admin/product_type`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { productTypes } = response.data;
@@ -63,7 +59,7 @@ class ProductAttribute extends Component {
     }
 
     handleGetCategoryAdded(productTypeId) {
-        axios.get(`${ROOT_URL}/admin/product_type/${productTypeId}/attributes`).then(response => {
+        axios.get(`/api/admin/product_type/${productTypeId}/attributes`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { productTypeAttrs } = response.data;
@@ -82,7 +78,7 @@ class ProductAttribute extends Component {
     }
 
     handleGetCategoryNotAdded(productTypeId) {
-        axios.get(`${ROOT_URL}/admin/product_type/${productTypeId}/attibutes_not_added`).then(response => {
+        axios.get(`/api/admin/product_type/${productTypeId}/attibutes_not_added`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { productAttributes } = response.data;
@@ -100,7 +96,7 @@ class ProductAttribute extends Component {
     handleAddProductType() {
         const { productTypeInput: name, productTypeSelected } = this.state;
         if (name) {
-            const api = `${ROOT_URL}/admin/product_type/add`;
+            const api = `/api/admin/product_type/add`;
             axios.post(api, { name }).then(response => {
                 const { success, error, id } = response.data;
                 if (success) {
@@ -129,7 +125,7 @@ class ProductAttribute extends Component {
     handleAddCategory() {
         const { categoryInput: name } = this.state;
         if (name) {
-            const api = `${ROOT_URL}/admin/category/add`;
+            const api = `/api/admin/category/add`;
             axios.post(api, { name }).then(response => {
                 const { success, error, id } = response.data;
                 if (success) {
@@ -153,7 +149,7 @@ class ProductAttribute extends Component {
     handleAddProductTypeAttribute(attr) {
         const { productTypeSelected, productTypeAttrs, productAttributes } = this.state;
         if (productTypeSelected) {
-            const api = `${ROOT_URL}/admin/product_type_attribute/add`;
+            const api = `/api/admin/product_type_attribute/add`;
             axios.post(api, {
                 product_type_id: productTypeSelected,
                 category_attribute_id: attr.id,
@@ -176,7 +172,7 @@ class ProductAttribute extends Component {
 
     handleRemoveProductTypeAttribute(attr) {
         const { productTypeSelected, productTypeAttrs, productAttributes } = this.state;
-        const api = `${ROOT_URL}/admin/product_type_attribute/delete`;
+        const api = `/api/admin/product_type_attribute/delete`;
         axios.post(api, {
             product_type_id: productTypeSelected,
             category_attribute_id: attr.id,

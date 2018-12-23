@@ -24,7 +24,7 @@ class CUPost extends Component {
     componentDidMount() {
         if (!this.props.newPost) {
             let id = parseInt(this.props.match.params.id);
-            axios.get(`/admin/post/getPost/${id}`).then(response => {
+            axios.get(`/api/admin/post/getPost/${id}`).then(response => {
                 const { success, error } = response.data;
                 if (success) {
                     const { title, content } = response.data.post;
@@ -55,9 +55,9 @@ class CUPost extends Component {
         }
         let api;
         if (newPost) {
-            api = '/admin/post/new';
+            api = '/api/admin/post/new';
         } else {
-            api = '/admin/post/update';
+            api = '/api/admin/post/update';
             post.id = id;
         };
 

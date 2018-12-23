@@ -71,7 +71,7 @@ app.get('/photos/:href', (req, res) => {
     res.sendFile(__dirname + `/${href}`);
 });
 
-app.post('/upload', upload.any(), (req, res) => {
+app.post('/api/upload', upload.any(), (req, res) => {
     const image = req.files.reduce((str, image, i) => {
         return str + image.path + ',';
     }, '');

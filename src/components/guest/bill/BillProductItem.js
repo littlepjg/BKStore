@@ -3,10 +3,6 @@ import styled from 'styled-components';
 
 import { formatNumber } from '../../../helpers/formatNumber';
 
-import { SERVER_URL, PORT } from '../../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 const Container = styled.div`
     display: flex;
     align-items: center;
@@ -35,7 +31,7 @@ class BillProductItem extends Component {
         const image = product.product_images.split(',')[0];
         return (
             <Container className="col-md-6">
-                <img src={image.indexOf('upload') === 0 ? `${ROOT_URL}/photos/${image}` : image} alt="hinh san pham" />
+                <img src={image.indexOf('upload') === 0 ? `/api/photos/${image}` : image} alt="hinh san pham" />
                 <div>
                     <h4>{product.product_name}</h4>
                     <p className="price">{formatNumber(product.base_price)} VNĐ</p>

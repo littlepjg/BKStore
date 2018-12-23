@@ -4,10 +4,6 @@ import ProductItem from './ProductItem';
 import pagination from './pagination/pageUtil';
 import axios from 'axios';
 
-import { SERVER_URL, PORT } from '../../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 const Container = styed.div`
     float: left;
     width: 100%;
@@ -55,7 +51,7 @@ class ProductList extends Component {
     }
 
     getProductGuest(limit, pageNum, searchValue, filter) {
-        axios.get(`${ROOT_URL}/guest/productlist/pages`, {
+        axios.get(`/api/guest/productlist/pages`, {
             params: {
                 pageNum,
                 limit,

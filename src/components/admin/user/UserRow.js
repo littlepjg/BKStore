@@ -22,7 +22,7 @@ class UserRow extends Component {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        axios.post(`/admin/user/delete`, { id }).then(
+                        axios.post(`/api/admin/user/delete`, { id }).then(
                             response => {
                                 const { success, error } = response.data;
                                 if (success) {

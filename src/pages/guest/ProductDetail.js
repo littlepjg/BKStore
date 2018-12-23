@@ -52,9 +52,8 @@ class ProductDetail extends Component {
 
     componentWillMount() {
         const product_id = this.props.match.params.id;
-        const ROOT_URL = 'http://localhost:5000';
 
-        axios.get(`${ROOT_URL}/guest/productlist/detail`, {
+        axios.get(`/api/guest/productlist/detail`, {
             params: {
                 product_id
             }

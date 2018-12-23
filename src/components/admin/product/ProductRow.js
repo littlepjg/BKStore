@@ -17,7 +17,7 @@ class ProductRow extends Component {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        axios.post(`/admin/product/delete`, { id }).then(response => {
+                        axios.post(`/api/admin/product/delete`, { id }).then(response => {
                             const { success, error } = response.data;
                             console.log('response.data', response.data);
                             if (success) {

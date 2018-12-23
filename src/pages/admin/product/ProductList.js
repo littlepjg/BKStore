@@ -10,10 +10,6 @@ import { TitlePanel, WhitePanel, Label } from '../../../theme/Style';
 import ProductRow from '../../../components/admin/product/ProductRow';
 import Pagination from '../../../components/pagination/Pagination';
 
-import { SERVER_URL, PORT } from '../../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 const SearchForm = styled.form`
     max-width: 300px;
     display: flex;
@@ -48,7 +44,7 @@ class ProductList extends Component {
 
     componentDidMount() {
         // get provider
-        axios.get(`${ROOT_URL}/admin/provider`).then(response => {
+        axios.get(`/api/admin/provider`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { providers } = response.data;
@@ -63,7 +59,7 @@ class ProductList extends Component {
         });
 
         // get product type
-        axios.get(`${ROOT_URL}/admin/product_type`).then(response => {
+        axios.get(`/api/admin/product_type`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { productTypes } = response.data;
@@ -121,7 +117,7 @@ class ProductList extends Component {
         const quantity = parseInt(this.peQuantity.value);
 
         if (productEditId && base_price && quantity) {
-            axios.post(`${ROOT_URL}/admin/product/update`, {
+            axios.post(`/api/admin/product/update`, {
                 id: productEditId,
                 base_price,
                 quantity,
