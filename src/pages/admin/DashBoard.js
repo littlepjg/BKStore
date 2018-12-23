@@ -6,10 +6,6 @@ import { formatNumber } from '../../helpers/formatNumber';
 import { TitlePanel, WhitePanel } from '../../theme/Style';
 import TopProductItem from '../../components/admin/product/TopProductItem';
 
-import { SERVER_URL, PORT } from '../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 const Card = styled.div`
     color: rgba(0, 0, 0, 0.87);
     width: 100%;
@@ -84,7 +80,7 @@ class DashBoard extends Component {
 
     componentDidMount() {
         // get common info
-        axios.get(`${ROOT_URL}/admin/dashboard`).then(response => {
+        axios.get(`/api/admin/dashboard`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { infoDashboard } = response.data;
@@ -99,7 +95,7 @@ class DashBoard extends Component {
         });
 
         // get top selling products
-        axios.get(`${ROOT_URL}/admin/dashboard/top_product`, {
+        axios.get(`/api/admin/dashboard/top_product`, {
             params: {
                 limit: 10
             }

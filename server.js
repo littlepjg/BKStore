@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// app.use(express.static('build'));
+app.use(express.static('build'));
 
 // express session
 app.use(session({
@@ -60,10 +60,10 @@ app.use(flash());
 app.use(controllers);
 
 app.get('/', (req, res) => {
-    res.writeHead(200, { "Content-type": "text/html" });
-    res.write("<h1>Hi, my name is Tieu.</h1>");
-    res.end();
-    // res.sendFile(__dirname + '/build/index.html');
+    // res.writeHead(200, { "Content-type": "text/html" });
+    // res.write("<h1>Hi, my name is Tieu.</h1>");
+    // res.end();
+    res.sendFile(__dirname + '/build/index.html');
 });
 
 app.get('/photos/:href', (req, res) => {
@@ -71,7 +71,7 @@ app.get('/photos/:href', (req, res) => {
     res.sendFile(__dirname + `/${href}`);
 });
 
-app.post('/upload', upload.any(), (req, res) => {
+app.post('/api/upload', upload.any(), (req, res) => {
     const image = req.files.reduce((str, image, i) => {
         return str + image.path + ',';
     }, '');

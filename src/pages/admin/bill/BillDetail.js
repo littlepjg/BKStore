@@ -10,10 +10,6 @@ import BillDetailRow from '../../../components/admin/bill/BillDetailRow';
 import ViewProductImages from '../../../components/admin/bill/ViewProductImages';
 import BackButton from '../../../components/BackButton';
 
-import { SERVER_URL, PORT } from '../../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 const Container = styled.div`
     h4 {
         font-size: 20px;
@@ -65,7 +61,7 @@ class BillDetail extends Component {
     componentDidMount() {
         let id = parseInt(this.props.match.params.id);
         console.log(id);
-        axios.get(`${ROOT_URL}/admin/bill/${id}/detail`).then(response => {
+        axios.get(`/api/admin/bill/${id}/detail`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { bill } = response.data;

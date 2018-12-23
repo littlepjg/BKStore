@@ -1,11 +1,9 @@
 import { GET_BILLS_ADMIN } from './types';
 import axios from 'axios';
 
-import { SERVER_URL, PORT } from '../common/constant';
-
 export function getBillsByPage(limit, pageNum, searchValue, filter) {
     return function (dispatch) {
-        axios.get(`${SERVER_URL}:${PORT}/admin/bill/pages`, {
+        axios.get(`/api/admin/bill/pages`, {
             params: {
                 limit,
                 pageNum,

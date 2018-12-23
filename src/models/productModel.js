@@ -131,7 +131,7 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     if (product_type) {
         whereClause['products.product_type_id'] = product_type;
     }
-    if(category_value){
+    if (category_value) {
         whereClause['attribute_values.value'] = category_value;
     }
 
@@ -158,7 +158,7 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
         'providers.id',
         'products.provider_id'
     )
-    .leftJoin('attribute_values', 'products.id', 'attribute_values.product_id');
+        .leftJoin('attribute_values', 'products.id', 'attribute_values.product_id');
 
     if (searchValue && !whereClause) {
         if (search_value)
@@ -177,7 +177,7 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
             }
         }
     }
-    if(price_between) {
+    if (price_between) {
         builder.whereBetween('products.base_price', price_between);
     }
 
@@ -187,6 +187,30 @@ const getProductGuestByPage = async (limit, pageNum, searchValue, filter) => {
     );
 }
 
+const getProductById = async (product_id) => {
+    return await db('products')
+        .where('products.id', product_id)
+        .select(
+            'products.id',
+            'products.product_name',
+            'products.product_images',
+            'products.unit',
+            'products.base_price',
+            'products.description',
+            'products.quantity',
+        )
+        .first();
+}
+
+const getProductDetailById = async (product_id) => {
+    return await db('attribute_values')
+        .where('attribute_values.product_id', product_id)
+        .innerJoin('product_attributes', 'attribute_values.product_attribute_id', 'product_attributes.id')
+        .innerJoin('category_attributes', 'product_attributes.category_attribute_id', 'category_attributes.id')
+        .select(
+
+        );
+}
 
 module.exports = {
     getProductAdminByPage,
@@ -196,4 +220,5 @@ module.exports = {
     deleteProduct,
     getProductListByProductTypeId,
     getProductGuestByPage,
+    getProductById
 }

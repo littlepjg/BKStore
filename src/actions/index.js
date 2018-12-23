@@ -2,13 +2,9 @@ import axios from 'axios';
 import { alertMsg } from './admin_actions';
 import { AUTH_USER, UNAUTH_USER, AUTH_ERROR } from './types';
 
-import { SERVER_URL, PORT } from '../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 export function signInUser({ email, passwd }) {
     return function (dispatch) {
-        axios.post(`${ROOT_URL}/user/login`, { email, passwd })
+        axios.post(`/api/user/login`, { email, passwd })
             .then(response => {
                 const { success, error, user } = response.data;
                 if (success) {
@@ -51,7 +47,7 @@ export function signOutUser(history) {
 
 export function signUpUser({ full_name, email, passwd }) {
     return function (dispatch) {
-        axios.post(`${ROOT_URL}/user/register`, { full_name, email, passwd })
+        axios.post(`/api/user/register`, { full_name, email, passwd })
             .then(response => {
                 const { success, error, user } = response.data;
                 if (success) {

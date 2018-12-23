@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import grid from './grid-icon.png';
 import list from './list-icon.png';
 
@@ -7,12 +8,6 @@ import ProductItem from './ProductItem';
 import pagination from './pagination/pageUtil';
 import ProductItemHorizonto from './ProductItemHorizonto';
 import HomeSlider from '../HomeSlider';
-
-import axios from 'axios';
-
-import { SERVER_URL, PORT } from '../../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 const Category = styled.div`
     position: relative;
@@ -235,7 +230,7 @@ class ProductsView extends Component {
     }
 
     getProductGuest(limit, pageNum, searchValue, filter) {
-        axios.get(`${ROOT_URL}/guest/productlist/pages`, {
+        axios.get(`/api/guest/productlist/pages`, {
             params: {
                 pageNum,
                 limit,
@@ -277,7 +272,7 @@ class ProductsView extends Component {
     }
 
     getProviderGuest(product_type_id) {
-        axios.get(`${ROOT_URL}/guest/provider`, {
+        axios.get(`/api/guest/provider`, {
             params: {
                 product_type_id
             }
@@ -297,9 +292,7 @@ class ProductsView extends Component {
     }
 
     getAttributeGuest(product_type_id, category_name) {
-        const ROOT_URL = 'http://localhost:5000';
-
-        axios.get(`${ROOT_URL}/guest/attribute`, {
+        axios.get(`/api/guest/attribute`, {
             params: {
                 product_type_id,
                 category_name
@@ -325,8 +318,8 @@ class ProductsView extends Component {
         this.getProductGuest(limit, pageNum, {}, { product_type: this.props.product_type_id });
         this.getProviderGuest(product_type_id);
     }
-    
-    componentWillMount(){
+
+    componentWillMount() {
         const product_type_id = this.props.product_type_id;
         const category = 'storage';
         this.getAttributeGuest(product_type_id, category);
@@ -384,9 +377,9 @@ class ProductsView extends Component {
         this.getProductGuest(limit, currentPage, { price_between: [price_start, price_end] }, { product_type: product_type_id })
     }
 
-    handleSortStorage(storage){
+    handleSortStorage(storage) {
         const { limit, currentPage, product_type_id } = this.state;
-        this.getProductGuest(limit, currentPage, {}, {product_type: product_type_id, category_value: storage});
+        this.getProductGuest(limit, currentPage, {}, { product_type: product_type_id, category_value: storage });
     }
     render() {
         const product_type_id = Number(this.props.product_type_id);
@@ -412,7 +405,7 @@ class ProductsView extends Component {
                             <h3 className="title">Categories</h3>
                             <ul>
                                 {
-                                    providers .map((provider, key) => (
+                                    providers.map((provider, key) => (
                                         <li onClick={() => this.handlerSortProvider(provider.id)} key={key}><a href="#"> {provider.name} </a></li>
                                     ))
                                 }
@@ -423,9 +416,11 @@ class ProductsView extends Component {
                             <h3 class="title">Price</h3>
                             <div className="price">
                                 <form>
-                                    <input onChange={e => this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*" />
+                                    <input onChange={e => this.handleChange(e)} name="price_start" type="number" min={0} placeholder="Min" defaultValue pattern="[0-9]*"
+                                        style={{ width: '40%' }} />
                                     <div>-</div>
-                                    <input onChange={e => this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*" />
+                                    <input onChange={e => this.handleChange(e)} name="price_end" type="number" min={0} placeholder="Max" defaultValue pattern="[0-9]*"
+                                        style={{ width: '40%' }} />
                                     <button onClick={() => this.handleSubmit()} type="button" className="btn btn-primary btn-icon-only">Go</button>
                                 </form>
                             </div>
@@ -436,7 +431,7 @@ class ProductsView extends Component {
                             <ul>
                                 {
                                     attributes.map((attribute, key) => (
-                                        <li onClick={()=>this.handleSortStorage(attribute.value)}key={key}><a href="#"> {attribute.value} </a></li>
+                                        <li onClick={() => this.handleSortStorage(attribute.value)} key={key}><a href="#"> {attribute.value} </a></li>
                                     ))
                                 }
                             </ul>
@@ -471,7 +466,7 @@ class ProductsView extends Component {
                                 totalCount > 0 ? products.map((product, key) => {
                                     if (mode === "list") {
                                         return (
-                                            <div class="col-md-4" key={key}>
+                                            <div class="col-md-4 col-md-6 col-xs-12" key={key}>
                                                 <ProductItem key={key} product={product} />
                                             </div>
                                         )

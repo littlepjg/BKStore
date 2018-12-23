@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Rating from 'react-rating';
+import {formatNumber} from '../../../helpers/formatNumber';
 
 const DivOverview = styled.div`
     h1 {
@@ -76,6 +77,9 @@ class ProductOverview extends Component {
     render() {
         const { product } = this.props;
         const { countProduct } = this.state;
+
+        console.log('product: ', product);
+        
         return (
             <DivOverview>
                 <h1>{product.product_name}</h1>
@@ -84,9 +88,9 @@ class ProductOverview extends Component {
                 <NavLink to='/product/id/all-rating' className="link-rating">(xem 131 đánh giá)</NavLink>
                 <h6>Thương hiệu: <NavLink to='/provider/samsung'>Samsung</NavLink></h6>
                 <hr />
-                <p className="price">{product.base_price} {product.unit}</p>
+                <p className="price">{formatNumber(product.base_price)} {product.unit}</p>
                 <hr />
-                <div>{product.description()}</div>
+                <div>{product.description}</div>
                 <hr />
                 <p>Số lượng:</p>
                 <input type="number" id="count-product" className="form-control" min="1" max="5" value={countProduct}
