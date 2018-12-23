@@ -5,10 +5,6 @@ import { connect } from 'react-redux';
 
 import UserBill from '../../components/guest/bill/UserBill';
 
-import { SERVER_URL, PORT } from '../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 const Container = styled.div`
     margin-top: 20px;
     margin-bottom: 20px;
@@ -51,7 +47,7 @@ class UserOrder extends Component {
     }
 
     componentDidMount() {
-        axios.get(`${ROOT_URL}/user/bill`, {
+        axios.get(`/api/user/bill`, {
             params: {
                 user_id: this.props.user_id
             }

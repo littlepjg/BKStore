@@ -5,9 +5,6 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import { formatNumber } from '../../helpers/formatNumber';
-import { SERVER_URL, PORT } from '../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 const Container = styled.div`
 
@@ -124,7 +121,7 @@ class ShoppingCart extends Component {
 
     addProductFavorites = (product_id) => {
         // this.props.user_id
-        axios.post(`${ROOT_URL}/user/favorite/add`, {
+        axios.post(`/api/user/favorite/add`, {
             user_id: this.props.user.id,
             product_id: product_id,
         }).then(response => {
@@ -143,7 +140,7 @@ class ShoppingCart extends Component {
         const { products } = this.props.cart;
         console.log('deleteProduct: ', products[index]);
         if (window.confirm('Bạn có muốn xóa sản phẩm khỏi giỏ hàng không?')) {
-            axios.post(`${ROOT_URL}/user/cart/delete`, {
+            axios.post(`/api/user/cart/delete`, {
                 user_id: this.props.user.id,
                 product_id: products[index].id,
             }).then(response => {
@@ -175,7 +172,7 @@ class ShoppingCart extends Component {
         })
         this.setState({ products: products_sub });
 
-        axios.post(`${ROOT_URL}/user/cart/change`, {
+        axios.post(`/api/user/cart/change`, {
             user_id: this.props.user.id,
             product_id: products[index].id,
             amount: products[index].amount,
@@ -205,7 +202,7 @@ class ShoppingCart extends Component {
         })
         this.setState({ products: products_plus });
 
-        axios.post(`${ROOT_URL}/user/cart/change`, {
+        axios.post(`/api/user/cart/change`, {
             user_id: this.props.user.id,
             product_id: products[index].id,
             amount: products[index].amount,

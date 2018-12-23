@@ -4,10 +4,6 @@ import ProductItemFavorite from '../../components/guest/product/ProductItemFavor
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-import { SERVER_URL, PORT } from '../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 class ProductFavorite extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +14,7 @@ class ProductFavorite extends Component {
     }
 
     componentWillMount() {
-        axios.get(`${ROOT_URL}/user/favorite`, {
+        axios.get(`/api/user/favorite`, {
             params: {
                 user_id: this.props.user_id,
             }
@@ -36,7 +32,7 @@ class ProductFavorite extends Component {
             console.log(err);
         });
         //get productsuggest
-        axios.get(`${ROOT_URL}/user/favorite/suggest`).then(response => {
+        axios.get(`/api/user/favorite/suggest`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { productsuggest } = response.data;
@@ -54,7 +50,7 @@ class ProductFavorite extends Component {
     deleteProductFavorites = (index) => {
         const { products } = this.state;
 
-        axios.post(`${ROOT_URL}/user/favorite/delete`, {
+        axios.post(`/api/user/favorite/delete`, {
             user_id: this.props.user_id,
             product_id: products[index].id,
         }).then(response => {
@@ -73,7 +69,7 @@ class ProductFavorite extends Component {
 
     addProductFavorites = (index) => {
         const { productsuggest } = this.state;
-        axios.post(`${ROOT_URL}/user/favorite/add`, {
+        axios.post(`/api/user/favorite/add`, {
             user_id: 2,
             product_id: productsuggest[index].id,
         }).then(response => {

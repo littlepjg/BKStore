@@ -5,10 +5,6 @@ import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import MessageDialog from '../../../../src/components/dialog/MessageDialog';
 import BackButton from '../../../components/BackButton';
 
-import { SERVER_URL, PORT } from '../../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 const initState = {
     newUser: true,
     message: '',
@@ -55,7 +51,7 @@ class CUUser extends Component {
             return;
         }
         user.level = parseInt(user.level);
-        axios.post(`${ROOT_URL}/admin/user/add`, { user })
+        axios.post(`/api/admin/user/add`, { user })
             .then(response => {
                 const { success, error } = response.data;
                 if (success) {

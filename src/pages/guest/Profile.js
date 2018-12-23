@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import { SERVER_URL, PORT } from '../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -70,7 +66,7 @@ class Profile extends Component {
     handleUpdateProfile() {
         const { email, fullName, address, phoneNumber } = this.state.userInfo;
         if (email && fullName && address) {
-            axios.post(`${ROOT_URL}/user/update-profile`, {
+            axios.post(`/api/user/update-profile`, {
                 user_id: this.props.user.id,
                 email,
                 full_name: fullName,
@@ -88,7 +84,7 @@ class Profile extends Component {
     handleUpdatePassword() {
         const { oldPassword, newPassword } = this.state.password;
         if (oldPassword && newPassword) {
-            axios.post(`${ROOT_URL}/user/update-password`, {
+            axios.post(`/api/user/update-password`, {
                 user_id: this.props.user.id,
                 old_password: oldPassword,
                 new_password: newPassword,

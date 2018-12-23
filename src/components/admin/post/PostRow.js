@@ -16,7 +16,7 @@ class PostRow extends Component {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        axios.post(`/admin/post/delete`, { id }).then(response => {
+                        axios.post(`/api/admin/post/delete`, { id }).then(response => {
                             const { success, error } = response.data;
                             if (success) {
                                 if (currentPageNum > 1 && offset + 1 === totalCount) {

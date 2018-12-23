@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import grid from './grid-icon.png';
 import list from './list-icon.png';
 
@@ -7,12 +8,6 @@ import ProductItem from './ProductItem';
 import pagination from './pagination/pageUtil';
 import ProductItemHorizonto from './ProductItemHorizonto';
 import HomeSlider from '../HomeSlider';
-
-import axios from 'axios';
-
-import { SERVER_URL, PORT } from '../../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
 
 const Category = styled.div`
     position: relative;
@@ -235,7 +230,7 @@ class ProductsView extends Component {
     }
 
     getProductGuest(limit, pageNum, searchValue, filter) {
-        axios.get(`${ROOT_URL}/guest/productlist/pages`, {
+        axios.get(`/api/guest/productlist/pages`, {
             params: {
                 pageNum,
                 limit,
@@ -277,7 +272,7 @@ class ProductsView extends Component {
     }
 
     getProviderGuest(product_type_id) {
-        axios.get(`${ROOT_URL}/guest/provider`, {
+        axios.get(`/api/guest/provider`, {
             params: {
                 product_type_id
             }
@@ -297,9 +292,7 @@ class ProductsView extends Component {
     }
 
     getAttributeGuest(product_type_id, category_name) {
-        const ROOT_URL = 'http://localhost:5000';
-
-        axios.get(`${ROOT_URL}/guest/attribute`, {
+        axios.get(`/api/guest/attribute`, {
             params: {
                 product_type_id,
                 category_name

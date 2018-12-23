@@ -7,10 +7,6 @@ import { TitlePanel, WhitePanel } from '../../../theme/Style';
 import BackButton from '../../../components/BackButton';
 import SelectImage from '../../../components/admin/product/SelectImage';
 
-import { SERVER_URL, PORT } from '../../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 const GenaralInfo = styled.div`
     .row {
         margin-bottom: 10px;
@@ -51,7 +47,7 @@ class AddProduct extends Component {
 
     componentDidMount() {
         // get product type
-        axios.get(`${ROOT_URL}/admin/product_type`).then(response => {
+        axios.get(`/api/admin/product_type`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { productTypes } = response.data;
@@ -75,7 +71,7 @@ class AddProduct extends Component {
         });
 
         // get provider
-        axios.get(`${ROOT_URL}/admin/provider`).then(response => {
+        axios.get(`/api/admin/provider`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { providers } = response.data;
@@ -124,7 +120,7 @@ class AddProduct extends Component {
     }
 
     handleGetCategoryAdded(productTypeId) {
-        axios.get(`${ROOT_URL}/admin/product_type/${productTypeId}/attributes`).then(response => {
+        axios.get(`/api/admin/product_type/${productTypeId}/attributes`).then(response => {
             const { success, error } = response.data;
             if (success) {
                 const { productTypeAttrs } = response.data;
@@ -193,7 +189,7 @@ class AddProduct extends Component {
     handleAddProvider() {
         const name = this.addProviderInput.value.toUpperCase();
         if (name) {
-            axios.post(`${ROOT_URL}/admin/provider/add`, { name }).then(response => {
+            axios.post(`/api/admin/provider/add`, { name }).then(response => {
                 const { success, error } = response.data;
                 if (success) {
                     const { id } = response.data;
@@ -279,7 +275,7 @@ class AddProduct extends Component {
             console.log(image);
             formData.append(image.newName, image);
         });
-        axios.post(`${ROOT_URL}/upload`, formData).then(response => {
+        axios.post(`/api/upload`, formData).then(response => {
             const { success, error } = response.data;
             if (success) {
                 this.setState({

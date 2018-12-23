@@ -3,13 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import { SERVER_URL, PORT } from '../../../common/constant';
-
-const ROOT_URL = `${SERVER_URL}:${PORT}`;
-
 const Container = styled.div`
-height: 100%;
-
 .products_small{
     width: 100%
     border: 1px solid #e1e1e1;
@@ -18,7 +12,8 @@ height: 100%;
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #fff;
-    margin-bottom: 15px
+    margin-bottom: 15px;
+    padding: 5px 15px;
 
     &:hover {
         background: #fff;
@@ -39,6 +34,9 @@ height: 100%;
 .productname{
     font-size: 12px;
     color: #333333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .price {
     color: #ff1e2c;
@@ -92,10 +90,10 @@ class ProductItemSmall extends Component {
             <Container>
                 <div className="products_small text-center">
                     <div className="thumbnail">
-                        <NavLink to="/product/detail/1"><img src={image.indexOf('upload') === 0 ? `${ROOT_URL}/photos/${image}` : image} alt="ảnh" /></NavLink>
+                        <NavLink to="/product/detail/1"><img src={image.indexOf('upload') === 0 ? `/api/photos/${image}` : image} alt="ảnh" /></NavLink>
+                        <div className="productname">{productsuggest.name}</div>
+                        <h4 className="price">{productsuggest.price}</h4>
                     </div>
-                    <div className="productname">{productsuggest.name}</div>
-                    <h4 className="price">{productsuggest.price}</h4>
                     <div className="button_group">
                         <button className="button add-cart" type="button">Add To Cart</button>
                         <button className="button wishlist" type="button" onClick={() => addProductFavorites(index)}><i className="fa fa-heart-o"></i></button>
