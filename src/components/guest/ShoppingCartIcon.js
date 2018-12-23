@@ -31,9 +31,8 @@ class CustomizedBadge extends Component {
     }
 
     componentDidMount() {
-        console.log('userid:', this.props.user_id);
-        console.log('cartsddd: ', this.props.cart);
-        if (this.props.user_id) {
+        const user_id = this.props.user ? this.props.user.id : 0;
+        if (user_id) {
             this.props.getUserCart(this.props.user_id);
         }
     }
@@ -58,7 +57,7 @@ CustomizedBadge.propTypes = {
 function mapStateToProps(state) {
     return {
         cart: state.user.cart,
-        user_id: state.auth.user.id
+        user: state.auth.user
     }
 }
 

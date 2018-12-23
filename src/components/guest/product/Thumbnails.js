@@ -33,6 +33,8 @@ class Thumbnails extends Component {
     }
 
     render() {
+        console.log('thumbnails:', this.props.thumbnails);
+        
         const { thumbnails } = this.props;
         const { currentThumbnail } = this.state;
         return (
